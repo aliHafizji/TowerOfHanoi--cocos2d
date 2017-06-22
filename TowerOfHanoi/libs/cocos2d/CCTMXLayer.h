@@ -58,33 +58,33 @@
  
  For further information, please see the programming guide:
  
-	http://www.cocos2d-iphone.org/wiki/doku.php/prog_guide:tiled_maps
+    http://www.cocos2d-iphone.org/wiki/doku.php/prog_guide:tiled_maps
  
  @since v0.8.1
  */
 @interface CCTMXLayer : CCSpriteBatchNode
 {
-	CCTMXTilesetInfo	*tileset_;
-	NSString			*layerName_;
-	CGSize				layerSize_;
-	CGSize				mapTileSize_;
-	uint32_t			*tiles_;			// GID are 32 bit
-	NSUInteger			layerOrientation_;
-	NSMutableArray		*properties_;
-	
-	unsigned char		opacity_; // TMX Layer supports opacity
-	
-	NSUInteger			minGID_;
-	NSUInteger			maxGID_;
-	
-	// Only used when vertexZ is used
-	NSInteger			vertexZvalue_;
-	BOOL				useAutomaticVertexZ_;
-	float				alphaFuncValue_;
-	
-	// used for optimization
-	CCSprite		*reusedTile_;
-	ccCArray		*atlasIndexArray_;
+    CCTMXTilesetInfo    *tileset_;
+    NSString            *layerName_;
+    CGSize                layerSize_;
+    CGSize                mapTileSize_;
+    uint32_t            *tiles_;            // GID are 32 bit
+    NSUInteger            layerOrientation_;
+    NSMutableArray        *properties_;
+    
+    unsigned char        opacity_; // TMX Layer supports opacity
+    
+    NSUInteger            minGID_;
+    NSUInteger            maxGID_;
+    
+    // Only used when vertexZ is used
+    NSInteger            vertexZvalue_;
+    BOOL                useAutomaticVertexZ_;
+    float                alphaFuncValue_;
+    
+    // used for optimization
+    CCSprite        *reusedTile_;
+    ccCArray        *atlasIndexArray_;
 }
 /** name of the layer */
 @property (nonatomic,readwrite,retain) NSString *layerName;
@@ -102,9 +102,9 @@
 @property (nonatomic,readwrite,retain) NSMutableArray *properties;
 
 /** creates a CCTMXLayer with an tileset info, a layer info and a map info */
-+(id) layerWithTilesetInfo:(CCTMXTilesetInfo*)tilesetInfo layerInfo:(CCTMXLayerInfo*)layerInfo mapInfo:(CCTMXMapInfo*)mapInfo;
++(instancetype) layerWithTilesetInfo:(CCTMXTilesetInfo*)tilesetInfo layerInfo:(CCTMXLayerInfo*)layerInfo mapInfo:(CCTMXMapInfo*)mapInfo;
 /** initializes a CCTMXLayer with a tileset info, a layer info and a map info */
--(id) initWithTilesetInfo:(CCTMXTilesetInfo*)tilesetInfo layerInfo:(CCTMXLayerInfo*)layerInfo mapInfo:(CCTMXMapInfo*)mapInfo;
+-(instancetype) initWithTilesetInfo:(CCTMXTilesetInfo*)tilesetInfo layerInfo:(CCTMXLayerInfo*)layerInfo mapInfo:(CCTMXMapInfo*)mapInfo NS_DESIGNATED_INITIALIZER;
 
 /** dealloc the map that contains the tile position from memory.
  Unless you want to know at runtime the tiles positions, you can safely call this method.
@@ -116,8 +116,8 @@
  The returned CCSprite will be already added to the CCTMXLayer. Don't add it again.
  The CCSprite can be treated like any other CCSprite: rotated, scaled, translated, opacity, color, etc.
  You can remove either by calling:
-	- [layer removeChild:sprite cleanup:cleanup];
-	- or [layer removeTileAt:ccp(x,y)];
+    - [layer removeChild:sprite cleanup:cleanup];
+    - or [layer removeTileAt:ccp(x,y)];
  */
 -(CCSprite*) tileAt:(CGPoint)tileCoordinate;
 

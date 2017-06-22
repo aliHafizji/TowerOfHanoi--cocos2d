@@ -32,7 +32,7 @@
 @interface CJSONSerializer : NSObject {
 }
 
-+ (id)serializer;
++ (instancetype)serializer;
 
 - (BOOL)isValidJSONObject:(id)inObject;
 
@@ -47,7 +47,7 @@
 
 @end
 
-typedef enum {
+typedef NS_ENUM(int, CJSONSerializerError) {
     CJSONSerializerErrorCouldNotSerializeDataType = -1,
     CJSONSerializerErrorCouldNotSerializeObject = -1
-} CJSONSerializerError;
+};

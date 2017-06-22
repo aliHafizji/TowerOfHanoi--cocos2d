@@ -28,14 +28,14 @@
 /** CCShakyTiles3D action */
 @interface CCShakyTiles3D : CCTiledGrid3DAction
 {
-	int		randrange;
-	BOOL	shakeZ;
+    int        randrange;
+    BOOL    shakeZ;
 }
 
 /** creates the action with a range, whether or not to shake Z vertices, a grid size, and duration */
 +(id)actionWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with a range, whether or not to shake Z vertices, a grid size, and duration */
--(id)initWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -44,15 +44,15 @@
 /** CCShatteredTiles3D action */
 @interface CCShatteredTiles3D : CCTiledGrid3DAction
 {
-	int		randrange;
-	BOOL	once;
-	BOOL	shatterZ;
+    int        randrange;
+    BOOL    once;
+    BOOL    shatterZ;
 }
 
 /** creates the action with a range, whether of not to shatter Z vertices, a grid size and duration */
 +(id)actionWithRange:(int)range shatterZ:(BOOL)shatterZ grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with a range, whether or not to shatter Z vertices, a grid size and duration */
--(id)initWithRange:(int)range shatterZ:(BOOL)shatterZ grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithRange:(int)range shatterZ:(BOOL)shatterZ grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -63,16 +63,16 @@
  */
 @interface CCShuffleTiles : CCTiledGrid3DAction
 {
-	int	seed;
-	NSUInteger tilesCount;
-	int *tilesOrder;
-	void *tiles;
+    int    seed;
+    NSUInteger tilesCount;
+    int *tilesOrder;
+    void *tiles;
 }
 
 /** creates the action with a random seed, the grid size and the duration */
 +(id)actionWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with a random seed, the grid size and the duration */
--(id)initWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -123,15 +123,15 @@
  */
 @interface CCTurnOffTiles : CCTiledGrid3DAction
 {
-	int	seed;
-	NSUInteger tilesCount;
-	int *tilesOrder;
+    int    seed;
+    NSUInteger tilesCount;
+    int *tilesOrder;
 }
 
 /** creates the action with a random seed, the grid size and the duration */
 +(id)actionWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with a random seed, the grid size and the duration */
--(id)initWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 @end
 
 ////////////////////////////////////////////////////////////
@@ -139,9 +139,9 @@
 /** CCWavesTiles3D action. */
 @interface CCWavesTiles3D : CCTiledGrid3DAction
 {
-	int waves;
-	float amplitude;
-	float amplitudeRate;
+    int waves;
+    float amplitude;
+    float amplitudeRate;
 }
 
 /** waves amplitude */
@@ -152,7 +152,7 @@
 /** creates the action with a number of waves, the waves amplitude, the grid size and the duration */
 +(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with a number of waves, the waves amplitude, the grid size and the duration */
--(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -163,9 +163,9 @@
  */
 @interface CCJumpTiles3D : CCTiledGrid3DAction
 {
-	int jumps;
-	float amplitude;
-	float amplitudeRate;
+    int jumps;
+    float amplitude;
+    float amplitudeRate;
 }
 
 /** amplitude of the sin*/
@@ -176,7 +176,7 @@
 /** creates the action with the number of jumps, the sin amplitude, the grid size and the duration */
 +(id)actionWithJumps:(int)j amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with the number of jumps, the sin amplitude, the grid size and the duration */
--(id)initWithJumps:(int)j amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithJumps:(int)j amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -185,13 +185,13 @@
 /** CCSplitRows action */
 @interface CCSplitRows : CCTiledGrid3DAction
 {
-	int		rows;
-	CGSize	winSize;
+    int        rows;
+    CGSize    winSize;
 }
 /** creates the action with the number of rows to split and the duration */
 +(id)actionWithRows:(int)rows duration:(ccTime)duration;
 /** initializes the action with the number of rows to split and the duration */
--(id)initWithRows:(int)rows duration:(ccTime)duration;
+-(instancetype)initWithRows:(int)rows duration:(ccTime)duration NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -200,12 +200,12 @@
 /** CCSplitCols action */
 @interface CCSplitCols : CCTiledGrid3DAction
 {
-	int		cols;
-	CGSize	winSize;
+    int        cols;
+    CGSize    winSize;
 }
 /** creates the action with the number of columns to split and the duration */
 +(id)actionWithCols:(int)cols duration:(ccTime)duration;
 /** initializes the action with the number of columns to split and the duration */
--(id)initWithCols:(int)cols duration:(ccTime)duration;
+-(instancetype)initWithCols:(int)cols duration:(ccTime)duration NS_DESIGNATED_INITIALIZER;
 
 @end

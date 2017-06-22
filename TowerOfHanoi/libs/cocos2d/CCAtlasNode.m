@@ -43,94 +43,94 @@
 #pragma mark CCAtlasNode - Creation & Init
 +(id) atlasWithTileFile:(NSString*)tile tileWidth:(NSUInteger)w tileHeight:(NSUInteger)h itemsToRender: (NSUInteger) c
 {
-	return [[[self alloc] initWithTileFile:tile tileWidth:w tileHeight:h itemsToRender:c] autorelease];
+    return [[[self alloc] initWithTileFile:tile tileWidth:w tileHeight:h itemsToRender:c] autorelease];
 }
 
--(id) initWithTileFile:(NSString*)tile tileWidth:(NSUInteger)w tileHeight:(NSUInteger)h itemsToRender: (NSUInteger) c
+-(instancetype) initWithTileFile:(NSString*)tile tileWidth:(NSUInteger)w tileHeight:(NSUInteger)h itemsToRender: (NSUInteger) c
 {
-	if( (self=[super init]) ) {
-	
-		itemWidth_ = w * CC_CONTENT_SCALE_FACTOR();
-		itemHeight_ = h * CC_CONTENT_SCALE_FACTOR();
+    if( (self=[super init]) ) {
+    
+        itemWidth_ = w * CC_CONTENT_SCALE_FACTOR();
+        itemHeight_ = h * CC_CONTENT_SCALE_FACTOR();
 
-		opacity_ = 255;
-		color_ = colorUnmodified_ = ccWHITE;
-		opacityModifyRGB_ = YES;
-		
-		blendFunc_.src = CC_BLEND_SRC;
-		blendFunc_.dst = CC_BLEND_DST;
-		
-		// double retain to avoid the autorelease pool
-		// also, using: self.textureAtlas supports re-initialization without leaking
-		self.textureAtlas = [[CCTextureAtlas alloc] initWithFile:tile capacity:c];
-		[textureAtlas_ release];
-		
-		if( ! textureAtlas_ ) {
-			CCLOG(@"cocos2d: Could not initialize CCAtlasNode. Invalid Texture");
-			[self release];
-			return nil;
-		}
-		
-		[self updateBlendFunc];
-		[self updateOpacityModifyRGB];
-		
-		[self calculateMaxItems];
-		
-		self.quadsToDraw = c;
-		
-	}
-	return self;
+        opacity_ = 255;
+        color_ = colorUnmodified_ = ccWHITE;
+        opacityModifyRGB_ = YES;
+        
+        blendFunc_.src = CC_BLEND_SRC;
+        blendFunc_.dst = CC_BLEND_DST;
+        
+        // double retain to avoid the autorelease pool
+        // also, using: self.textureAtlas supports re-initialization without leaking
+        self.textureAtlas = [[CCTextureAtlas alloc] initWithFile:tile capacity:c];
+        [textureAtlas_ release];
+        
+        if( ! textureAtlas_ ) {
+            CCLOG(@"cocos2d: Could not initialize CCAtlasNode. Invalid Texture");
+            [self release];
+            return nil;
+        }
+        
+        [self updateBlendFunc];
+        [self updateOpacityModifyRGB];
+        
+        [self calculateMaxItems];
+        
+        self.quadsToDraw = c;
+        
+    }
+    return self;
 }
 
 -(void) dealloc
 {
-	[textureAtlas_ release];
-	
-	[super dealloc];
+    [textureAtlas_ release];
+    
+    [super dealloc];
 }
 
 #pragma mark CCAtlasNode - Atlas generation
 
 -(void) calculateMaxItems
 {
-	CGSize s = [[textureAtlas_ texture] contentSizeInPixels];
-	itemsPerColumn_ = s.height / itemHeight_;
-	itemsPerRow_ = s.width / itemWidth_;
+    CGSize s = textureAtlas_.texture.contentSizeInPixels;
+    itemsPerColumn_ = s.height / itemHeight_;
+    itemsPerRow_ = s.width / itemWidth_;
 }
 
 -(void) updateAtlasValues
 {
-	[NSException raise:@"CCAtlasNode:Abstract" format:@"updateAtlasValue not overriden"];
+    [NSException raise:@"CCAtlasNode:Abstract" format:@"updateAtlasValue not overriden"];
 }
 
 #pragma mark CCAtlasNode - draw
 - (void) draw
 {
-	[super draw];
+    [super draw];
 
-	// Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
-	// Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_TEXTURE_COORD_ARRAY
-	// Unneeded states: GL_COLOR_ARRAY
-	glDisableClientState(GL_COLOR_ARRAY);
+    // Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
+    // Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_TEXTURE_COORD_ARRAY
+    // Unneeded states: GL_COLOR_ARRAY
+    glDisableClientState(GL_COLOR_ARRAY);
 
-	glColor4ub( color_.r, color_.g, color_.b, opacity_);
+    glColor4ub( color_.r, color_.g, color_.b, opacity_);
 
-	BOOL newBlend = blendFunc_.src != CC_BLEND_SRC || blendFunc_.dst != CC_BLEND_DST;
-	if( newBlend )
-		glBlendFunc( blendFunc_.src, blendFunc_.dst );
-		
-	[textureAtlas_ drawNumberOfQuads:quadsToDraw_ fromIndex:0];
-		
-	if( newBlend )
-		glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
-	
-	// is this chepear than saving/restoring color state ?
-	// XXX: There is no need to restore the color to (255,255,255,255). Objects should use the color
-	// XXX: that they need
-//	glColor4ub( 255, 255, 255, 255);
+    BOOL newBlend = blendFunc_.src != CC_BLEND_SRC || blendFunc_.dst != CC_BLEND_DST;
+    if( newBlend )
+        glBlendFunc( blendFunc_.src, blendFunc_.dst );
+        
+    [textureAtlas_ drawNumberOfQuads:quadsToDraw_ fromIndex:0];
+        
+    if( newBlend )
+        glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+    
+    // is this chepear than saving/restoring color state ?
+    // XXX: There is no need to restore the color to (255,255,255,255). Objects should use the color
+    // XXX: that they need
+//    glColor4ub( 255, 255, 255, 255);
 
-	// restore default GL state
-	glEnableClientState(GL_COLOR_ARRAY);
+    // restore default GL state
+    glEnableClientState(GL_COLOR_ARRAY);
 
 }
 
@@ -138,74 +138,74 @@
 
 - (ccColor3B) color
 {
-	if(opacityModifyRGB_)
-		return colorUnmodified_;
-	
-	return color_;
+    if(opacityModifyRGB_)
+        return colorUnmodified_;
+    
+    return color_;
 }
 
 -(void) setColor:(ccColor3B)color3
 {
-	color_ = colorUnmodified_ = color3;
-	
-	if( opacityModifyRGB_ ){
-		color_.r = color3.r * opacity_/255;
-		color_.g = color3.g * opacity_/255;
-		color_.b = color3.b * opacity_/255;
-	}	
+    color_ = colorUnmodified_ = color3;
+    
+    if( opacityModifyRGB_ ){
+        color_.r = color3.r * opacity_/255;
+        color_.g = color3.g * opacity_/255;
+        color_.b = color3.b * opacity_/255;
+    }    
 }
 
 -(GLubyte) opacity
 {
-	return opacity_;
+    return opacity_;
 }
 
 -(void) setOpacity:(GLubyte) anOpacity
 {
-	opacity_			= anOpacity;
-	
-	// special opacity for premultiplied textures
-	if( opacityModifyRGB_ )
-		[self setColor: colorUnmodified_];	
+    opacity_            = anOpacity;
+    
+    // special opacity for premultiplied textures
+    if( opacityModifyRGB_ )
+        self.color = colorUnmodified_;    
 }
 
 -(void) setOpacityModifyRGB:(BOOL)modify
 {
-	ccColor3B oldColor	= self.color;
-	opacityModifyRGB_	= modify;
-	self.color			= oldColor;
+    ccColor3B oldColor    = self.color;
+    opacityModifyRGB_    = modify;
+    self.color            = oldColor;
 }
 
 -(BOOL) doesOpacityModifyRGB
 {
-	return opacityModifyRGB_;
+    return opacityModifyRGB_;
 }
 
 -(void) updateOpacityModifyRGB
 {
-	opacityModifyRGB_ = [textureAtlas_.texture hasPremultipliedAlpha];
+    opacityModifyRGB_ = (textureAtlas_.texture).hasPremultipliedAlpha;
 }
 
 #pragma mark CCAtlasNode - CocosNodeTexture protocol
 
 -(void) updateBlendFunc
 {
-	if( ! [textureAtlas_.texture hasPremultipliedAlpha] ) {
-		blendFunc_.src = GL_SRC_ALPHA;
-		blendFunc_.dst = GL_ONE_MINUS_SRC_ALPHA;
-	}
+    if( ! (textureAtlas_.texture).hasPremultipliedAlpha ) {
+        blendFunc_.src = GL_SRC_ALPHA;
+        blendFunc_.dst = GL_ONE_MINUS_SRC_ALPHA;
+    }
 }
 
 -(void) setTexture:(CCTexture2D*)texture
 {
-	textureAtlas_.texture = texture;
-	[self updateBlendFunc];
-	[self updateOpacityModifyRGB];
+    textureAtlas_.texture = texture;
+    [self updateBlendFunc];
+    [self updateOpacityModifyRGB];
 }
 
 -(CCTexture2D*) texture
 {
-	return textureAtlas_.texture;
+    return textureAtlas_.texture;
 }
 
 @end

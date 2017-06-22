@@ -34,7 +34,7 @@
 - (BOOL)scanCStyleComment:(NSString **)outComment;
 - (BOOL)scanCPlusPlusStyleComment:(NSString **)outComment;
 
-- (NSUInteger)lineOfScanLocation;
-- (NSDictionary *)userInfoForScanLocation;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSUInteger lineOfScanLocation;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *userInfoForScanLocation;
 
 @end

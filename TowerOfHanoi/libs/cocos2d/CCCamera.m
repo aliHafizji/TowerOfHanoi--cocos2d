@@ -33,99 +33,99 @@
 
 @synthesize dirty = dirty_;
 
--(id) init
+-(instancetype) init
 {
-	if( (self=[super init]) )
-		[self restore];
-	
-	return self;
+    if( (self=[super init]) )
+        [self restore];
+    
+    return self;
 }
 
 - (NSString*) description
 {
-	return [NSString stringWithFormat:@"<%@ = %08X | center = (%.2f,%.2f,%.2f)>", [self class], self, centerX_, centerY_, centerZ_];
+    return [NSString stringWithFormat:@"<%@ = %08X | center = (%.2f,%.2f,%.2f)>", [self class], self, centerX_, centerY_, centerZ_];
 }
 
 
 - (void) dealloc
 {
-	CCLOGINFO(@"cocos2d: deallocing %@", self);
-	[super dealloc];
+    CCLOGINFO(@"cocos2d: deallocing %@", self);
+    [super dealloc];
 }
 
 -(void) restore
 {
-	eyeX_ = eyeY_ = 0;
-	eyeZ_ = [CCCamera getZEye];
-	
-	centerX_ = centerY_ = centerZ_ = 0;
-	
-	upX_ = 0.0f;
-	upY_ = 1.0f;
-	upZ_ = 0.0f;
-	
-	dirty_ = NO;
+    eyeX_ = eyeY_ = 0;
+    eyeZ_ = [CCCamera getZEye];
+    
+    centerX_ = centerY_ = centerZ_ = 0;
+    
+    upX_ = 0.0f;
+    upY_ = 1.0f;
+    upZ_ = 0.0f;
+    
+    dirty_ = NO;
 }
 
 -(void) locate
 {
-	if( dirty_ )
-		gluLookAt( eyeX_, eyeY_, eyeZ_,
-				centerX_, centerY_, centerZ_,
-				upX_, upY_, upZ_
-				);
+    if( dirty_ )
+        gluLookAt( eyeX_, eyeY_, eyeZ_,
+                centerX_, centerY_, centerZ_,
+                upX_, upY_, upZ_
+                );
 }
 
 +(float) getZEye
 {
-	return FLT_EPSILON;
-//	CGSize s = [[CCDirector sharedDirector] displaySize];
-//	return ( s.height / 1.1566f );
+    return FLT_EPSILON;
+//    CGSize s = [[CCDirector sharedDirector] displaySize];
+//    return ( s.height / 1.1566f );
 }
 
 -(void) setEyeX: (float)x eyeY:(float)y eyeZ:(float)z
 {
-	eyeX_ = x * CC_CONTENT_SCALE_FACTOR();
-	eyeY_ = y * CC_CONTENT_SCALE_FACTOR();
-	eyeZ_ = z * CC_CONTENT_SCALE_FACTOR();
-	dirty_ = YES;	
+    eyeX_ = x * CC_CONTENT_SCALE_FACTOR();
+    eyeY_ = y * CC_CONTENT_SCALE_FACTOR();
+    eyeZ_ = z * CC_CONTENT_SCALE_FACTOR();
+    dirty_ = YES;    
 }
 
 -(void) setCenterX: (float)x centerY:(float)y centerZ:(float)z
 {
-	centerX_ = x * CC_CONTENT_SCALE_FACTOR();
-	centerY_ = y * CC_CONTENT_SCALE_FACTOR();
-	centerZ_ = z * CC_CONTENT_SCALE_FACTOR();
-	dirty_ = YES;
+    centerX_ = x * CC_CONTENT_SCALE_FACTOR();
+    centerY_ = y * CC_CONTENT_SCALE_FACTOR();
+    centerZ_ = z * CC_CONTENT_SCALE_FACTOR();
+    dirty_ = YES;
 }
 
 -(void) setUpX: (float)x upY:(float)y upZ:(float)z
 {
-	upX_ = x;
-	upY_ = y;
-	upZ_ = z;
-	dirty_ = YES;
+    upX_ = x;
+    upY_ = y;
+    upZ_ = z;
+    dirty_ = YES;
 }
 
 -(void) eyeX: (float*)x eyeY:(float*)y eyeZ:(float*)z
 {
-	*x = eyeX_ / CC_CONTENT_SCALE_FACTOR();
-	*y = eyeY_ / CC_CONTENT_SCALE_FACTOR();
-	*z = eyeZ_ / CC_CONTENT_SCALE_FACTOR();
+    *x = eyeX_ / CC_CONTENT_SCALE_FACTOR();
+    *y = eyeY_ / CC_CONTENT_SCALE_FACTOR();
+    *z = eyeZ_ / CC_CONTENT_SCALE_FACTOR();
 }
 
 -(void) centerX: (float*)x centerY:(float*)y centerZ:(float*)z
 {
-	*x = centerX_ / CC_CONTENT_SCALE_FACTOR();
-	*y = centerY_ / CC_CONTENT_SCALE_FACTOR();
-	*z = centerZ_ / CC_CONTENT_SCALE_FACTOR();
+    *x = centerX_ / CC_CONTENT_SCALE_FACTOR();
+    *y = centerY_ / CC_CONTENT_SCALE_FACTOR();
+    *z = centerZ_ / CC_CONTENT_SCALE_FACTOR();
 }
 
 -(void) upX: (float*)x upY:(float*)y upZ:(float*)z
 {
-	*x = upX_;
-	*y = upY_;
-	*z = upZ_;
+    *x = upX_;
+    *y = upY_;
+    *z = upZ_;
 }
 
 @end

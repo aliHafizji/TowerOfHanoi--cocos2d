@@ -38,9 +38,9 @@
  @since v0.8
  */
 @interface SimpleAudioEngine : NSObject <CDAudioInterruptProtocol> {
-	
-	BOOL	mute_;
-	BOOL	enabled_;
+    
+    BOOL    mute_;
+    BOOL    enabled_;
 }
 
 /** Background music volume. Range is 0.0f to 1.0f. This will only have an effect if willPlayBackgroundMusic returns YES */
@@ -69,7 +69,7 @@
 /** rewind the background music */
 -(void) rewindBackgroundMusic;
 /** returns whether or not the background music is playing */
--(BOOL) isBackgroundMusicPlaying;
+@property (NS_NONATOMIC_IOSONLY, getter=isBackgroundMusicPlaying, readonly) BOOL backgroundMusicPlaying;
 
 /** plays an audio effect with a file path*/
 -(ALuint) playEffect:(NSString*) filePath;

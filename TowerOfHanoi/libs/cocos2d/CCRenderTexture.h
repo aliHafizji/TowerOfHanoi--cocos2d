@@ -35,9 +35,9 @@
 
 enum  
 {
-	kCCImageFormatJPG = 0,
-	kCCImageFormatPNG = 1,
-	kCCImageFormatRawData =2
+    kCCImageFormatJPG = 0,
+    kCCImageFormatPNG = 1,
+    kCCImageFormatRawData =2
 };
 
 
@@ -53,29 +53,29 @@ enum
  */
 @interface CCRenderTexture : CCNode 
 {
-	GLuint				fbo_;
-	GLint				oldFBO_;
-	CCTexture2D*		texture_;
-	CCSprite*			sprite_;
-	
-	GLenum				pixelFormat_;
+    GLuint                fbo_;
+    GLint                oldFBO_;
+    CCTexture2D*        texture_;
+    CCSprite*            sprite_;
+    
+    GLenum                pixelFormat_;
 }
 
 /** The CCSprite being used.
  The sprite, by default, will use the following blending function: GL_ONE, GL_ONE_MINUS_SRC_ALPHA.
  The blending function can be changed in runtime by calling:
-	- [[renderTexture sprite] setBlendFunc:(ccBlendFunc){GL_ONE, GL_ONE_MINUS_SRC_ALPHA}];
+    - [[renderTexture sprite] setBlendFunc:(ccBlendFunc){GL_ONE, GL_ONE_MINUS_SRC_ALPHA}];
 */
 @property (nonatomic,readwrite, assign) CCSprite* sprite;
 
 /** creates a RenderTexture object with width and height in Points and a pixel format, only RGB and RGBA formats are valid */
-+(id)renderTextureWithWidth:(int)w height:(int)h pixelFormat:(CCTexture2DPixelFormat) format;
++(instancetype)renderTextureWithWidth:(int)w height:(int)h pixelFormat:(CCTexture2DPixelFormat) format;
 
 /** creates a RenderTexture object with width and height in Points, pixel format is RGBA8888 */
-+(id)renderTextureWithWidth:(int)w height:(int)h;
++(instancetype)renderTextureWithWidth:(int)w height:(int)h;
 
 /** initializes a RenderTexture object with width and height in Points and a pixel format, only RGB and RGBA formats are valid */
--(id)initWithWidth:(int)w height:(int)h pixelFormat:(CCTexture2DPixelFormat) format;
+-(instancetype)initWithWidth:(int)w height:(int)h pixelFormat:(CCTexture2DPixelFormat) format NS_DESIGNATED_INITIALIZER;
 
 /** starts grabbing */
 -(void)begin;
@@ -99,7 +99,7 @@ enum
 /* get buffer as UIImage, can only save a render buffer which has a RGBA8888 pixel format */
 -(NSData*)getUIImageAsDataFromBuffer:(int) format;
 /* get buffer as UIImage */
--(UIImage *)getUIImageFromBuffer;
+@property (NS_NONATOMIC_IOSONLY, getter=getUIImageFromBuffer, readonly, strong) UIImage *UIImageFromBuffer;
 
 #endif // __IPHONE_OS_VERSION_MAX_ALLOWED
 

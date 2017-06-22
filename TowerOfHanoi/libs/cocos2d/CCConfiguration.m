@@ -26,7 +26,7 @@
 #import <Availability.h>
 
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-#import <UIKit/UIKit.h>		// Needed for UIDevice
+#import <UIKit/UIKit.h>        // Needed for UIDevice
 #endif
 
 #import "Platforms/CCGL.h"
@@ -55,16 +55,16 @@ static char * glExtensions;
 
 + (CCConfiguration *)sharedConfiguration
 {
-	if (!_sharedConfiguration)
-		_sharedConfiguration = [[self alloc] init];
+    if (!_sharedConfiguration)
+        _sharedConfiguration = [[self alloc] init];
 
-	return _sharedConfiguration;
+    return _sharedConfiguration;
 }
 
 +(id)alloc
 {
-	NSAssert(_sharedConfiguration == nil, @"Attempted to allocate a second instance of a singleton.");
-	return [super alloc];
+    NSAssert(_sharedConfiguration == nil, @"Attempted to allocate a second instance of a singleton.");
+    return [super alloc];
 }
 
 
@@ -73,120 +73,120 @@ static char * glExtensions;
 - (NSString*)getMacVersion
 {
     SInt32 versionMajor, versionMinor, versionBugFix;
-	Gestalt(gestaltSystemVersionMajor, &versionMajor);
-	Gestalt(gestaltSystemVersionMinor, &versionMinor);
-	Gestalt(gestaltSystemVersionBugFix, &versionBugFix);
-	
-	return [NSString stringWithFormat:@"%d.%d.%d", versionMajor, versionMinor, versionBugFix];
+    Gestalt(gestaltSystemVersionMajor, &versionMajor);
+    Gestalt(gestaltSystemVersionMinor, &versionMinor);
+    Gestalt(gestaltSystemVersionBugFix, &versionBugFix);
+    
+    return [NSString stringWithFormat:@"%d.%d.%d", versionMajor, versionMinor, versionBugFix];
 }
 #endif // __MAC_OS_X_VERSION_MAX_ALLOWED
 
--(id) init
+-(instancetype) init
 {
-	if( (self=[super init])) {
-		
-		// Obtain iOS version
-		OSVersion_ = 0;
+    if( (self=[super init])) {
+        
+        // Obtain iOS version
+        OSVersion_ = 0;
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-		NSString *OSVer = [[UIDevice currentDevice] systemVersion];
+        NSString *OSVer = [UIDevice currentDevice].systemVersion;
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
-		NSString *OSVer = [self getMacVersion];
+        NSString *OSVer = [self getMacVersion];
 #endif
-		NSArray *arr = [OSVer componentsSeparatedByString:@"."];		
-		int idx=0x01000000;
-		for( NSString *str in arr ) {
-			int value = [str intValue];
-			OSVersion_ += value * idx;
-			idx = idx >> 8;
-		}
-		CCLOG(@"cocos2d: OS version: %@ (0x%08x)", OSVer, OSVersion_);
-		
-		CCLOG(@"cocos2d: GL_VENDOR:   %s", glGetString(GL_VENDOR) );
-		CCLOG(@"cocos2d: GL_RENDERER: %s", glGetString ( GL_RENDERER   ) );
-		CCLOG(@"cocos2d: GL_VERSION:  %s", glGetString ( GL_VERSION    ) );
-		
-		glExtensions = (char*) glGetString(GL_EXTENSIONS);
-		
-		glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize_);
-		glGetIntegerv(GL_MAX_MODELVIEW_STACK_DEPTH, &maxModelviewStackDepth_);
+        NSArray *arr = [OSVer componentsSeparatedByString:@"."];        
+        int idx=0x01000000;
+        for( NSString *str in arr ) {
+            int value = str.intValue;
+            OSVersion_ += value * idx;
+            idx = idx >> 8;
+        }
+        CCLOG(@"cocos2d: OS version: %@ (0x%08x)", OSVer, OSVersion_);
+        
+        CCLOG(@"cocos2d: GL_VENDOR:   %s", glGetString(GL_VENDOR) );
+        CCLOG(@"cocos2d: GL_RENDERER: %s", glGetString ( GL_RENDERER   ) );
+        CCLOG(@"cocos2d: GL_VERSION:  %s", glGetString ( GL_VERSION    ) );
+        
+        glExtensions = (char*) glGetString(GL_EXTENSIONS);
+        
+        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize_);
+        glGetIntegerv(GL_MAX_MODELVIEW_STACK_DEPTH, &maxModelviewStackDepth_);
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-		if( OSVersion_ >= kCCiOSVersion_4_0 )
-			glGetIntegerv(GL_MAX_SAMPLES_APPLE, &maxSamplesAllowed_);
-		else
-			maxSamplesAllowed_ = 0;
+        if( OSVersion_ >= kCCiOSVersion_4_0 )
+            glGetIntegerv(GL_MAX_SAMPLES_APPLE, &maxSamplesAllowed_);
+        else
+            maxSamplesAllowed_ = 0;
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
-		glGetIntegerv(GL_MAX_SAMPLES, &maxSamplesAllowed_);
+        glGetIntegerv(GL_MAX_SAMPLES, &maxSamplesAllowed_);
 #endif
-		
-		supportsPVRTC_ = [self checkForGLExtension:@"GL_IMG_texture_compression_pvrtc"];
+        
+        supportsPVRTC_ = [self checkForGLExtension:@"GL_IMG_texture_compression_pvrtc"];
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-		supportsNPOT_ = [self checkForGLExtension:@"GL_APPLE_texture_2D_limited_npot"];
+        supportsNPOT_ = [self checkForGLExtension:@"GL_APPLE_texture_2D_limited_npot"];
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
-		supportsNPOT_ = [self checkForGLExtension:@"GL_ARB_texture_non_power_of_two"];
+        supportsNPOT_ = [self checkForGLExtension:@"GL_ARB_texture_non_power_of_two"];
 #endif
-		// It seems that somewhere between firmware iOS 3.0 and 4.2 Apple renamed
-		// GL_IMG_... to GL_APPLE.... So we should check both names
-		
+        // It seems that somewhere between firmware iOS 3.0 and 4.2 Apple renamed
+        // GL_IMG_... to GL_APPLE.... So we should check both names
+        
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-		BOOL bgra8a = [self checkForGLExtension:@"GL_IMG_texture_format_BGRA8888"];
-		BOOL bgra8b = [self checkForGLExtension:@"GL_APPLE_texture_format_BGRA8888"];
-		supportsBGRA8888_ = bgra8a | bgra8b;
+        BOOL bgra8a = [self checkForGLExtension:@"GL_IMG_texture_format_BGRA8888"];
+        BOOL bgra8b = [self checkForGLExtension:@"GL_APPLE_texture_format_BGRA8888"];
+        supportsBGRA8888_ = bgra8a | bgra8b;
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
-		supportsBGRA8888_ = [self checkForGLExtension:@"GL_EXT_bgra"];
+        supportsBGRA8888_ = [self checkForGLExtension:@"GL_EXT_bgra"];
 #endif
-		
-		supportsDiscardFramebuffer_ = [self checkForGLExtension:@"GL_EXT_discard_framebuffer"];
+        
+        supportsDiscardFramebuffer_ = [self checkForGLExtension:@"GL_EXT_discard_framebuffer"];
 
-		CCLOG(@"cocos2d: GL_MAX_TEXTURE_SIZE: %d", maxTextureSize_);
-		CCLOG(@"cocos2d: GL_MAX_MODELVIEW_STACK_DEPTH: %d",maxModelviewStackDepth_);
-		CCLOG(@"cocos2d: GL_MAX_SAMPLES: %d", maxSamplesAllowed_);
-		CCLOG(@"cocos2d: GL supports PVRTC: %s", (supportsPVRTC_ ? "YES" : "NO") );
-		CCLOG(@"cocos2d: GL supports BGRA8888 textures: %s", (supportsBGRA8888_ ? "YES" : "NO") );
-		CCLOG(@"cocos2d: GL supports NPOT textures: %s", (supportsNPOT_ ? "YES" : "NO") );
-		CCLOG(@"cocos2d: GL supports discard_framebuffer: %s", (supportsDiscardFramebuffer_ ? "YES" : "NO") );
-		CCLOG(@"cocos2d: compiled with NPOT support: %s",
+        CCLOG(@"cocos2d: GL_MAX_TEXTURE_SIZE: %d", maxTextureSize_);
+        CCLOG(@"cocos2d: GL_MAX_MODELVIEW_STACK_DEPTH: %d",maxModelviewStackDepth_);
+        CCLOG(@"cocos2d: GL_MAX_SAMPLES: %d", maxSamplesAllowed_);
+        CCLOG(@"cocos2d: GL supports PVRTC: %s", (supportsPVRTC_ ? "YES" : "NO") );
+        CCLOG(@"cocos2d: GL supports BGRA8888 textures: %s", (supportsBGRA8888_ ? "YES" : "NO") );
+        CCLOG(@"cocos2d: GL supports NPOT textures: %s", (supportsNPOT_ ? "YES" : "NO") );
+        CCLOG(@"cocos2d: GL supports discard_framebuffer: %s", (supportsDiscardFramebuffer_ ? "YES" : "NO") );
+        CCLOG(@"cocos2d: compiled with NPOT support: %s",
 #if CC_TEXTURE_NPOT_SUPPORT
-				"YES"
+                "YES"
 #else
-				"NO"
+                "NO"
 #endif
-			  );
-		CCLOG(@"cocos2d: compiled with VBO support in TextureAtlas : %s",
+              );
+        CCLOG(@"cocos2d: compiled with VBO support in TextureAtlas : %s",
 #if CC_USES_VBO
-			  "YES"
+              "YES"
 #else
-			  "NO"
+              "NO"
 #endif
-			  );
+              );
 
-		CCLOG(@"cocos2d: compiled with Affine Matrix transformation in CCNode : %s",
+        CCLOG(@"cocos2d: compiled with Affine Matrix transformation in CCNode : %s",
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-			  "YES"
+              "YES"
 #else
-			  "NO"
+              "NO"
 #endif
-			  );
-		
-		CCLOG(@"cocos2d: compiled with Profiling Support: %s",
+              );
+        
+        CCLOG(@"cocos2d: compiled with Profiling Support: %s",
 #if CC_ENABLE_PROFILERS
 
-			  "YES - *** Disable it when you finish profiling ***"
+              "YES - *** Disable it when you finish profiling ***"
 #else
-			  "NO"
+              "NO"
 #endif
-			  );
-		
-		CHECK_GL_ERROR();
-	}
-	
-	return self;
+              );
+        
+        CHECK_GL_ERROR();
+    }
+    
+    return self;
 }
 
 - (BOOL) checkForGLExtension:(NSString *)searchName
 {
-	// For best results, extensionsNames should be stored in your renderer so that it does not
-	// need to be recreated on each invocation.
-    NSString *extensionsString = [NSString stringWithCString:glExtensions encoding: NSASCIIStringEncoding];
+    // For best results, extensionsNames should be stored in your renderer so that it does not
+    // need to be recreated on each invocation.
+    NSString *extensionsString = @(glExtensions);
     NSArray *extensionsNames = [extensionsString componentsSeparatedByString:@" "];
     return [extensionsNames containsObject: searchName];
 }

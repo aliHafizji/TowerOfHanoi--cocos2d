@@ -46,32 +46,32 @@
  */
 @interface CCRibbon : CCNode <CCTextureProtocol>
 {
-	NSMutableArray*	segments_;
-	NSMutableArray*	deletedSegments_;
+    NSMutableArray*    segments_;
+    NSMutableArray*    deletedSegments_;
 
-	CGPoint			lastPoint1_;
-	CGPoint			lastPoint2_;
-	CGPoint			lastLocation_;
-	int					vertCount_;
-	float				texVPos_;
-	float				curTime_;
-	float				fadeTime_;
-	float				delta_;
-	float				lastWidth_;
-	float				lastSign_;
-	BOOL				pastFirstPoint_;
+    CGPoint            lastPoint1_;
+    CGPoint            lastPoint2_;
+    CGPoint            lastLocation_;
+    int                    vertCount_;
+    float                texVPos_;
+    float                curTime_;
+    float                fadeTime_;
+    float                delta_;
+    float                lastWidth_;
+    float                lastSign_;
+    BOOL                pastFirstPoint_;
 
-	// Texture used
-	CCTexture2D*		texture_;
+    // Texture used
+    CCTexture2D*        texture_;
 
-	// texture length
-	float			textureLength_;
+    // texture length
+    float            textureLength_;
 
-	// RGBA protocol
-	ccColor4B color_;
+    // RGBA protocol
+    ccColor4B color_;
 
-	// blend func
-	ccBlendFunc		blendFunc_;
+    // blend func
+    ccBlendFunc        blendFunc_;
 }
 
 /** Texture used by the ribbon. Conforms to CCTextureProtocol protocol */
@@ -87,9 +87,9 @@
 @property (nonatomic,readwrite) ccColor4B color;
 
 /** creates the ribbon */
-+(id)ribbonWithWidth:(float)w image:(NSString*)path length:(float)l color:(ccColor4B)color fade:(float)fade;
++(instancetype)ribbonWithWidth:(float)w image:(NSString*)path length:(float)l color:(ccColor4B)color fade:(float)fade;
 /** init the ribbon */
--(id)initWithWidth:(float)w image:(NSString*)path length:(float)l color:(ccColor4B)color fade:(float)fade;
+-(instancetype)initWithWidth:(float)w image:(NSString*)path length:(float)l color:(ccColor4B)color fade:(float)fade NS_DESIGNATED_INITIALIZER;
 /** add a point to the ribbon */
 -(void)addPointAt:(CGPoint)location width:(float)w;
 /** polling function */
@@ -103,15 +103,15 @@
 @interface CCRibbonSegment : NSObject
 {
 @public
-	GLfloat	verts[50*6];
-	GLfloat	coords[50*4];
-	GLubyte	colors[50*8];
-	float		creationTime[50];
-	BOOL		finished;
-	NSUInteger		end;
-	NSUInteger		begin;
+    GLfloat    verts[50*6];
+    GLfloat    coords[50*4];
+    GLubyte    colors[50*8];
+    float        creationTime[50];
+    BOOL        finished;
+    NSUInteger        end;
+    NSUInteger        begin;
 }
--(id)init;
+-(instancetype)init;
 -(void)reset;
 -(void)draw:(float)curTime fadeTime:(float)fadeTime color:(ccColor4B)color;
 @end

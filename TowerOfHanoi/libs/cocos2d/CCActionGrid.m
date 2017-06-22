@@ -34,62 +34,62 @@
 
 @synthesize gridSize = gridSize_;
 
-+(id) actionWithSize:(ccGridSize)size duration:(ccTime)d
++(instancetype) actionWithSize:(ccGridSize)size duration:(ccTime)d
 {
-	return [[[self alloc] initWithSize:size duration:d ] autorelease];
+    return [[[self alloc] initWithSize:size duration:d ] autorelease];
 }
 
--(id) initWithSize:(ccGridSize)gSize duration:(ccTime)d
+-(instancetype) initWithSize:(ccGridSize)gSize duration:(ccTime)d
 {
-	if ( (self = [super initWithDuration:d]) )
-	{
-		gridSize_ = gSize;
-	}
-	
-	return self;
+    if ( (self = [super initWithDuration:d]) )
+    {
+        gridSize_ = gSize;
+    }
+    
+    return self;
 }
 
 -(void)startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
+    [super startWithTarget:aTarget];
 
-	CCGridBase *newgrid = [self grid];
-	
-	CCNode *t = (CCNode*) target_;
-	CCGridBase *targetGrid = [t grid];
-	
-	if ( targetGrid && targetGrid.reuseGrid > 0 )
-	{
-		if ( targetGrid.active && targetGrid.gridSize.x == gridSize_.x && targetGrid.gridSize.y == gridSize_.y && [targetGrid isKindOfClass:[newgrid class]] )
-			[targetGrid reuse];
-		else
-			[NSException raise:@"GridBase" format:@"Cannot reuse grid"];
-	}
-	else
-	{
-		if ( targetGrid && targetGrid.active )
-			targetGrid.active = NO;
-		
-		t.grid = newgrid;
-		t.grid.active = YES;
-	}	
+    CCGridBase *newgrid = [self grid];
+    
+    CCNode *t = (CCNode*) target_;
+    CCGridBase *targetGrid = t.grid;
+    
+    if ( targetGrid && targetGrid.reuseGrid > 0 )
+    {
+        if ( targetGrid.active && targetGrid.gridSize.x == gridSize_.x && targetGrid.gridSize.y == gridSize_.y && [targetGrid isKindOfClass:[newgrid class]] )
+            [targetGrid reuse];
+        else
+            [NSException raise:@"GridBase" format:@"Cannot reuse grid"];
+    }
+    else
+    {
+        if ( targetGrid && targetGrid.active )
+            targetGrid.active = NO;
+        
+        t.grid = newgrid;
+        t.grid.active = YES;
+    }    
 }
 
 -(CCGridBase *)grid
 {
-	[NSException raise:@"GridBase" format:@"Abstract class needs implementation"];
-	return nil;
+    [NSException raise:@"GridBase" format:@"Abstract class needs implementation"];
+    return nil;
 }
 
 - (CCActionInterval*) reverse
 {
-	return [CCReverseTime actionWithAction:self];
+    return [CCReverseTime actionWithAction:self];
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithSize:gridSize_ duration:duration_];
-	return copy;
+    CCGridAction *copy = [[[self class] allocWithZone:zone] initWithSize:gridSize_ duration:duration_];
+    return copy;
 }
 @end
 
@@ -102,25 +102,25 @@
 
 -(CCGridBase *)grid
 {
-	return [CCGrid3D gridWithSize:gridSize_];
+    return [CCGrid3D gridWithSize:gridSize_];
 }
 
 -(ccVertex3F)vertex:(ccGridSize)pos
 {
-	CCGrid3D *g = (CCGrid3D *)[target_ grid];
-	return [g vertex:pos];
+    CCGrid3D *g = (CCGrid3D *)[target_ grid];
+    return [g vertex:pos];
 }
 
 -(ccVertex3F)originalVertex:(ccGridSize)pos
 {
-	CCGrid3D *g = (CCGrid3D *)[target_ grid];
-	return [g originalVertex:pos];
+    CCGrid3D *g = (CCGrid3D *)[target_ grid];
+    return [g originalVertex:pos];
 }
 
 -(void)setVertex:(ccGridSize)pos vertex:(ccVertex3F)vertex
 {
-	CCGrid3D *g = (CCGrid3D *)[target_ grid];
-	[g setVertex:pos vertex:vertex];
+    CCGrid3D *g = (CCGrid3D *)[target_ grid];
+    [g setVertex:pos vertex:vertex];
 }
 @end
 
@@ -133,25 +133,25 @@
 
 -(CCGridBase *)grid
 {
-	return [CCTiledGrid3D gridWithSize:gridSize_];
+    return [CCTiledGrid3D gridWithSize:gridSize_];
 }
 
 -(ccQuad3)tile:(ccGridSize)pos
 {
-	CCTiledGrid3D *g = (CCTiledGrid3D *)[target_ grid];
-	return [g tile:pos];
+    CCTiledGrid3D *g = (CCTiledGrid3D *)[target_ grid];
+    return [g tile:pos];
 }
 
 -(ccQuad3)originalTile:(ccGridSize)pos
 {
-	CCTiledGrid3D *g = (CCTiledGrid3D *)[target_ grid];
-	return [g originalTile:pos];
+    CCTiledGrid3D *g = (CCTiledGrid3D *)[target_ grid];
+    return [g originalTile:pos];
 }
 
 -(void)setTile:(ccGridSize)pos coords:(ccQuad3)coords
 {
-	CCTiledGrid3D *g = (CCTiledGrid3D *)[target_ grid];
-	[g setTile:pos coords:coords];
+    CCTiledGrid3D *g = (CCTiledGrid3D *)[target_ grid];
+    [g setTile:pos coords:coords];
 }
 
 @end
@@ -159,20 +159,19 @@
 ////////////////////////////////////////////////////////////
 
 @interface CCActionInterval (Amplitude)
--(void)setAmplitudeRate:(CGFloat)amp;
--(CGFloat)getAmplitudeRate;
+@property (NS_NONATOMIC_IOSONLY, getter=getAmplitudeRate) CGFloat amplitudeRate;
 @end
 
 @implementation CCActionInterval (Amplitude)
 -(void)setAmplitudeRate:(CGFloat)amp
 {
-	[NSException raise:@"IntervalAction (Amplitude)" format:@"Abstract class needs implementation"];
+    [NSException raise:@"IntervalAction (Amplitude)" format:@"Abstract class needs implementation"];
 }
 
 -(CGFloat)getAmplitudeRate
 {
-	[NSException raise:@"IntervalAction (Amplitude)" format:@"Abstract class needs implementation"];
-	return 0;
+    [NSException raise:@"IntervalAction (Amplitude)" format:@"Abstract class needs implementation"];
+    return 0;
 }
 @end
 
@@ -187,49 +186,49 @@
 
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d
 {
-	return [[[self alloc] initWithAction:action duration:d ] autorelease];
+    return [[[self alloc] initWithAction:action duration:d ] autorelease];
 }
 
--(id)initWithAction:(CCAction *)action duration:(ccTime)d
+-(instancetype)initWithAction:(CCAction *)action duration:(ccTime)d
 {
-	if ( (self = [super initWithDuration:d]) )
-	{
-		rate_ = 1.0f;
-		other_ = (CCActionInterval*)[action retain];
-	}
-	
-	return self;
+    if ( (self = [super initWithDuration:d]) )
+    {
+        rate_ = 1.0f;
+        other_ = (CCActionInterval*)[action retain];
+    }
+    
+    return self;
 }
 
 -(void)dealloc
 {
-	[other_ release];
-	[super dealloc];
+    [other_ release];
+    [super dealloc];
 }
 
 -(void)startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[other_ startWithTarget:target_];
+    [super startWithTarget:aTarget];
+    [other_ startWithTarget:target_];
 }
 
 -(void) update: (ccTime) time
 {
-	float f = time*2;
-	
-	if (f > 1)
-	{
-		f -= 1;
-		f = 1 - f;
-	}
-	
-	[other_ setAmplitudeRate:powf(f, rate_)];
-	[other_ update:time];
+    float f = time*2;
+    
+    if (f > 1)
+    {
+        f -= 1;
+        f = 1 - f;
+    }
+    
+    [other_ setAmplitudeRate:powf(f, rate_)];
+    [other_ update:time];
 }
 
 - (CCActionInterval*) reverse
 {
-	return [CCAccelDeccelAmplitude actionWithAction:[other_ reverse] duration:duration_];
+    return [CCAccelDeccelAmplitude actionWithAction:[other_ reverse] duration:duration_];
 }
 
 @end
@@ -245,41 +244,41 @@
 
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d
 {
-	return [[[self alloc] initWithAction:action duration:d ] autorelease];
+    return [[[self alloc] initWithAction:action duration:d ] autorelease];
 }
 
--(id)initWithAction:(CCAction *)action duration:(ccTime)d
+-(instancetype)initWithAction:(CCAction *)action duration:(ccTime)d
 {
-	if ( (self = [super initWithDuration:d]) )
-	{
-		rate_ = 1.0f;
-		other_ = (CCActionInterval*)[action retain];
-	}
-	
-	return self;
+    if ( (self = [super initWithDuration:d]) )
+    {
+        rate_ = 1.0f;
+        other_ = (CCActionInterval*)[action retain];
+    }
+    
+    return self;
 }
 
 -(void)dealloc
 {
-	[other_ release];
-	[super dealloc];
+    [other_ release];
+    [super dealloc];
 }
 
 -(void)startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[other_ startWithTarget:target_];
+    [super startWithTarget:aTarget];
+    [other_ startWithTarget:target_];
 }
 
 -(void) update: (ccTime) time
 {
-	[other_ setAmplitudeRate:powf(time, rate_)];
-	[other_ update:time];
+    [other_ setAmplitudeRate:powf(time, rate_)];
+    [other_ update:time];
 }
 
 - (CCActionInterval*) reverse
 {
-	return [CCAccelAmplitude actionWithAction:[other_ reverse] duration:self.duration];
+    return [CCAccelAmplitude actionWithAction:[other_ reverse] duration:self.duration];
 }
 
 @end
@@ -295,41 +294,41 @@
 
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d
 {
-	return [[[self alloc] initWithAction:action duration:d ] autorelease];
+    return [[[self alloc] initWithAction:action duration:d ] autorelease];
 }
 
--(id)initWithAction:(CCAction *)action duration:(ccTime)d
+-(instancetype)initWithAction:(CCAction *)action duration:(ccTime)d
 {
-	if ( (self = [super initWithDuration:d]) )
-	{
-		rate_ = 1.0f;
-		other_ = (CCActionInterval*)[action retain];
-	}
-	
-	return self;
+    if ( (self = [super initWithDuration:d]) )
+    {
+        rate_ = 1.0f;
+        other_ = (CCActionInterval*)[action retain];
+    }
+    
+    return self;
 }
 
 -(void)dealloc
 {
-	[other_ release];
-	[super dealloc];
+    [other_ release];
+    [super dealloc];
 }
 
 -(void)startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[other_ startWithTarget:target_];
+    [super startWithTarget:aTarget];
+    [other_ startWithTarget:target_];
 }
 
 -(void) update: (ccTime) time
 {
-	[other_ setAmplitudeRate:powf((1-time), rate_)];
-	[other_ update:time];
+    [other_ setAmplitudeRate:powf((1-time), rate_)];
+    [other_ update:time];
 }
 
 - (CCActionInterval*) reverse
 {
-	return [CCDeccelAmplitude actionWithAction:[other_ reverse] duration:self.duration];
+    return [CCDeccelAmplitude actionWithAction:[other_ reverse] duration:self.duration];
 }
 
 @end
@@ -343,13 +342,13 @@
 
 -(void)startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
+    [super startWithTarget:aTarget];
 
-	if ( [[self target] grid] && [[[self target] grid] active] ) {
-		[[[self target] grid] setActive: NO];
-		
-//		[[self target] setGrid: nil];
-	}
+    if ( [self.target grid] && [self.target grid].active ) {
+        [[self.target grid] setActive: NO];
+        
+//        [[self target] setGrid: nil];
+    }
 }
 
 @end
@@ -363,24 +362,24 @@
 
 +(id)actionWithTimes:(int)times
 {
-	return [[[self alloc] initWithTimes:times ] autorelease];
+    return [[[self alloc] initWithTimes:times ] autorelease];
 }
 
--(id)initWithTimes:(int)times
+-(instancetype)initWithTimes:(int)times
 {
-	if ( (self = [super init]) )
-		t_ = times;
-	
-	return self;
+    if ( (self = [super init]) )
+        t_ = times;
+    
+    return self;
 }
 
 -(void)startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
+    [super startWithTarget:aTarget];
 
-	CCNode *myTarget = (CCNode*) [self target];
-	if ( myTarget.grid && myTarget.grid.active )
-		myTarget.grid.reuseGrid += t_;
+    CCNode *myTarget = (CCNode*) self.target;
+    if ( myTarget.grid && myTarget.grid.active )
+        myTarget.grid.reuseGrid += t_;
 }
 
 @end

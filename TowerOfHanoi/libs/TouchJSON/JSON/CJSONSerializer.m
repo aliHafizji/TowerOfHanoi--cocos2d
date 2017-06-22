@@ -54,7 +54,7 @@ static NSData *kTrue = NULL;
         }
     }
 
-+ (id)serializer
++ (instancetype)serializer
     {
     return([[[self alloc] init] autorelease]);
     }
@@ -132,9 +132,7 @@ static NSData *kTrue = NULL;
         {
         if (outError)
             {
-            NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSString stringWithFormat:@"Cannot serialize data of type '%@'", NSStringFromClass([inObject class])], NSLocalizedDescriptionKey,
-                NULL];
+            NSDictionary *theUserInfo = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Cannot serialize data of type '%@'", NSStringFromClass([inObject class])]};
             *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:CJSONSerializerErrorCouldNotSerializeDataType userInfo:theUserInfo];
             }
         return(NULL);
@@ -143,9 +141,7 @@ static NSData *kTrue = NULL;
         {
         if (outError)
             {
-            NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSString stringWithFormat:@"Could not serialize object '%@'", inObject], NSLocalizedDescriptionKey,
-                NULL];
+            NSDictionary *theUserInfo = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Could not serialize object '%@'", inObject]};
             *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:CJSONSerializerErrorCouldNotSerializeObject userInfo:theUserInfo];
             }
         return(NULL);
@@ -167,13 +163,13 @@ static NSData *kTrue = NULL;
         {
         case kCFNumberCharType:
             {
-            int theValue = [inNumber intValue];
+            int theValue = inNumber.intValue;
             if (theValue == 0)
                 theResult = kFalse;
             else if (theValue == 1)
                 theResult = kTrue;
             else
-                theResult = [[inNumber stringValue] dataUsingEncoding:NSASCIIStringEncoding];
+                theResult = [inNumber.stringValue dataUsingEncoding:NSASCIIStringEncoding];
             }
             break;
         case kCFNumberFloat32Type:
@@ -190,7 +186,7 @@ static NSData *kTrue = NULL;
         case kCFNumberLongLongType:
         case kCFNumberCFIndexType:
         default:
-            theResult = [[inNumber stringValue] dataUsingEncoding:NSASCIIStringEncoding];
+            theResult = [inNumber.stringValue dataUsingEncoding:NSASCIIStringEncoding];
             break;
         }
     return(theResult);
@@ -200,11 +196,11 @@ static NSData *kTrue = NULL;
     {
     #pragma unused (outError)
 
-    const char *theUTF8String = [inString UTF8String];
+    const char *theUTF8String = inString.UTF8String;
 
     NSMutableData *theData = [NSMutableData dataWithLength:strlen(theUTF8String) * 2 + 2];
 
-    char *theOutputStart = [theData mutableBytes];
+    char *theOutputStart = theData.mutableBytes;
     char *OUT = theOutputStart;
 
     *OUT++ = '"';
@@ -292,7 +288,7 @@ static NSData *kTrue = NULL;
             return(NULL);
             }
         [theData appendData:theValueData];
-        if (++i < [inArray count])
+        if (++i < inArray.count)
             [theData appendBytes:"," length:1];
         }
 
@@ -307,12 +303,12 @@ static NSData *kTrue = NULL;
 
     [theData appendBytes:"{" length:1];
 
-    NSArray *theKeys = [inDictionary allKeys];
+    NSArray *theKeys = inDictionary.allKeys;
     NSEnumerator *theEnumerator = [theKeys objectEnumerator];
     NSString *theKey = NULL;
     while ((theKey = [theEnumerator nextObject]) != NULL)
         {
-        id theValue = [inDictionary objectForKey:theKey];
+        id theValue = inDictionary[theKey];
         
         NSData *theKeyData = [self serializeString:theKey error:outError];
         if (theKeyData == NULL)
@@ -330,7 +326,7 @@ static NSData *kTrue = NULL;
         [theData appendBytes:":" length:1];
         [theData appendData:theValueData];
         
-        if (theKey != [theKeys lastObject])
+        if (theKey != theKeys.lastObject)
             [theData appendData:[@"," dataUsingEncoding:NSASCIIStringEncoding]];
         }
 

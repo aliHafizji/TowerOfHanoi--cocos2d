@@ -45,15 +45,15 @@
  */
 @interface CCTileMapAtlas : CCAtlasNode
 {
-	
-	/// info about the map file
-	tImageTGA		*tgaInfo;
-	
-	/// x,y to altas dicctionary
-	NSMutableDictionary	*posToAtlasIndex;
-	
-	/// numbers of tiles to render
-	int				itemsToRender;
+    
+    /// info about the map file
+    tImageTGA        *tgaInfo;
+    
+    /// x,y to altas dicctionary
+    NSMutableDictionary    *posToAtlasIndex;
+    
+    /// numbers of tiles to render
+    int                itemsToRender;
 }
 
 /** TileMap info */
@@ -62,12 +62,12 @@
 /** creates a CCTileMap with a tile file (atlas) with a map file and the width and height of each tile in points.
  The tile file will be loaded using the TextureMgr.
  */
-+(id) tileMapAtlasWithTileFile:(NSString*)tile mapFile:(NSString*)map tileWidth:(int)w tileHeight:(int)h;
++(instancetype) tileMapAtlasWithTileFile:(NSString*)tile mapFile:(NSString*)map tileWidth:(int)w tileHeight:(int)h;
 
 /** initializes a CCTileMap with a tile file (atlas) with a map file and the width and height of each tile in points.
  The file will be loaded using the TextureMgr.
  */
--(id) initWithTileFile:(NSString*)tile mapFile:(NSString*)map tileWidth:(int)w tileHeight:(int)h;
+-(instancetype) initWithTileFile:(NSString*)tile mapFile:(NSString*)map tileWidth:(int)w tileHeight:(int)h NS_DESIGNATED_INITIALIZER;
 
 /** returns a tile from position x,y.
  For the moment only channel R is used

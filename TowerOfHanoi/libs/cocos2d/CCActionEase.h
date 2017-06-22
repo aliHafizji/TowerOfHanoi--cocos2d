@@ -30,26 +30,26 @@
  */
 @interface CCActionEase : CCActionInterval <NSCopying>
 {
-	CCActionInterval * other;
+    CCActionInterval * other;
 }
 /** creates the action */
 +(id) actionWithAction: (CCActionInterval*) action;
 /** initializes the action */
--(id) initWithAction: (CCActionInterval*) action;
+-(instancetype) initWithAction: (CCActionInterval*) action NS_DESIGNATED_INITIALIZER;
 @end
 
 /** Base class for Easing actions with rate parameters
  */
 @interface CCEaseRateAction :  CCActionEase <NSCopying>
 {
-	float	rate;
+    float    rate;
 }
 /** rate value for the actions */
 @property (nonatomic,readwrite,assign) float rate;
 /** Creates the action with the inner action and the rate parameter */
-+(id) actionWithAction: (CCActionInterval*) action rate:(float)rate;
++(instancetype) actionWithAction: (CCActionInterval*) action rate:(float)rate;
 /** Initializes the action with the inner action and the rate parameter */
--(id) initWithAction: (CCActionInterval*) action rate:(float)rate;
+-(instancetype) initWithAction: (CCActionInterval*) action rate:(float)rate NS_DESIGNATED_INITIALIZER;
 @end
 
 /** CCEaseIn action with a rate
@@ -88,7 +88,7 @@
  */
 @interface CCEaseElastic : CCActionEase <NSCopying>
 {
-	float period_;
+    float period_;
 }
 
 /** period of the wave in radians. default is 0.3 */
@@ -97,7 +97,7 @@
 /** Creates the action with the inner action and the period in radians (default is 0.3) */
 +(id) actionWithAction: (CCActionInterval*) action period:(float)period;
 /** Initializes the action with the inner action and the period in radians (default is 0.3) */
--(id) initWithAction: (CCActionInterval*) action period:(float)period;
+-(instancetype) initWithAction: (CCActionInterval*) action period:(float)period NS_DESIGNATED_INITIALIZER;
 @end
 
 /** Ease Elastic In action.

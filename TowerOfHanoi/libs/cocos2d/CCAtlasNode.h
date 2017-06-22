@@ -40,30 +40,30 @@
  */
 @interface CCAtlasNode : CCNode <CCRGBAProtocol, CCTextureProtocol>
 {
-	// texture atlas
-	CCTextureAtlas	*textureAtlas_;
+    // texture atlas
+    CCTextureAtlas    *textureAtlas_;
 
-	// chars per row
-	NSUInteger		itemsPerRow_;
-	// chars per column
-	NSUInteger		itemsPerColumn_;
-		
-	// width of each char
-	NSUInteger		itemWidth_;
-	// height of each char
-	NSUInteger		itemHeight_;
+    // chars per row
+    NSUInteger        itemsPerRow_;
+    // chars per column
+    NSUInteger        itemsPerColumn_;
+        
+    // width of each char
+    NSUInteger        itemWidth_;
+    // height of each char
+    NSUInteger        itemHeight_;
 
-	// quads to draw
-	NSUInteger		quadsToDraw_;
+    // quads to draw
+    NSUInteger        quadsToDraw_;
 
-	// blend function
-	ccBlendFunc		blendFunc_;
+    // blend function
+    ccBlendFunc        blendFunc_;
 
-	// texture RGBA. 
-	GLubyte		opacity_;
-	ccColor3B	color_;
-	ccColor3B	colorUnmodified_;
-	BOOL opacityModifyRGB_;
+    // texture RGBA. 
+    GLubyte        opacity_;
+    ccColor3B    color_;
+    ccColor3B    colorUnmodified_;
+    BOOL opacityModifyRGB_;
 }
 
 /** conforms to CCTextureProtocol protocol */
@@ -84,7 +84,7 @@
 +(id) atlasWithTileFile:(NSString*)tile tileWidth:(NSUInteger)w tileHeight:(NSUInteger)h itemsToRender: (NSUInteger) c;
 
 /** initializes an CCAtlasNode  with an Atlas file the width and height of each item measured in points and the quantity of items to render*/
--(id) initWithTileFile:(NSString*)tile tileWidth:(NSUInteger)w tileHeight:(NSUInteger)h itemsToRender: (NSUInteger) c;
+-(instancetype) initWithTileFile:(NSString*)tile tileWidth:(NSUInteger)w tileHeight:(NSUInteger)h itemsToRender: (NSUInteger) c NS_DESIGNATED_INITIALIZER;
 
 /** updates the Atlas (indexed vertex array).
  * Shall be overriden in subclasses

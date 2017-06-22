@@ -53,7 +53,7 @@ inline static unichar CharacterAtPointer(void *start, void *end)
 
     @implementation CDataScanner
 
-- (id)init
+- (instancetype)init
     {
     if ((self = [super init]) != NULL)
         {
@@ -61,11 +61,11 @@ inline static unichar CharacterAtPointer(void *start, void *end)
     return(self);
     }
 
-- (id)initWithData:(NSData *)inData;
+- (instancetype)initWithData:(NSData *)inData;
     {
     if ((self = [self init]) != NULL)
         {
-        [self setData:inData];
+        self.data = inData;
         }
     return(self);
     }
@@ -169,7 +169,7 @@ inline static unichar CharacterAtPointer(void *start, void *end)
         {
         current += theLength;
         if (outValue)
-            *outValue = [NSString stringWithUTF8String:inString];
+            *outValue = @(inString);
         return(YES);
         }
     return(NO);
@@ -179,7 +179,7 @@ inline static unichar CharacterAtPointer(void *start, void *end)
     {
     if ((size_t)(end - current) < inString.length)
         return(NO);
-    if (strncmp((char *)current, [inString UTF8String], inString.length) == 0)
+    if (strncmp((char *)current, inString.UTF8String, inString.length) == 0)
         {
         current += inString.length;
         if (outValue)
@@ -212,7 +212,7 @@ inline static unichar CharacterAtPointer(void *start, void *end)
 
 - (BOOL)scanUpToString:(NSString *)inString intoString:(NSString **)outValue
     {
-    const char *theToken = [inString UTF8String];
+    const char *theToken = inString.UTF8String;
     const char *theResult = strnstr((char *)current, theToken, end - current);
     if (theResult == NULL)
         {
@@ -267,7 +267,7 @@ inline static unichar CharacterAtPointer(void *start, void *end)
                 {
                 if (outValue != NULL)
                     {
-                    *outValue = [NSNumber numberWithLongLong:[theString longLongValue]];
+                    *outValue = @(theString.longLongValue);
                     }
                 return(YES);
                 }
@@ -275,7 +275,7 @@ inline static unichar CharacterAtPointer(void *start, void *end)
                 {
                 if (outValue != NULL)
                     {
-                    *outValue = [NSNumber numberWithUnsignedLongLong:strtoull([theString UTF8String], NULL, 0)];
+                    *outValue = @(strtoull(theString.UTF8String, NULL, 0));
                     }
                 return(YES);
                 }

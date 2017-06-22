@@ -115,59 +115,57 @@ extern float const kCD_PanFullRight;
 extern float const kCD_GainDefault;
 
 enum bufferState {
-	CD_BS_EMPTY = 0,
-	CD_BS_LOADED = 1,
-	CD_BS_FAILED = 2
+    CD_BS_EMPTY = 0,
+    CD_BS_LOADED = 1,
+    CD_BS_FAILED = 2
 };
 
 typedef struct _sourceGroup {
-	int startIndex;
-	int currentIndex;
-	int totalSources;
-	bool enabled;
-	bool nonInterruptible;
-	int *sourceStatuses;//pointer into array of source status information
+    int startIndex;
+    int currentIndex;
+    int totalSources;
+    bool enabled;
+    bool nonInterruptible;
+    int *sourceStatuses;//pointer into array of source status information
 } sourceGroup;
 
 typedef struct _bufferInfo {
-	ALuint bufferId;
-	int bufferState;
-	void* bufferData;
-	ALenum format;
-	ALsizei sizeInBytes;
-	ALsizei frequencyInHertz;
-} bufferInfo;	
+    ALuint bufferId;
+    int bufferState;
+    void* bufferData;
+    ALenum format;
+    ALsizei sizeInBytes;
+    ALsizei frequencyInHertz;
+} bufferInfo;    
 
 typedef struct _sourceInfo {
-	bool usable;
-	ALuint sourceId;
-	ALuint attachedBufferId;
-} sourceInfo;	
+    bool usable;
+    ALuint sourceId;
+    ALuint attachedBufferId;
+} sourceInfo;    
 
 #pragma mark CDAudioTransportProtocol
 
 @protocol CDAudioTransportProtocol <NSObject>
 /** Play the audio */
--(BOOL) play;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL play;
 /** Pause the audio, retain resources */
--(BOOL) pause;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL pause;
 /** Stop the audio, release resources */
--(BOOL) stop;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL stop;
 /** Return playback to beginning */
--(BOOL) rewind;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL rewind;
 @end
 
 #pragma mark CDAudioInterruptProtocol
 
 @protocol CDAudioInterruptProtocol <NSObject>
 /** Is audio mute */
--(BOOL) mute;
+@property (NS_NONATOMIC_IOSONLY) BOOL mute;
 /** If YES then audio is silenced but not stopped, calls to start new audio will proceed but silently */
--(void) setMute:(BOOL) muteValue;
 /** Is audio enabled */
--(BOOL) enabled;
+@property (NS_NONATOMIC_IOSONLY) BOOL enabled;
 /** If NO then all audio is stopped and any calls to start new audio will be ignored */
--(void) setEnabled:(BOOL) enabledValue;
 @end
 
 #pragma mark CDUtilities
@@ -176,7 +174,7 @@ typedef struct _sourceInfo {
  */
 @interface CDUtilities : NSObject
 {
-}	
+}    
 
 /** Fundamentally the same as the corresponding method is CCFileUtils but added to break binding to cocos2d */
 +(NSString*) fullPathFromRelativePath:(NSString*) relPath;
@@ -202,28 +200,28 @@ typedef struct _sourceInfo {
  */
 @class CDSoundSource;
 @interface CDSoundEngine : NSObject <CDAudioInterruptProtocol> {
-	
-	bufferInfo		*_buffers;
-	sourceInfo		*_sources;
-	sourceGroup	    *_sourceGroups;
-	ALCcontext		*context;
-	NSUInteger		_sourceGroupTotal;
-	UInt32			_audioSessionCategory;
-	BOOL			_handleAudioSession;
-	ALfloat			_preMuteGain;
-	NSObject        *_mutexBufferLoad;
-	BOOL			mute_;
-	BOOL			enabled_;
+    
+    bufferInfo        *_buffers;
+    sourceInfo        *_sources;
+    sourceGroup        *_sourceGroups;
+    ALCcontext        *context;
+    NSUInteger        _sourceGroupTotal;
+    UInt32            _audioSessionCategory;
+    BOOL            _handleAudioSession;
+    ALfloat            _preMuteGain;
+    NSObject        *_mutexBufferLoad;
+    BOOL            mute_;
+    BOOL            enabled_;
 
-	ALenum			lastErrorCode_;
-	BOOL			functioning_;
-	float			asynchLoadProgress_;
-	BOOL			getGainWorks_;
-	
-	//For managing dynamic allocation of sources and buffers
-	int sourceTotal_;
-	int bufferTotal;
-	 
+    ALenum            lastErrorCode_;
+    BOOL            functioning_;
+    float            asynchLoadProgress_;
+    BOOL            getGainWorks_;
+    
+    //For managing dynamic allocation of sources and buffers
+    int sourceTotal_;
+    int bufferTotal;
+     
 }
 
 @property (readwrite, nonatomic) ALfloat masterGain;
@@ -240,7 +238,7 @@ typedef struct _sourceInfo {
 +(void) setMixerSampleRate:(Float32) sampleRate;
 
 /** Initializes the engine with a group definition and a total number of groups */
--(id)init;
+-(instancetype)init;
 
 /** Plays a sound in a channel group with a pitch, pan and gain. The sound could played looped or not */
 -(ALuint) playSound:(int) soundId sourceGroupId:(int)sourceGroupId pitch:(float) pitch pan:(float) pan gain:(float) gain loop:(BOOL) loop;
@@ -264,7 +262,7 @@ typedef struct _sourceInfo {
 -(BOOL) loadBuffer:(int) soundId filePath:(NSString*) filePath;
 -(void) loadBuffersAsynchronously:(NSArray *) loadRequests;
 -(BOOL) unloadBuffer:(int) soundId;
--(ALCcontext *) openALContext;
+@property (NS_NONATOMIC_IOSONLY, readonly) ALCcontext *openALContext;
 
 /** Returns the duration of the buffer in seconds or a negative value if the buffer id is invalid */
 -(float) bufferDurationInSeconds:(int) soundId;
@@ -287,15 +285,15 @@ typedef struct _sourceInfo {
  @since v1.0
  */
 @interface CDSoundSource : NSObject <CDAudioTransportProtocol, CDAudioInterruptProtocol> {
-	ALenum lastError;
+    ALenum lastError;
 @public
-	ALuint _sourceId;
-	ALuint _sourceIndex;
-	CDSoundEngine* _engine;
-	int _soundId;
-	float _preMuteGain;
-	BOOL enabled_;
-	BOOL mute_;
+    ALuint _sourceId;
+    ALuint _sourceIndex;
+    CDSoundEngine* _engine;
+    int _soundId;
+    float _preMuteGain;
+    BOOL enabled_;
+    BOOL mute_;
 }
 @property (readwrite, nonatomic) float pitch;
 @property (readwrite, nonatomic) float gain;
@@ -309,7 +307,7 @@ typedef struct _sourceInfo {
 /** Stores the last error code that occurred. Check against AL_NO_ERROR */
 @property (readonly) ALenum lastError;
 /** Do not init yourself, get an instance from the sourceForSound factory method on CDSoundEngine */
--(id)init:(ALuint) theSourceId sourceIndex:(int) index soundEngine:(CDSoundEngine*) engine;
+-(instancetype)init:(ALuint) theSourceId sourceIndex:(int) index soundEngine:(CDSoundEngine*) engine NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -320,9 +318,9 @@ typedef struct _sourceInfo {
  Designed to be used with your CDSoundSource objects to get them to comply with global enabled and mute settings
  if that is what you want to do.*/
 @interface CDAudioInterruptTargetGroup : NSObject <CDAudioInterruptProtocol> {
-	BOOL mute_;
-	BOOL enabled_;
-	NSMutableArray *children_;
+    BOOL mute_;
+    BOOL enabled_;
+    NSMutableArray *children_;
 }
 -(void) addAudioInterruptTarget:(NSObject<CDAudioInterruptProtocol>*) interruptibleTarget;
 @end
@@ -333,11 +331,11 @@ typedef struct _sourceInfo {
  TODO
  */
 @interface CDAsynchBufferLoader : NSOperation {
-	NSArray *_loadRequests;
-	CDSoundEngine *_soundEngine;
-}	
+    NSArray *_loadRequests;
+    CDSoundEngine *_soundEngine;
+}    
 
--(id) init:(NSArray *)loadRequests soundEngine:(CDSoundEngine *) theSoundEngine;
+-(instancetype) init:(NSArray *)loadRequests soundEngine:(CDSoundEngine *) theSoundEngine NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -346,31 +344,31 @@ typedef struct _sourceInfo {
 /** CDBufferLoadRequest */
 @interface CDBufferLoadRequest: NSObject
 {
-	NSString *filePath;
-	int		 soundId;
-	//id       loader;
+    NSString *filePath;
+    int         soundId;
+    //id       loader;
 }
 
 @property (readonly) NSString *filePath;
 @property (readonly) int soundId;
 
-- (id)init:(int) theSoundId filePath:(const NSString *) theFilePath;
+- (instancetype)init:(int) theSoundId filePath:(const NSString *) theFilePath NS_DESIGNATED_INITIALIZER;
 @end
 
 /** Interpolation type */
-typedef enum {
-	kIT_Linear,			//!Straight linear interpolation fade
-	kIT_SCurve,			//!S curved interpolation
-	kIT_Exponential 	//!Exponential interpolation
-} tCDInterpolationType;
+typedef NS_ENUM(unsigned int, tCDInterpolationType) {
+    kIT_Linear,            //!Straight linear interpolation fade
+    kIT_SCurve,            //!S curved interpolation
+    kIT_Exponential     //!Exponential interpolation
+};
 
 #pragma mark CDFloatInterpolator
 @interface CDFloatInterpolator: NSObject
 {
-	float start;
-	float end;
-	float lastValue;
-	tCDInterpolationType interpolationType;
+    float start;
+    float end;
+    float lastValue;
+    tCDInterpolationType interpolationType;
 }
 @property (readwrite, nonatomic) float start;
 @property (readwrite, nonatomic) float end;
@@ -379,7 +377,7 @@ typedef enum {
 /** Return a value between min and max based on t which represents fractional progress where 0 is the start
  and 1 is the end */
 -(float) interpolate:(float) t;
--(id) init:(tCDInterpolationType) type startVal:(float) startVal endVal:(float) endVal;
+-(instancetype) init:(tCDInterpolationType) type startVal:(float) startVal endVal:(float) endVal NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -388,26 +386,26 @@ typedef enum {
 /** Base class for classes that modify properties such as pitch, pan and gain */
 @interface CDPropertyModifier: NSObject
 {
-	CDFloatInterpolator *interpolator;
-	float startValue;
-	float endValue;
-	id target;
-	BOOL stopTargetWhenComplete;
-	
+    CDFloatInterpolator *interpolator;
+    float startValue;
+    float endValue;
+    id target;
+    BOOL stopTargetWhenComplete;
+    
 }
 @property (readwrite, nonatomic) BOOL stopTargetWhenComplete;
 @property (readwrite, nonatomic) float startValue;
 @property (readwrite, nonatomic) float endValue;
 @property (readwrite, nonatomic) tCDInterpolationType interpolationType;
 
--(id) init:(id) theTarget interpolationType:(tCDInterpolationType) type startVal:(float) startVal endVal:(float) endVal;
+-(instancetype) init:(id) theTarget interpolationType:(tCDInterpolationType) type startVal:(float) startVal endVal:(float) endVal NS_DESIGNATED_INITIALIZER;
 /** Set to a fractional value between 0 and 1 where 0 equals the start and 1 equals the end*/
 -(void) modify:(float) t;
 
 -(void) _setTargetProperty:(float) newVal;
--(float) _getTargetProperty;
+@property (NS_NONATOMIC_IOSONLY, readonly) float _getTargetProperty;
 -(void) _stopTarget;
--(Class) _allowableType;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) Class _allowableType;
 
 @end
 

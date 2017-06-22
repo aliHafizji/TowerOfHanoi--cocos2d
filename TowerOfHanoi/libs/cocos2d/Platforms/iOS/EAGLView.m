@@ -93,215 +93,214 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 + (Class) layerClass
 {
-	return [CAEAGLLayer class];
+    return [CAEAGLLayer class];
 }
 
-+ (id) viewWithFrame:(CGRect)frame
++ (instancetype) viewWithFrame:(CGRect)frame
 {
-	return [[[self alloc] initWithFrame:frame] autorelease];
+    return [[[self alloc] initWithFrame:frame] autorelease];
 }
 
-+ (id) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format
++ (instancetype) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format
 {
-	return [[[self alloc] initWithFrame:frame pixelFormat:format] autorelease];
+    return [[[self alloc] initWithFrame:frame pixelFormat:format] autorelease];
 }
 
-+ (id) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth
++ (instancetype) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth
 {
-	return [[[self alloc] initWithFrame:frame pixelFormat:format depthFormat:depth preserveBackbuffer:NO sharegroup:nil multiSampling:NO numberOfSamples:0] autorelease];
+    return [[[self alloc] initWithFrame:frame pixelFormat:format depthFormat:depth preserveBackbuffer:NO sharegroup:nil multiSampling:NO numberOfSamples:0] autorelease];
 }
 
-+ (id) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained sharegroup:(EAGLSharegroup*)sharegroup multiSampling:(BOOL)multisampling numberOfSamples:(unsigned int)samples
++ (instancetype) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained sharegroup:(EAGLSharegroup*)sharegroup multiSampling:(BOOL)multisampling numberOfSamples:(unsigned int)samples
 {
-	return [[[self alloc] initWithFrame:frame pixelFormat:format depthFormat:depth preserveBackbuffer:retained sharegroup:sharegroup multiSampling:multisampling numberOfSamples:samples] autorelease];
+    return [[[self alloc] initWithFrame:frame pixelFormat:format depthFormat:depth preserveBackbuffer:retained sharegroup:sharegroup multiSampling:multisampling numberOfSamples:samples] autorelease];
 }
 
-- (id) initWithFrame:(CGRect)frame
+- (instancetype) initWithFrame:(CGRect)frame
 {
-	return [self initWithFrame:frame pixelFormat:kEAGLColorFormatRGB565 depthFormat:0 preserveBackbuffer:NO sharegroup:nil multiSampling:NO numberOfSamples:0];
+    return [self initWithFrame:frame pixelFormat:kEAGLColorFormatRGB565 depthFormat:0 preserveBackbuffer:NO sharegroup:nil multiSampling:NO numberOfSamples:0];
 }
 
-- (id) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format 
+- (instancetype) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format 
 {
-	return [self initWithFrame:frame pixelFormat:format depthFormat:0 preserveBackbuffer:NO sharegroup:nil multiSampling:NO numberOfSamples:0];
+    return [self initWithFrame:frame pixelFormat:format depthFormat:0 preserveBackbuffer:NO sharegroup:nil multiSampling:NO numberOfSamples:0];
 }
 
-- (id) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained sharegroup:(EAGLSharegroup*)sharegroup multiSampling:(BOOL)sampling numberOfSamples:(unsigned int)nSamples
+- (instancetype) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained sharegroup:(EAGLSharegroup*)sharegroup multiSampling:(BOOL)sampling numberOfSamples:(unsigned int)nSamples
 {
-	if((self = [super initWithFrame:frame]))
-	{
-		pixelformat_ = format;
-		depthFormat_ = depth;
-		multiSampling_ = sampling;
-		requestedSamples_ = nSamples;
-		preserveBackbuffer_ = retained;
-		
-		if( ! [self setupSurfaceWithSharegroup:sharegroup] ) {
-			[self release];
-			return nil;
-		}
-	}
-
-	return self;
-}
-
--(id) initWithCoder:(NSCoder *)aDecoder
-{
-	if( (self = [super initWithCoder:aDecoder]) ) {
-		
-		CAEAGLLayer*			eaglLayer = (CAEAGLLayer*)[self layer];
-		
-		pixelformat_ = kEAGLColorFormatRGB565;
-		depthFormat_ = 0; // GL_DEPTH_COMPONENT24_OES;
-		multiSampling_= NO;
-		requestedSamples_ = 0;
-		size_ = [eaglLayer bounds].size;
-
-		if( ! [self setupSurfaceWithSharegroup:nil] ) {
-			[self release];
-			return nil;
-		}
+    if((self = [super initWithFrame:frame]))
+    {
+        pixelformat_ = format;
+        depthFormat_ = depth;
+        multiSampling_ = sampling;
+        requestedSamples_ = nSamples;
+        preserveBackbuffer_ = retained;
+        
+        if( ! [self setupSurfaceWithSharegroup:sharegroup] ) {
+            [self release];
+            return nil;
+        }
     }
-	
+
+    return self;
+}
+
+-(instancetype) initWithCoder:(NSCoder *)aDecoder
+{
+    if( (self = [super initWithCoder:aDecoder]) ) {
+        
+        CAEAGLLayer*            eaglLayer = (CAEAGLLayer*)self.layer;
+        
+        pixelformat_ = kEAGLColorFormatRGB565;
+        depthFormat_ = 0; // GL_DEPTH_COMPONENT24_OES;
+        multiSampling_= NO;
+        requestedSamples_ = 0;
+        size_ = eaglLayer.bounds.size;
+
+        if( ! [self setupSurfaceWithSharegroup:nil] ) {
+            [self release];
+            return nil;
+        }
+    }
+    
     return self;
 }
 
 -(BOOL) setupSurfaceWithSharegroup:(EAGLSharegroup*)sharegroup
 {
-	CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
-	
-	eaglLayer.opaque = YES;
-	eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-									[NSNumber numberWithBool:preserveBackbuffer_], kEAGLDrawablePropertyRetainedBacking,
-									pixelformat_, kEAGLDrawablePropertyColorFormat, nil];
-	
-	
-	renderer_ = [[ES1Renderer alloc] initWithDepthFormat:depthFormat_
-										 withPixelFormat:[self convertPixelFormat:pixelformat_]
-										  withSharegroup:sharegroup
-									   withMultiSampling:multiSampling_
-									 withNumberOfSamples:requestedSamples_];
-	if (!renderer_)
-		return NO;
-	
-	context_ = [renderer_ context];
-	[context_ renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:eaglLayer];
+    CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
+    
+    eaglLayer.opaque = YES;
+    eaglLayer.drawableProperties = @{kEAGLDrawablePropertyRetainedBacking: @(preserveBackbuffer_),
+                                    kEAGLDrawablePropertyColorFormat: pixelformat_};
+    
+    
+    renderer_ = [[ES1Renderer alloc] initWithDepthFormat:depthFormat_
+                                         withPixelFormat:[self convertPixelFormat:pixelformat_]
+                                          withSharegroup:sharegroup
+                                       withMultiSampling:multiSampling_
+                                     withNumberOfSamples:requestedSamples_];
+    if (!renderer_)
+        return NO;
+    
+    context_ = [renderer_ context];
+    [context_ renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:eaglLayer];
 
-	discardFramebufferSupported_ = [[CCConfiguration sharedConfiguration] supportsDiscardFramebuffer];
-	
-	return YES;
+    discardFramebufferSupported_ = [CCConfiguration sharedConfiguration].supportsDiscardFramebuffer;
+    
+    return YES;
 }
 
 - (void) dealloc
 {
-	CCLOGINFO(@"cocos2d: deallocing %@", self);
+    CCLOGINFO(@"cocos2d: deallocing %@", self);
 
 
-	[renderer_ release];
-	[super dealloc];
+    [renderer_ release];
+    [super dealloc];
 }
 
 - (void) layoutSubviews
 {
-	size_ = [renderer_ backingSize];
+    size_ = [renderer_ backingSize];
 
-	[renderer_ resizeFromLayer:(CAEAGLLayer*)self.layer];
+    [renderer_ resizeFromLayer:(CAEAGLLayer*)self.layer];
 
-	// Issue #914 #924
-	CCDirector *director = [CCDirector sharedDirector];
-	[director reshapeProjection:size_];
-	
-	// Avoid flicker. Issue #350
-	[director performSelectorOnMainThread:@selector(drawScene) withObject:nil waitUntilDone:YES];
-}	
+    // Issue #914 #924
+    CCDirector *director = [CCDirector sharedDirector];
+    [director reshapeProjection:size_];
+    
+    // Avoid flicker. Issue #350
+    [director performSelectorOnMainThread:@selector(drawScene) withObject:nil waitUntilDone:YES];
+}    
 
 - (void) swapBuffers
 {
-	// IMPORTANT:
-	// - preconditions
-	//	-> context_ MUST be the OpenGL context
-	//	-> renderbuffer_ must be the the RENDER BUFFER
+    // IMPORTANT:
+    // - preconditions
+    //    -> context_ MUST be the OpenGL context
+    //    -> renderbuffer_ must be the the RENDER BUFFER
 
 #ifdef __IPHONE_4_0
-	
-	if (multiSampling_)
-	{
-		/* Resolve from msaaFramebuffer to resolveFramebuffer */
-		//glDisable(GL_SCISSOR_TEST);     
-		glBindFramebufferOES(GL_READ_FRAMEBUFFER_APPLE, [renderer_ msaaFrameBuffer]);
-		glBindFramebufferOES(GL_DRAW_FRAMEBUFFER_APPLE, [renderer_ defaultFrameBuffer]);
-		glResolveMultisampleFramebufferAPPLE();
-	}
-	
-	if( discardFramebufferSupported_)
-	{	
-		if (multiSampling_)
-		{
-			if (depthFormat_)
-			{
-				GLenum attachments[] = {GL_COLOR_ATTACHMENT0_OES, GL_DEPTH_ATTACHMENT_OES};
-				glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, attachments);
-			}
-			else
-			{
-				GLenum attachments[] = {GL_COLOR_ATTACHMENT0_OES};
-				glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, attachments);
-			}
-			
-			glBindRenderbufferOES(GL_RENDERBUFFER_OES, [renderer_ colorRenderBuffer]);
-	
-		}	
-		
-		// not MSAA
-		else if (depthFormat_ ) {
-			GLenum attachments[] = { GL_DEPTH_ATTACHMENT_OES};
-			glDiscardFramebufferEXT(GL_FRAMEBUFFER_OES, 1, attachments);
-		}
-	}
-	
+    
+    if (multiSampling_)
+    {
+        /* Resolve from msaaFramebuffer to resolveFramebuffer */
+        //glDisable(GL_SCISSOR_TEST);     
+        glBindFramebufferOES(GL_READ_FRAMEBUFFER_APPLE, [renderer_ msaaFrameBuffer]);
+        glBindFramebufferOES(GL_DRAW_FRAMEBUFFER_APPLE, [renderer_ defaultFrameBuffer]);
+        glResolveMultisampleFramebufferAPPLE();
+    }
+    
+    if( discardFramebufferSupported_)
+    {    
+        if (multiSampling_)
+        {
+            if (depthFormat_)
+            {
+                GLenum attachments[] = {GL_COLOR_ATTACHMENT0_OES, GL_DEPTH_ATTACHMENT_OES};
+                glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, attachments);
+            }
+            else
+            {
+                GLenum attachments[] = {GL_COLOR_ATTACHMENT0_OES};
+                glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, attachments);
+            }
+            
+            glBindRenderbufferOES(GL_RENDERBUFFER_OES, [renderer_ colorRenderBuffer]);
+    
+        }    
+        
+        // not MSAA
+        else if (depthFormat_ ) {
+            GLenum attachments[] = { GL_DEPTH_ATTACHMENT_OES};
+            glDiscardFramebufferEXT(GL_FRAMEBUFFER_OES, 1, attachments);
+        }
+    }
+    
 #endif // __IPHONE_4_0
-	
-	if(![context_ presentRenderbuffer:GL_RENDERBUFFER_OES])
-		CCLOG(@"cocos2d: Failed to swap renderbuffer in %s\n", __FUNCTION__);
+    
+    if(![context_ presentRenderbuffer:GL_RENDERBUFFER_OES])
+        CCLOG(@"cocos2d: Failed to swap renderbuffer in %s\n", __FUNCTION__);
 
 #if COCOS2D_DEBUG
-	CHECK_GL_ERROR();
+    CHECK_GL_ERROR();
 #endif
-	
-	// We can safely re-bind the framebuffer here, since this will be the
-	// 1st instruction of the new main loop
-	if( multiSampling_ )
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, [renderer_ msaaFrameBuffer]);
+    
+    // We can safely re-bind the framebuffer here, since this will be the
+    // 1st instruction of the new main loop
+    if( multiSampling_ )
+        glBindFramebufferOES(GL_FRAMEBUFFER_OES, [renderer_ msaaFrameBuffer]);
 }
 
 - (unsigned int) convertPixelFormat:(NSString*) pixelFormat
 {
-	// define the pixel format
-	GLenum pFormat;
-	
-	
-	if([pixelFormat isEqualToString:@"EAGLColorFormat565"]) 
-		pFormat = GL_RGB565_OES;
-	else 
-		pFormat = GL_RGBA8_OES;
-	
-	return pFormat;
+    // define the pixel format
+    GLenum pFormat;
+    
+    
+    if([pixelFormat isEqualToString:@"EAGLColorFormat565"]) 
+        pFormat = GL_RGB565_OES;
+    else 
+        pFormat = GL_RGBA8_OES;
+    
+    return pFormat;
 }
 
 #pragma mark EAGLView - Point conversion
 
 - (CGPoint) convertPointFromViewToSurface:(CGPoint)point
 {
-	CGRect bounds = [self bounds];
-	
-	return CGPointMake((point.x - bounds.origin.x) / bounds.size.width * size_.width, (point.y - bounds.origin.y) / bounds.size.height * size_.height);
+    CGRect bounds = self.bounds;
+    
+    return CGPointMake((point.x - bounds.origin.x) / bounds.size.width * size_.width, (point.y - bounds.origin.y) / bounds.size.height * size_.height);
 }
 
 - (CGRect) convertRectFromViewToSurface:(CGRect)rect
 {
-	CGRect bounds = [self bounds];
-	
-	return CGRectMake((rect.origin.x - bounds.origin.x) / bounds.size.width * size_.width, (rect.origin.y - bounds.origin.y) / bounds.size.height * size_.height, rect.size.width / bounds.size.width * size_.width, rect.size.height / bounds.size.height * size_.height);
+    CGRect bounds = self.bounds;
+    
+    return CGRectMake((rect.origin.x - bounds.origin.x) / bounds.size.width * size_.width, (rect.origin.y - bounds.origin.y) / bounds.size.height * size_.height, rect.size.width / bounds.size.width * size_.width, rect.size.height / bounds.size.height * size_.height);
 }
 
 // Pass the touches to the superview
@@ -309,33 +308,33 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	if(touchDelegate_)
-	{
-		[touchDelegate_ touchesBegan:touches withEvent:event];
-	}
+    if(touchDelegate_)
+    {
+        [touchDelegate_ touchesBegan:touches withEvent:event];
+    }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	if(touchDelegate_)
-	{
-		[touchDelegate_ touchesMoved:touches withEvent:event];
-	}
+    if(touchDelegate_)
+    {
+        [touchDelegate_ touchesMoved:touches withEvent:event];
+    }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	if(touchDelegate_)
-	{
-		[touchDelegate_ touchesEnded:touches withEvent:event];
-	}
+    if(touchDelegate_)
+    {
+        [touchDelegate_ touchesEnded:touches withEvent:event];
+    }
 }
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	if(touchDelegate_)
-	{
-		[touchDelegate_ touchesCancelled:touches withEvent:event];
-	}
+    if(touchDelegate_)
+    {
+        [touchDelegate_ touchesCancelled:touches withEvent:event];
+    }
 }
 
 @end

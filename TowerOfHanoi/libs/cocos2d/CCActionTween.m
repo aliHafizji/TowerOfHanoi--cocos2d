@@ -30,42 +30,42 @@
 
 + (id)actionWithDuration:(ccTime)aDuration key:(NSString *)aKey from:(float)aFrom to:(float)aTo {
 
-	return [[[[self class] alloc] initWithDuration:aDuration key:aKey from:aFrom to:aTo] autorelease];
+    return [[[[self class] alloc] initWithDuration:aDuration key:aKey from:aFrom to:aTo] autorelease];
 }
 
-- (id)initWithDuration:(ccTime)aDuration key:(NSString *)key from:(float)from to:(float)to {
+- (instancetype)initWithDuration:(ccTime)aDuration key:(NSString *)key from:(float)from to:(float)to {
     
-	if ((self = [super initWithDuration:aDuration])) {
+    if ((self = [super initWithDuration:aDuration])) {
     
-		key_	= [key copy];
-		to_		= to;
-		from_	= from;
+        key_    = [key copy];
+        to_        = to;
+        from_    = from;
 
-	}
+    }
     
-	return self;
+    return self;
 }
 
 - (void) dealloc
 {
-	[key_ release];
-	[super dealloc];
+    [key_ release];
+    [super dealloc];
 }
 
 - (void)startWithTarget:aTarget
 {
-	[super startWithTarget:aTarget];
-	delta_ = to_ - from_;
+    [super startWithTarget:aTarget];
+    delta_ = to_ - from_;
 }
 
 - (void) update:(ccTime) dt
 {    
-	[target_ setValue:[NSNumber numberWithFloat:to_  - delta_ * (1 - dt)] forKey:key_];
+    [target_ setValue:@(to_  - delta_ * (1 - dt)) forKey:key_];
 }
 
 - (CCActionInterval *) reverse
 {
-	return [[self class] actionWithDuration:duration_ key:key_ from:to_ to:from_];
+    return [[self class] actionWithDuration:duration_ key:key_ from:to_ to:from_];
 }
 
 

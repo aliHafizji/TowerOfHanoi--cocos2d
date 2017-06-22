@@ -42,9 +42,9 @@
  */
 @interface CCAnimation : NSObject
 {
-	NSString			*name_;
-	float				delay_;
-	NSMutableArray		*frames_;
+    NSString            *name_;
+    float                delay_;
+    NSMutableArray        *frames_;
 }
 
 /** name of the animation */
@@ -57,27 +57,27 @@
 /** Creates an animation
  @since v0.99.5
  */
-+(id) animation;
++(instancetype) animation;
 
 /** Creates an animation with frames.
  @since v0.99.5
  */
-+(id) animationWithFrames:(NSArray*)frames;
++(instancetype) animationWithFrames:(NSArray*)frames;
 
 /* Creates an animation with frames and a delay between frames.
  @since v0.99.5
  */
-+(id) animationWithFrames:(NSArray*)frames delay:(float)delay;
++(instancetype) animationWithFrames:(NSArray*)frames delay:(float)delay;
 
 /** Initializes a CCAnimation with frames.
  @since v0.99.5
 */
--(id) initWithFrames:(NSArray*)frames;
+-(instancetype) initWithFrames:(NSArray*)frames;
 
 /** Initializes a CCAnimation with frames and a delay between frames
  @since v0.99.5
  */
--(id) initWithFrames:(NSArray *)frames delay:(float)delay;
+-(instancetype) initWithFrames:(NSArray *)frames delay:(float)delay NS_DESIGNATED_INITIALIZER;
 
 /** Adds a frame to a CCAnimation. */
 -(void) addFrame:(CCSpriteFrame*)frame;

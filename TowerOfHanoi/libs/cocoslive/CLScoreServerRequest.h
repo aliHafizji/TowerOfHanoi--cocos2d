@@ -41,40 +41,40 @@
 #endif
 
 /** Type of predefined Query */
-typedef enum {
-	kQueryIgnore = 0,
-	kQueryDay = 1,
-	kQueryWeek = 2,
-	kQueryMonth = 3,
-	kQueryAllTime = 4,
-} tQueryType;
+typedef NS_ENUM(unsigned int, tQueryType) {
+    kQueryIgnore = 0,
+    kQueryDay = 1,
+    kQueryWeek = 2,
+    kQueryMonth = 3,
+    kQueryAllTime = 4,
+};
 
 /** Flags that can be added to the query */
-typedef enum {
-	kQueryFlagIgnore = 0,
-	kQueryFlagByCountry = 1 << 0,
-	kQueryFlagByDevice = 1 << 1,
-} tQueryFlags;
+typedef NS_OPTIONS(unsigned int, tQueryFlags) {
+    kQueryFlagIgnore = 0,
+    kQueryFlagByCountry = 1 << 0,
+    kQueryFlagByDevice = 1 << 1,
+};
 
 /**
  * Handles the Request Scores to the cocos live server
  */
 @interface CLScoreServerRequest : NSObject {
-	
-	/// game name, used as a login name.
-	NSString	*gameName;
-	
-	/// delegate instance of fetch score
-	id			delegate;
-	
-	// data received
-	NSMutableData *receivedData;
-	
-	// To determine which delegate method will be called in connectionDidFinishLoading: of NSURLConnection Delegate
-	BOOL reqRankOnly;
-	
-	/// the connection
-	NSURLConnection	*connection_;
+    
+    /// game name, used as a login name.
+    NSString    *gameName;
+    
+    /// delegate instance of fetch score
+    id            delegate;
+    
+    // data received
+    NSMutableData *receivedData;
+    
+    // To determine which delegate method will be called in connectionDidFinishLoading: of NSURLConnection Delegate
+    BOOL reqRankOnly;
+    
+    /// the connection
+    NSURLConnection    *connection_;
 }
 
 /** connection to the server */
@@ -85,7 +85,7 @@ typedef enum {
 +(id) serverWithGameName:(NSString*) name delegate:(id)delegate;
 
 /** initializes a ScoreServerRequest with a game name*/
--(id) initWithGameName:(NSString*) name delegate:(id)delegate;
+-(instancetype) initWithGameName:(NSString*) name delegate:(id)delegate NS_DESIGNATED_INITIALIZER;
 
 /** request scores from server using a predefined query. This is an asyncronous request.
  * limit: how many scores are being requested. Maximun is 100
@@ -101,7 +101,7 @@ typedef enum {
 -(BOOL) requestScores: (tQueryType) type limit:(int)limit offset:(int)offset flags:(tQueryFlags)flags;
 
 /** parse the received JSON scores and convert it to objective-c objects */
--(NSArray*) parseScores;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *parseScores;
 
 /** request rank for a given score using a predefined query. This is an asyncronous request.
  * score: int for a score
@@ -110,7 +110,7 @@ typedef enum {
 -(BOOL) requestRankForScore:(int)score andCategory:(NSString*)category;
 
 /** It's actually not parsing anything, just returning int for a rank. Kept name PARSE for convinience with parseScores */
--(int) parseRank;
+@property (NS_NONATOMIC_IOSONLY, readonly) int parseRank;
 
 @end
 

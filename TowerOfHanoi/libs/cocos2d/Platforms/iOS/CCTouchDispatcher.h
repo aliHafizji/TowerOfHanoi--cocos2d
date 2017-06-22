@@ -32,29 +32,28 @@
 #import "EAGLView.h"
 
 
-typedef enum
-{
-	kCCTouchSelectorBeganBit = 1 << 0,
-	kCCTouchSelectorMovedBit = 1 << 1,
-	kCCTouchSelectorEndedBit = 1 << 2,
-	kCCTouchSelectorCancelledBit = 1 << 3,
-	kCCTouchSelectorAllBits = ( kCCTouchSelectorBeganBit | kCCTouchSelectorMovedBit | kCCTouchSelectorEndedBit | kCCTouchSelectorCancelledBit),
-} ccTouchSelectorFlag;
+typedef NS_OPTIONS(unsigned int, ccTouchSelectorFlag) {
+    kCCTouchSelectorBeganBit = 1 << 0,
+    kCCTouchSelectorMovedBit = 1 << 1,
+    kCCTouchSelectorEndedBit = 1 << 2,
+    kCCTouchSelectorCancelledBit = 1 << 3,
+    kCCTouchSelectorAllBits = ( kCCTouchSelectorBeganBit | kCCTouchSelectorMovedBit | kCCTouchSelectorEndedBit | kCCTouchSelectorCancelledBit),
+};
 
 
 enum {
-	kCCTouchBegan,
-	kCCTouchMoved,
-	kCCTouchEnded,
-	kCCTouchCancelled,
-	
-	kCCTouchMax,
+    kCCTouchBegan,
+    kCCTouchMoved,
+    kCCTouchEnded,
+    kCCTouchCancelled,
+    
+    kCCTouchMax,
 };
 
 struct ccTouchHandlerHelperData {
-	SEL				touchesSel;
-	SEL				touchSel;
-	ccTouchSelectorFlag  type;
+    SEL                touchesSel;
+    SEL                touchSel;
+    ccTouchSelectorFlag  type;
 };
 
 /** CCTouchDispatcher.
@@ -75,20 +74,20 @@ struct ccTouchHandlerHelperData {
  */
 @interface CCTouchDispatcher : NSObject <EAGLTouchDelegate>
 {
-	NSMutableArray	*targetedHandlers;
-	NSMutableArray	*standardHandlers;
+    NSMutableArray    *targetedHandlers;
+    NSMutableArray    *standardHandlers;
 
-	BOOL			locked;
-	BOOL			toAdd;
-	BOOL			toRemove;
-	NSMutableArray	*handlersToAdd;
-	NSMutableArray	*handlersToRemove;
-	BOOL			toQuit;
+    BOOL            locked;
+    BOOL            toAdd;
+    BOOL            toRemove;
+    NSMutableArray    *handlersToAdd;
+    NSMutableArray    *handlersToRemove;
+    BOOL            toQuit;
 
-	BOOL	dispatchEvents;
-	
-	// 4, 1 for each type of event
-	struct ccTouchHandlerHelperData handlerHelperData[kCCTouchMax];
+    BOOL    dispatchEvents;
+    
+    // 4, 1 for each type of event
+    struct ccTouchHandlerHelperData handlerHelperData[kCCTouchMax];
 }
 
 /** singleton of the CCTouchDispatcher */

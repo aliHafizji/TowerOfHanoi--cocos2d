@@ -41,19 +41,19 @@
 #import <Foundation/Foundation.h>
 
 enum {
-	TMXLayerAttribNone = 1 << 0,
-	TMXLayerAttribBase64 = 1 << 1,
-	TMXLayerAttribGzip = 1 << 2,
-	TMXLayerAttribZlib = 1 << 3,
+    TMXLayerAttribNone = 1 << 0,
+    TMXLayerAttribBase64 = 1 << 1,
+    TMXLayerAttribGzip = 1 << 2,
+    TMXLayerAttribZlib = 1 << 3,
 };
 
 enum {
-	TMXPropertyNone,
-	TMXPropertyMap,
-	TMXPropertyLayer,
-	TMXPropertyObjectGroup,
-	TMXPropertyObject,
-	TMXPropertyTile
+    TMXPropertyNone,
+    TMXPropertyMap,
+    TMXPropertyLayer,
+    TMXPropertyObjectGroup,
+    TMXPropertyObject,
+    TMXPropertyTile
 };
 
 /* CCTMXLayerInfo contains the information about the layers like:
@@ -66,28 +66,28 @@ enum {
  */
 @interface CCTMXLayerInfo : NSObject
 {
-	NSString			*name_;
-	CGSize				layerSize_;
-	unsigned int		*tiles_;
-	BOOL				visible_;
-	unsigned char		opacity_;
-	BOOL				ownTiles_;
-	unsigned int		minGID_;
-	unsigned int		maxGID_;
-	NSMutableDictionary	*properties_;
-	CGPoint				offset_;
+    NSString            *name_;
+    CGSize                layerSize_;
+    unsigned int        *tiles_;
+    BOOL                visible_;
+    unsigned char        opacity_;
+    BOOL                ownTiles_;
+    unsigned int        minGID_;
+    unsigned int        maxGID_;
+    NSMutableDictionary    *properties_;
+    CGPoint                offset_;
 }
 
-@property (nonatomic,readwrite,retain)	NSString *name;
-@property (nonatomic,readwrite)			CGSize layerSize;
-@property (nonatomic,readwrite)			unsigned int *tiles;
-@property (nonatomic,readwrite)			BOOL visible;
-@property (nonatomic,readwrite)			unsigned char opacity;
-@property (nonatomic,readwrite)			BOOL ownTiles;
-@property (nonatomic,readwrite)			unsigned int minGID;
-@property (nonatomic,readwrite)			unsigned int maxGID;
+@property (nonatomic,readwrite,retain)    NSString *name;
+@property (nonatomic,readwrite)            CGSize layerSize;
+@property (nonatomic,readwrite)            unsigned int *tiles;
+@property (nonatomic,readwrite)            BOOL visible;
+@property (nonatomic,readwrite)            unsigned char opacity;
+@property (nonatomic,readwrite)            BOOL ownTiles;
+@property (nonatomic,readwrite)            unsigned int minGID;
+@property (nonatomic,readwrite)            unsigned int maxGID;
 @property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
-@property (nonatomic,readwrite)			CGPoint offset;
+@property (nonatomic,readwrite)            CGPoint offset;
 @end
 
 /* CCTMXTilesetInfo contains the information about the tilesets like:
@@ -102,17 +102,17 @@ enum {
  */
 @interface CCTMXTilesetInfo : NSObject
 {
-	NSString		*name_;
-	unsigned int	firstGid_;
-	CGSize			tileSize_;
-	unsigned int	spacing_;
-	unsigned int	margin_;
-	
-	// filename containing the tiles (should be spritesheet / texture atlas)
-	NSString	*sourceImage_;
-	
-	// size in pixels of the image
-	CGSize		imageSize_;
+    NSString        *name_;
+    unsigned int    firstGid_;
+    CGSize            tileSize_;
+    unsigned int    spacing_;
+    unsigned int    margin_;
+    
+    // filename containing the tiles (should be spritesheet / texture atlas)
+    NSString    *sourceImage_;
+    
+    // size in pixels of the image
+    CGSize        imageSize_;
 }
 @property (nonatomic,readwrite,retain) NSString *name;
 @property (nonatomic,readwrite,assign) unsigned int firstGid;
@@ -148,40 +148,40 @@ enum {
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
 @interface CCTMXMapInfo : NSObject <NSXMLParserDelegate>
 #endif
-{	
-	NSMutableString	*currentString;
-    BOOL				storingCharacters;	
-	int					layerAttribs;
-	int					parentElement;
-	unsigned int		parentGID_;
+{    
+    NSMutableString    *currentString;
+    BOOL                storingCharacters;    
+    int                    layerAttribs;
+    int                    parentElement;
+    unsigned int        parentGID_;
 
-	
-	// tmx filename
-	NSString *filename_;
+    
+    // tmx filename
+    NSString *filename_;
 
-	// map orientation
-	int	orientation_;	
-	
-	// map width & height
-	CGSize	mapSize_;
-	
-	// tiles width & height
-	CGSize	tileSize_;
-	
-	// Layers
-	NSMutableArray *layers_;
-	
-	// tilesets
-	NSMutableArray *tilesets_;
-		
-	// ObjectGroups
-	NSMutableArray *objectGroups_;
-	
-	// properties
-	NSMutableDictionary *properties_;
-	
-	// tile properties
-	NSMutableDictionary *tileProperties_;
+    // map orientation
+    int    orientation_;    
+    
+    // map width & height
+    CGSize    mapSize_;
+    
+    // tiles width & height
+    CGSize    tileSize_;
+    
+    // Layers
+    NSMutableArray *layers_;
+    
+    // tilesets
+    NSMutableArray *tilesets_;
+        
+    // ObjectGroups
+    NSMutableArray *objectGroups_;
+    
+    // properties
+    NSMutableDictionary *properties_;
+    
+    // tile properties
+    NSMutableDictionary *tileProperties_;
 }
 
 @property (nonatomic,readwrite,assign) int orientation;
@@ -197,6 +197,6 @@ enum {
 /** creates a TMX Format with a tmx file */
 +(id) formatWithTMXFile:(NSString*)tmxFile;
 /** initializes a TMX format witha  tmx file */
--(id) initWithTMXFile:(NSString*)tmxFile;
+-(instancetype) initWithTMXFile:(NSString*)tmxFile NS_DESIGNATED_INITIALIZER;
 @end
 

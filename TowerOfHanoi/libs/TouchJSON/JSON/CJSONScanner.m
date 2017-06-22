@@ -59,7 +59,7 @@ inline static int HexToInt(char inCharacter)
 @synthesize allowedEncoding;
 @synthesize options;
 
-- (id)init
+- (instancetype)init
     {
     if ((self = [super init]) != NULL)
         {
@@ -113,7 +113,7 @@ inline static int HexToInt(char inCharacter)
 
     if (theData)
         {
-        [super setData:theData];
+        super.data = theData;
         return(YES);
         }
     else
@@ -151,13 +151,13 @@ inline static int HexToInt(char inCharacter)
         case 't':
             if ([self scanUTF8String:"true" intoString:NULL])
                 {
-                theObject = [NSNumber numberWithBool:YES];
+                theObject = @YES;
                 }
             break;
         case 'f':
             if ([self scanUTF8String:"false" intoString:NULL])
                 {
-                theObject = [NSNumber numberWithBool:NO];
+                theObject = @NO;
                 }
             break;
         case 'n':
@@ -210,7 +210,7 @@ inline static int HexToInt(char inCharacter)
 
 - (BOOL)scanJSONDictionary:(NSDictionary **)outDictionary error:(NSError **)outError
     {
-    NSUInteger theScanLocation = [self scanLocation];
+    NSUInteger theScanLocation = self.scanLocation;
 
     [self skipWhitespace];
 
@@ -239,7 +239,7 @@ inline static int HexToInt(char inCharacter)
         NSString *theKey = NULL;
         if ([self scanJSONStringConstant:&theKey error:outError] == NO)
             {
-            [self setScanLocation:theScanLocation];
+            self.scanLocation = theScanLocation;
             if (outError)
                 {
                 NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -256,7 +256,7 @@ inline static int HexToInt(char inCharacter)
 
         if ([self scanCharacter:':'] == NO)
             {
-            [self setScanLocation:theScanLocation];
+            self.scanLocation = theScanLocation;
             if (outError)
                 {
                 NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -272,7 +272,7 @@ inline static int HexToInt(char inCharacter)
         id theValue = NULL;
         if ([self scanJSONObject:&theValue error:outError] == NO)
             {
-            [self setScanLocation:theScanLocation];
+            self.scanLocation = theScanLocation;
             if (outError)
                 {
                 NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -300,7 +300,7 @@ inline static int HexToInt(char inCharacter)
             {
             if ([self currentCharacter] != '}')
                 {
-                [self setScanLocation:theScanLocation];
+                self.scanLocation = theScanLocation;
                 if (outError)
                     {
                     NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -324,7 +324,7 @@ inline static int HexToInt(char inCharacter)
 
     if ([self scanCharacter:'}'] == NO)
         {
-        [self setScanLocation:theScanLocation];
+        self.scanLocation = theScanLocation;
         if (outError)
             {
             NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -359,7 +359,7 @@ inline static int HexToInt(char inCharacter)
 
 - (BOOL)scanJSONArray:(NSArray **)outArray error:(NSError **)outError
     {
-    NSUInteger theScanLocation = [self scanLocation];
+    NSUInteger theScanLocation = self.scanLocation;
 
     [self skipWhitespace];
 
@@ -384,7 +384,7 @@ inline static int HexToInt(char inCharacter)
         NSString *theValue = NULL;
         if ([self scanJSONObject:&theValue error:outError] == NO)
             {
-            [self setScanLocation:theScanLocation];
+            self.scanLocation = theScanLocation;
             if (outError)
                 {
                 NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -424,7 +424,7 @@ inline static int HexToInt(char inCharacter)
             [self skipWhitespace];
             if ([self currentCharacter] != ']')
                 {
-                [self setScanLocation:theScanLocation];
+                self.scanLocation = theScanLocation;
                 if (outError)
                     {
                     NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -446,7 +446,7 @@ inline static int HexToInt(char inCharacter)
 
     if ([self scanCharacter:']'] == NO)
         {
-        [self setScanLocation:theScanLocation];
+        self.scanLocation = theScanLocation;
         if (outError)
             {
             NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -480,7 +480,7 @@ inline static int HexToInt(char inCharacter)
 
 - (BOOL)scanJSONStringConstant:(NSString **)outStringConstant error:(NSError **)outError
     {
-    NSUInteger theScanLocation = [self scanLocation];
+    NSUInteger theScanLocation = self.scanLocation;
 
     [self skipWhitespace];
 
@@ -488,7 +488,7 @@ inline static int HexToInt(char inCharacter)
 
     if ([self scanCharacter:'"'] == NO)
         {
-        [self setScanLocation:theScanLocation];
+        self.scanLocation = theScanLocation;
         if (outError)
             {
             NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -542,7 +542,7 @@ inline static int HexToInt(char inCharacter)
                         const int theDigit = HexToInt([self scanCharacter]);
                         if (theDigit == -1)
                             {
-                            [self setScanLocation:theScanLocation];
+                            self.scanLocation = theScanLocation;
                             if (outError)
                                 {
                                 NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -562,7 +562,7 @@ inline static int HexToInt(char inCharacter)
                     {
                     if (strictEscapeCodes == YES)
                         {
-                        [self setScanLocation:theScanLocation];
+                        self.scanLocation = theScanLocation;
                         if (outError)
                             {
                             NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:

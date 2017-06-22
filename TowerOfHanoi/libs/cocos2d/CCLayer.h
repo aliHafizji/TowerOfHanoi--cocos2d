@@ -28,8 +28,8 @@
 
 #import <Availability.h>
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-#import <UIKit/UIKit.h>					// Needed for UIAccelerometerDelegate
-#import "Platforms/iOS/CCTouchDelegateProtocol.h"		// Touches only supported on iOS
+#import <UIKit/UIKit.h>                    // Needed for UIAccelerometerDelegate
+#import "Platforms/iOS/CCTouchDelegateProtocol.h"        // Touches only supported on iOS
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
 #import "Platforms/Mac/CCEventDispatcher.h"
 #endif
@@ -49,8 +49,8 @@
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 @interface CCLayer : CCNode <UIAccelerometerDelegate, CCStandardTouchDelegate, CCTargetedTouchDelegate>
 {
-	BOOL isTouchEnabled_;
-	BOOL isAccelerometerEnabled_;
+    BOOL isTouchEnabled_;
+    BOOL isAccelerometerEnabled_;
 }
 /** If isTouchEnabled, this method is called onEnter. Override it to change the
  way CCLayer receives touch events.
@@ -90,9 +90,9 @@
 
 @interface CCLayer : CCNode <CCKeyboardEventDelegate, CCMouseEventDelegate, CCTouchEventDelegate>
 {
-	BOOL	isMouseEnabled_;
-	BOOL	isKeyboardEnabled_;
-	BOOL	isTouchEnabled_;
+    BOOL    isMouseEnabled_;
+    BOOL    isKeyboardEnabled_;
+    BOOL    isTouchEnabled_;
 }
 
 /** whether or not it will receive mouse events.
@@ -153,12 +153,12 @@
  */
 @interface CCLayerColor : CCLayer <CCRGBAProtocol, CCBlendProtocol>
 {
-	GLubyte		opacity_;
-	ccColor3B	color_;	
-	ccVertex2F	squareVertices_[4];
-	ccColor4B	squareColors_[4];
-	
-	ccBlendFunc	blendFunc_;
+    GLubyte        opacity_;
+    ccColor3B    color_;    
+    ccVertex2F    squareVertices_[4];
+    ccColor4B    squareColors_[4];
+    
+    ccBlendFunc    blendFunc_;
 }
 
 /** creates a CCLayer with color, width and height in Points*/
@@ -167,9 +167,9 @@
 + (id) layerWithColor: (ccColor4B)color;
 
 /** initializes a CCLayer with color, width and height in Points */
-- (id) initWithColor:(ccColor4B)color width:(GLfloat)w height:(GLfloat)h;
+- (instancetype) initWithColor:(ccColor4B)color width:(GLfloat)w height:(GLfloat)h NS_DESIGNATED_INITIALIZER;
 /** initializes a CCLayer with color. Width and height are the window size. */
-- (id) initWithColor:(ccColor4B)color;
+- (instancetype) initWithColor:(ccColor4B)color;
 
 /** change width in Points */
 -(void) changeWidth: (GLfloat)w;
@@ -213,11 +213,11 @@ the background.
  */
 @interface CCLayerGradient : CCLayerColor
 {
-	ccColor3B endColor_;
-	GLubyte startOpacity_;
-	GLubyte endOpacity_;
-	CGPoint vector_;
-	BOOL	compressedInterpolation_;
+    ccColor3B endColor_;
+    GLubyte startOpacity_;
+    GLubyte endOpacity_;
+    CGPoint vector_;
+    BOOL    compressedInterpolation_;
 }
 
 /** Creates a full-screen CCLayer with a gradient between start and end. */
@@ -226,9 +226,9 @@ the background.
 + (id) layerWithColor: (ccColor4B) start fadingTo: (ccColor4B) end alongVector: (CGPoint) v;
 
 /** Initializes the CCLayer with a gradient between start and end. */
-- (id) initWithColor: (ccColor4B) start fadingTo: (ccColor4B) end;
+- (instancetype) initWithColor: (ccColor4B) start fadingTo: (ccColor4B) end;
 /** Initializes the CCLayer with a gradient between start and end in the direction of v. */
-- (id) initWithColor: (ccColor4B) start fadingTo: (ccColor4B) end alongVector: (CGPoint) v;
+- (instancetype) initWithColor: (ccColor4B) start fadingTo: (ccColor4B) end alongVector: (CGPoint) v NS_DESIGNATED_INITIALIZER;
 
 /** The starting color. */
 @property (nonatomic, readwrite) ccColor3B startColor;
@@ -257,14 +257,14 @@ the background.
  */
 @interface CCLayerMultiplex : CCLayer
 {
-	unsigned int enabledLayer_;
-	NSMutableArray *layers_;
+    unsigned int enabledLayer_;
+    NSMutableArray *layers_;
 }
 
 /** creates a CCMultiplexLayer with one or more layers using a variable argument list. */
 +(id) layerWithLayers: (CCLayer*) layer, ... NS_REQUIRES_NIL_TERMINATION;
 /** initializes a MultiplexLayer with one or more layers using a variable argument list. */
--(id) initWithLayers: (CCLayer*) layer vaList:(va_list) params;
+-(instancetype) initWithLayers: (CCLayer*) layer vaList:(va_list) params NS_DESIGNATED_INITIALIZER;
 /** switches to a certain layer indexed by n. 
  The current (old) layer will be removed from it's parent with 'cleanup:YES'.
  */

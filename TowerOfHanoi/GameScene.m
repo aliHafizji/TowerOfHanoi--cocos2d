@@ -25,7 +25,7 @@
     return scene;
 }
 
-- (id) init {
+- (instancetype) init {
     self = [super init];
 
     if (self) {
@@ -79,21 +79,21 @@
         [stack1 push:ring2];
         [stack1 push:ring3];
         
-        [ring1 setStack:stack1];
-        [ring2 setStack:stack1];
-        [ring3 setStack:stack1];
+        ring1.stack = stack1;
+        ring2.stack = stack1;
+        ring3.stack = stack1;
         
-        [ring1 setTower:tower1];
-        [ring2 setTower:tower1];
-        [ring3 setTower:tower1];
+        ring1.tower = tower1;
+        ring2.tower = tower1;
+        ring3.tower = tower1;
         
-        [ring1 setWeight:3];
-        [ring2 setWeight:2];
-        [ring3 setWeight:1];
+        ring1.weight = 3;
+        ring2.weight = 2;
+        ring3.weight = 1;
         
-        map = [[NSDictionary alloc] initWithObjectsAndKeys:stack1, [NSNumber numberWithInt:kTower1Tag],
-                                                           stack2, [NSNumber numberWithInt:kTower2Tag],
-                                                           stack3, [NSNumber numberWithInt:kTower3Tag], nil];
+        map = [[NSDictionary alloc] initWithObjectsAndKeys:stack1, @kTower1Tag,
+                                                           stack2, @kTower2Tag,
+                                                           stack3, @kTower3Tag, nil];
         self.isTouchEnabled = YES;
     }
     return self;
@@ -106,7 +106,7 @@
 #pragma mark TouchMethods 
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    CGPoint location = [touch locationInView:[touch view]];
+    CGPoint location = [touch locationInView:touch.view];
     location = [[CCDirector sharedDirector] convertToGL:location];
     
     CCSpriteBatchNode *spriteManager = (CCSpriteBatchNode*) [self getChildByTag:kSpriteManagerTag];
@@ -125,14 +125,14 @@
 
 - (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
     if (selectedRing != nil) {
-        CGPoint location = [touch locationInView:[touch view]];
+        CGPoint location = [touch locationInView:touch.view];
         location = [[CCDirector sharedDirector] convertToGL:location];
         selectedRing.position = location;
     }
 }
 
 - (void) moveToPreviousPosition:(Ring*) ring {
-    Stack *originalStack = [map objectForKey:[NSNumber numberWithInt:ring.tower.tag]];
+    Stack *originalStack = map[@(ring.tower.tag)];
     Ring *topRing = [originalStack peek];
     ring.position = ccp(ring.tower.position.x, topRing.position.y + topRing.contentSize.height/2 + ring.contentSize.height/2);
     [originalStack push:ring];
@@ -140,7 +140,7 @@
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
     if (selectedRing != nil) {
-        CGPoint location = [touch locationInView:[touch view]];
+        CGPoint location = [touch locationInView:touch.view];
         location = [[CCDirector sharedDirector] convertToGL:location];
         selectedRing.position = location;
         
@@ -149,7 +149,7 @@
         for (int tag = kTower1Tag; tag <= kTower3Tag; tag++) {
             CCSprite *tower = (CCSprite*) [spriteManager getChildByTag:tag];
             if (CGRectIntersectsRect(selectedRing.boundingBox, tower.boundingBox)) {
-                Stack *stack = [map objectForKey:[NSNumber numberWithInt:tag]];
+                Stack *stack = map[@(tag)];
                 Ring *ring = [stack peek];
                 flag = 1;
                 if (selectedRing.weight < ring.weight || ring == nil) {
@@ -160,8 +160,8 @@
                         yPosition = ring.position.y + ring.contentSize.height/2 + selectedRing.contentSize.height/2;
                     }
                     selectedRing.position = ccp(tower.position.x, yPosition);
-                    [selectedRing setTower:tower];
-                    [selectedRing setStack:stack];
+                    selectedRing.tower = tower;
+                    selectedRing.stack = stack;
                     [stack push:selectedRing];
                 } else {
                     flag = 0;

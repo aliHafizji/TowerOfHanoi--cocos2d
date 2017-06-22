@@ -37,14 +37,14 @@
 /** Possible oritentations of the TMX map */
 enum
 {
-	/** Orthogonal orientation */
-	CCTMXOrientationOrtho,
-	
-	/** Hexagonal orientation */
-	CCTMXOrientationHex,
-	
-	/** Isometric orientation */
-	CCTMXOrientationIso,
+    /** Orthogonal orientation */
+    CCTMXOrientationOrtho,
+    
+    /** Hexagonal orientation */
+    CCTMXOrientationHex,
+    
+    /** Isometric orientation */
+    CCTMXOrientationIso,
 };
 
 /** CCTMXTiledMap knows how to parse and render a TMX map.
@@ -91,21 +91,21 @@ enum
    Each property is stored as a key-value pair in an NSMutableDictionary.
    You can obtain the properties at runtime by:
  
-		[map propertyNamed: name_of_the_property];
-		[layer propertyNamed: name_of_the_property];
-		[objectGroup propertyNamed: name_of_the_property];
-		[object propertyNamed: name_of_the_property];
+        [map propertyNamed: name_of_the_property];
+        [layer propertyNamed: name_of_the_property];
+        [objectGroup propertyNamed: name_of_the_property];
+        [object propertyNamed: name_of_the_property];
 
  @since v0.8.1
  */
 @interface CCTMXTiledMap : CCNode
 {
-	CGSize				mapSize_;
-	CGSize				tileSize_;
-	int					mapOrientation_;
-	NSMutableArray		*objectGroups_;
-	NSMutableDictionary	*properties_;
-	NSMutableDictionary	*tileProperties_;
+    CGSize                mapSize_;
+    CGSize                tileSize_;
+    int                    mapOrientation_;
+    NSMutableArray        *objectGroups_;
+    NSMutableDictionary    *properties_;
+    NSMutableDictionary    *tileProperties_;
 }
 
 /** the map's size property measured in tiles */
@@ -120,10 +120,10 @@ enum
 @property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
 
 /** creates a TMX Tiled Map with a TMX file.*/
-+(id) tiledMapWithTMXFile:(NSString*)tmxFile;
++(instancetype) tiledMapWithTMXFile:(NSString*)tmxFile;
 
 /** initializes a TMX Tiled Map with a TMX file */
--(id) initWithTMXFile:(NSString*)tmxFile;
+-(instancetype) initWithTMXFile:(NSString*)tmxFile NS_DESIGNATED_INITIALIZER;
 
 /** return the TMXLayer for the specific layer */
 -(CCTMXLayer*) layerNamed:(NSString *)layerName;

@@ -42,121 +42,121 @@
 
 @implementation CCParticleSystemPoint
 
--(id) initWithTotalParticles:(NSUInteger) numberOfParticles
+-(instancetype) initWithTotalParticles:(NSUInteger) numberOfParticles
 {
-	if( (self=[super initWithTotalParticles:numberOfParticles]) ) {
+    if( (self=[super initWithTotalParticles:numberOfParticles]) ) {
 
-		vertices = malloc( sizeof(ccPointSprite) * totalParticles );
+        vertices = malloc( sizeof(ccPointSprite) * totalParticles );
 
-		if( ! vertices ) {
-			NSLog(@"cocos2d: Particle system: not enough memory");
-			[self release];
-			return nil;
-		}
+        if( ! vertices ) {
+            NSLog(@"cocos2d: Particle system: not enough memory");
+            [self release];
+            return nil;
+        }
 
 #if CC_USES_VBO
-		glGenBuffers(1, &verticesID);
-		
-		// initial binding
-		glBindBuffer(GL_ARRAY_BUFFER, verticesID);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(ccPointSprite)*totalParticles, vertices, GL_DYNAMIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glGenBuffers(1, &verticesID);
+        
+        // initial binding
+        glBindBuffer(GL_ARRAY_BUFFER, verticesID);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(ccPointSprite)*totalParticles, vertices, GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 #endif
-	}
+    }
 
-	return self;
+    return self;
 }
 
 -(void) dealloc
 {
-	free(vertices);
+    free(vertices);
 #if CC_USES_VBO
-	glDeleteBuffers(1, &verticesID);
+    glDeleteBuffers(1, &verticesID);
 #endif
-	
-	[super dealloc];
+    
+    [super dealloc];
 }
 
 -(void) updateQuadWithParticle:(tCCParticle*)p newPosition:(CGPoint)newPos
-{	
-	// place vertices and colos in array
-	vertices[particleIdx].pos = (ccVertex2F) {newPos.x, newPos.y};
-	vertices[particleIdx].size = p->size;
-	ccColor4B color =  { p->color.r*255, p->color.g*255, p->color.b*255, p->color.a*255 };
-	vertices[particleIdx].color = color;
+{    
+    // place vertices and colos in array
+    vertices[particleIdx].pos = (ccVertex2F) {newPos.x, newPos.y};
+    vertices[particleIdx].size = p->size;
+    ccColor4B color =  { p->color.r*255, p->color.g*255, p->color.b*255, p->color.a*255 };
+    vertices[particleIdx].color = color;
 }
 
 -(void) postStep
 {
 #if CC_USES_VBO
-	glBindBuffer(GL_ARRAY_BUFFER, verticesID);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(ccPointSprite)*particleCount, vertices);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, verticesID);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(ccPointSprite)*particleCount, vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 #endif
 }
 
 -(void) draw
 {
-	[super draw];
+    [super draw];
 
     if (particleIdx==0)
         return;
-	
-	// Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
-	// Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY
-	// Unneeded states: GL_TEXTURE_COORD_ARRAY
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	
-	glBindTexture(GL_TEXTURE_2D, texture_.name);
-	
-	glEnable(GL_POINT_SPRITE_OES);
-	glTexEnvi( GL_POINT_SPRITE_OES, GL_COORD_REPLACE_OES, GL_TRUE );
-	
+    
+    // Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
+    // Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY
+    // Unneeded states: GL_TEXTURE_COORD_ARRAY
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+    glBindTexture(GL_TEXTURE_2D, texture_.name);
+    
+    glEnable(GL_POINT_SPRITE_OES);
+    glTexEnvi( GL_POINT_SPRITE_OES, GL_COORD_REPLACE_OES, GL_TRUE );
+    
 #define kPointSize sizeof(vertices[0])
 
 #if CC_USES_VBO
-	glBindBuffer(GL_ARRAY_BUFFER, verticesID);
+    glBindBuffer(GL_ARRAY_BUFFER, verticesID);
 
-	glVertexPointer(2,GL_FLOAT, kPointSize, 0);
+    glVertexPointer(2,GL_FLOAT, kPointSize, 0);
 
-	glColorPointer(4, GL_UNSIGNED_BYTE, kPointSize, (GLvoid*) offsetof(ccPointSprite, color) );
+    glColorPointer(4, GL_UNSIGNED_BYTE, kPointSize, (GLvoid*) offsetof(ccPointSprite, color) );
 
-	glEnableClientState(GL_POINT_SIZE_ARRAY_OES);
-	glPointSizePointerOES(GL_FLOAT, kPointSize, (GLvoid*) offsetof(ccPointSprite, size) );
+    glEnableClientState(GL_POINT_SIZE_ARRAY_OES);
+    glPointSizePointerOES(GL_FLOAT, kPointSize, (GLvoid*) offsetof(ccPointSprite, size) );
 #else // Uses Vertex Array List
-	int offset = (int)vertices;
-	glVertexPointer(2,GL_FLOAT, kPointSize, (GLvoid*) offset);
-	
-	int diff = offsetof(ccPointSprite, color);
-	glColorPointer(4, GL_UNSIGNED_BYTE, kPointSize, (GLvoid*) (offset+diff));
-	
-	glEnableClientState(GL_POINT_SIZE_ARRAY_OES);
-	diff = offsetof(ccPointSprite, size);
-	glPointSizePointerOES(GL_FLOAT, kPointSize, (GLvoid*) (offset+diff));
+    int offset = (int)vertices;
+    glVertexPointer(2,GL_FLOAT, kPointSize, (GLvoid*) offset);
+    
+    int diff = offsetof(ccPointSprite, color);
+    glColorPointer(4, GL_UNSIGNED_BYTE, kPointSize, (GLvoid*) (offset+diff));
+    
+    glEnableClientState(GL_POINT_SIZE_ARRAY_OES);
+    diff = offsetof(ccPointSprite, size);
+    glPointSizePointerOES(GL_FLOAT, kPointSize, (GLvoid*) (offset+diff));
 #endif
 
-	BOOL newBlend = blendFunc_.src != CC_BLEND_SRC || blendFunc_.dst != CC_BLEND_DST;
-	if( newBlend )
-		glBlendFunc( blendFunc_.src, blendFunc_.dst );
+    BOOL newBlend = blendFunc_.src != CC_BLEND_SRC || blendFunc_.dst != CC_BLEND_DST;
+    if( newBlend )
+        glBlendFunc( blendFunc_.src, blendFunc_.dst );
 
 
-	glDrawArrays(GL_POINTS, 0, particleIdx);
-	
-	// restore blend state
-	if( newBlend )
-		glBlendFunc( CC_BLEND_SRC, CC_BLEND_DST);
+    glDrawArrays(GL_POINTS, 0, particleIdx);
+    
+    // restore blend state
+    if( newBlend )
+        glBlendFunc( CC_BLEND_SRC, CC_BLEND_DST);
 
-	
+    
 #if CC_USES_VBO
-	// unbind VBO buffer
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // unbind VBO buffer
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 #endif
-	
-	glDisableClientState(GL_POINT_SIZE_ARRAY_OES);
-	glDisable(GL_POINT_SPRITE_OES);
+    
+    glDisableClientState(GL_POINT_SIZE_ARRAY_OES);
+    glDisable(GL_POINT_SPRITE_OES);
 
-	// restore GL default state
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    // restore GL default state
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 #pragma mark Non supported properties
@@ -166,23 +166,23 @@
 //
 -(void) setStartSpin:(float)a
 {
-	NSAssert(a == 0, @"PointParticleSystem doesn't support spinning");
-	[super setStartSpin:a];
+    NSAssert(a == 0, @"PointParticleSystem doesn't support spinning");
+    super.startSpin = a;
 }
 -(void) setStartSpinVar:(float)a
 {
-	NSAssert(a == 0, @"PointParticleSystem doesn't support spinning");
-	[super setStartSpin:a];
+    NSAssert(a == 0, @"PointParticleSystem doesn't support spinning");
+    super.startSpin = a;
 }
 -(void) setEndSpin:(float)a
 {
-	NSAssert(a == 0, @"PointParticleSystem doesn't support spinning");
-	[super setStartSpin:a];
+    NSAssert(a == 0, @"PointParticleSystem doesn't support spinning");
+    super.startSpin = a;
 }
 -(void) setEndSpinVar:(float)a
 {
-	NSAssert(a == 0, @"PointParticleSystem doesn't support spinning");
-	[super setStartSpin:a];
+    NSAssert(a == 0, @"PointParticleSystem doesn't support spinning");
+    super.startSpin = a;
 }
 
 //
@@ -190,15 +190,15 @@
 //
 -(void) setStartSize:(float)size
 {
-	NSAssert(size >= 0 && size <= CC_MAX_PARTICLE_SIZE, @"PointParticleSystem only supports 0 <= size <= 64");
-	[super setStartSize:size];
+    NSAssert(size >= 0 && size <= CC_MAX_PARTICLE_SIZE, @"PointParticleSystem only supports 0 <= size <= 64");
+    super.startSize = size;
 }
 
 -(void) setEndSize:(float)size
 {
-	NSAssert( (size == kCCParticleStartSizeEqualToEndSize) ||
-			 ( size >= 0 && size <= CC_MAX_PARTICLE_SIZE), @"PointParticleSystem only supports 0 <= size <= 64");
-	[super setEndSize:size];
+    NSAssert( (size == kCCParticleStartSizeEqualToEndSize) ||
+             ( size >= 0 && size <= CC_MAX_PARTICLE_SIZE), @"PointParticleSystem only supports 0 <= size <= 64");
+    super.endSize = size;
 }
 @end
 

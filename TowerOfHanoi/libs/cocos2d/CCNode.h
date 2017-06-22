@@ -36,7 +36,7 @@
 #import "Support/CCArray.h"
 
 enum {
-	kCCNodeTagInvalid = -1,
+    kCCNodeTagInvalid = -1,
 };
 
 @class CCCamera;
@@ -97,74 +97,74 @@ enum {
  - Each node has a camera. By default it points to the center of the CCNode.
  */ 
 @interface CCNode : NSObject
-{	
-	// rotation angle
-	float rotation_;	
-	
-	// scaling factors
-	float scaleX_, scaleY_;
-	
-	// position of the node
-	CGPoint position_;
-	CGPoint	positionInPixels_;
-	
-	// skew angles
-	float skewX_, skewY_;
+{    
+    // rotation angle
+    float rotation_;    
+    
+    // scaling factors
+    float scaleX_, scaleY_;
+    
+    // position of the node
+    CGPoint position_;
+    CGPoint    positionInPixels_;
+    
+    // skew angles
+    float skewX_, skewY_;
 
-	// is visible
-	BOOL visible_;
-	
-	// anchor point in pixels
-	CGPoint anchorPointInPixels_;	
-	// anchor point normalized
-	CGPoint anchorPoint_;	
-	// If YES the transformtions will be relative to (-transform.x, -transform.y).
-	// Sprites, Labels and any other "small" object uses it.
-	// Scenes, Layers and other "whole screen" object don't use it.
-	BOOL isRelativeAnchorPoint_;
-	
-	// untransformed size of the node
-	CGSize	contentSize_;
-	CGSize	contentSizeInPixels_;
-	
-	// transform
-	CGAffineTransform transform_, inverse_;
-#if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-	GLfloat	transformGL_[16];
+    // is visible
+    BOOL visible_;
+    
+    // anchor point in pixels
+    CGPoint anchorPointInPixels_;    
+    // anchor point normalized
+    CGPoint anchorPoint_;    
+    // If YES the transformtions will be relative to (-transform.x, -transform.y).
+    // Sprites, Labels and any other "small" object uses it.
+    // Scenes, Layers and other "whole screen" object don't use it.
+    BOOL isRelativeAnchorPoint_;
+    
+    // untransformed size of the node
+    CGSize    contentSize_;
+    CGSize    contentSizeInPixels_;
+    
+    // transform
+    CGAffineTransform transform_, inverse_;
+#if    CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+    GLfloat    transformGL_[16];
 #endif
 
-	// openGL real Z vertex
-	float vertexZ_;
-	
-	// a Camera
-	CCCamera *camera_;
-	
-	// a Grid
-	CCGridBase *grid_;
-	
-	// z-order value
-	NSInteger zOrder_;
-	
-	// array of children
-	CCArray *children_;
-	
-	// weakref to parent
-	CCNode *parent_;
-	
-	// a tag. any number you want to assign to the node
-	NSInteger tag_;
+    // openGL real Z vertex
+    float vertexZ_;
     
-	// user data field
-	void *userData_;
+    // a Camera
+    CCCamera *camera_;
+    
+    // a Grid
+    CCGridBase *grid_;
+    
+    // z-order value
+    NSInteger zOrder_;
+    
+    // array of children
+    CCArray *children_;
+    
+    // weakref to parent
+    CCNode *parent_;
+    
+    // a tag. any number you want to assign to the node
+    NSInteger tag_;
+    
+    // user data field
+    void *userData_;
 
-	// Is running
-	BOOL isRunning_;
+    // Is running
+    BOOL isRunning_;
 
-	// To reduce memory, place BOOLs that are not properties here:
-	BOOL isTransformDirty_:1;
-	BOOL isInverseDirty_:1;
-#if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-	BOOL isTransformGLDirty_:1;
+    // To reduce memory, place BOOLs that are not properties here:
+    BOOL isTransformDirty_:1;
+    BOOL isInverseDirty_:1;
+#if    CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+    BOOL isTransformGLDirty_:1;
 #endif
 }
 
@@ -259,9 +259,9 @@ enum {
 /** allocates and initializes a node.
  The node will be created as "autorelease".
  */
-+(id) node;
++(instancetype) node;
 /** initializes the node */
--(id) init;
+-(instancetype) init;
 
 
 // scene managment
@@ -347,10 +347,10 @@ enum {
 
 /** Override this method to draw your own node.
  The following GL states will be enabled by default:
-	- glEnableClientState(GL_VERTEX_ARRAY);
-	- glEnableClientState(GL_COLOR_ARRAY);
-	- glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	- glEnable(GL_TEXTURE_2D);
+    - glEnableClientState(GL_VERTEX_ARRAY);
+    - glEnableClientState(GL_COLOR_ARRAY);
+    - glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    - glEnable(GL_TEXTURE_2D);
  
    AND YOU SHOULD NOT DISABLE THEM AFTER DRAWING YOUR NODE
  
@@ -378,7 +378,7 @@ enum {
  
  @since v0.8.2
  */
-- (CGRect) boundingBox;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGRect boundingBox;
 
 /** returns a "local" axis aligned bounding box of the node in pixels.
  The returned box is relative only to its parent.
@@ -386,7 +386,7 @@ enum {
  
  @since v0.99.5
  */
-- (CGRect) boundingBoxInPixels;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGRect boundingBoxInPixels;
 
 
 // actions
@@ -416,7 +416,7 @@ enum {
  *    If you are running 1 Sequence of 7 actions, it will return 1.
  *    If you are running 7 Sequences of 2 actions, it will return 7.
  */
--(NSUInteger) numberOfRunningActions;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSUInteger numberOfRunningActions;
 
 // timers
 
@@ -482,20 +482,20 @@ enum {
  The matrix is in Pixels.
  @since v0.7.1
  */
-- (CGAffineTransform)nodeToParentTransform;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGAffineTransform nodeToParentTransform;
 /** Returns the matrix that transform parent's space coordinates to the node's (local) space coordinates.
  The matrix is in Pixels.
  @since v0.7.1
  */
-- (CGAffineTransform)parentToNodeTransform;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGAffineTransform parentToNodeTransform;
 /** Retrusn the world affine transform matrix. The matrix is in Pixels.
  @since v0.7.1
  */
-- (CGAffineTransform)nodeToWorldTransform;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGAffineTransform nodeToWorldTransform;
 /** Returns the inverse world affine transform matrix. The matrix is in Pixels.
  @since v0.7.1
  */
-- (CGAffineTransform)worldToNodeTransform;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGAffineTransform worldToNodeTransform;
 /** Converts a Point to node (local) space coordinates. The result is in Points.
  @since v0.7.1
  */

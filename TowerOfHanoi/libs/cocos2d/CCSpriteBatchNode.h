@@ -53,11 +53,11 @@
  */
 @interface CCSpriteBatchNode : CCNode <CCTextureProtocol>
 {
-	CCTextureAtlas	*textureAtlas_;
-	ccBlendFunc		blendFunc_;
+    CCTextureAtlas    *textureAtlas_;
+    ccBlendFunc        blendFunc_;
 
-	// all descendants: chlidren, gran children, etc...
-	CCArray	*descendants_;
+    // all descendants: chlidren, gran children, etc...
+    CCArray    *descendants_;
 }
 
 /** returns the TextureAtlas that is used */
@@ -72,34 +72,34 @@
 /** creates a CCSpriteBatchNode with a texture2d and a default capacity of 29 children.
  The capacity will be increased in 33% in runtime if it run out of space.
  */
-+(id)batchNodeWithTexture:(CCTexture2D *)tex;
++(instancetype)batchNodeWithTexture:(CCTexture2D *)tex;
 
 /** creates a CCSpriteBatchNode with a texture2d and capacity of children.
  The capacity will be increased in 33% in runtime if it run out of space.
  */
-+(id)batchNodeWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity;
++(instancetype)batchNodeWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity;
 
 /** creates a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) with a default capacity of 29 children.
  The capacity will be increased in 33% in runtime if it run out of space.
  The file will be loaded using the TextureMgr.
  */
-+(id)batchNodeWithFile:(NSString*) fileImage;
++(instancetype)batchNodeWithFile:(NSString*) fileImage;
 
 /** creates a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and capacity of children.
  The capacity will be increased in 33% in runtime if it run out of space.
  The file will be loaded using the TextureMgr.
 */
-+(id)batchNodeWithFile:(NSString*)fileImage capacity:(NSUInteger)capacity;
++(instancetype)batchNodeWithFile:(NSString*)fileImage capacity:(NSUInteger)capacity;
 
 /** initializes a CCSpriteBatchNode with a texture2d and capacity of children.
  The capacity will be increased in 33% in runtime if it run out of space.
  */
--(id)initWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity;
+-(instancetype)initWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity NS_DESIGNATED_INITIALIZER;
 /** initializes a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and a capacity of children.
  The capacity will be increased in 33% in runtime if it run out of space.
  The file will be loaded using the TextureMgr.
  */
--(id)initWithFile:(NSString*)fileImage capacity:(NSUInteger)capacity;
+-(instancetype)initWithFile:(NSString*)fileImage capacity:(NSUInteger)capacity;
 
 -(void) increaseAtlasCapacity;
 

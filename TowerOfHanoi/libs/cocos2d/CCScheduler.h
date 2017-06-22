@@ -36,14 +36,14 @@ typedef void (*TICK_IMP)(id, SEL, ccTime);
 /** Light weight timer */
 @interface CCTimer : NSObject
 {
-	id target;
-	TICK_IMP impMethod;
-	
-	ccTime elapsed;
+    id target;
+    TICK_IMP impMethod;
+    
+    ccTime elapsed;
 
-@public					// optimization
-	ccTime interval;
-	SEL selector;
+@public                    // optimization
+    ccTime interval;
+    SEL selector;
 }
 
 /** interval in seconds */
@@ -51,19 +51,19 @@ typedef void (*TICK_IMP)(id, SEL, ccTime);
 
 /** Allocates a timer with a target and a selector.
 */
-+(id) timerWithTarget:(id) t selector:(SEL)s;
++(instancetype) timerWithTarget:(id) t selector:(SEL)s;
 
 /** Allocates a timer with a target, a selector and an interval in seconds.
 */
-+(id) timerWithTarget:(id) t selector:(SEL)s interval:(ccTime)seconds;
++(instancetype) timerWithTarget:(id) t selector:(SEL)s interval:(ccTime)seconds;
 
 /** Initializes a timer with a target and a selector.
 */
- -(id) initWithTarget:(id) t selector:(SEL)s;
+ -(instancetype) initWithTarget:(id) t selector:(SEL)s;
 
 /** Initializes a timer with a target, a selector and an interval in seconds.
 */
--(id) initWithTarget:(id) t selector:(SEL)s interval:(ccTime)seconds;
+-(instancetype) initWithTarget:(id) t selector:(SEL)s interval:(ccTime)seconds NS_DESIGNATED_INITIALIZER;
 
 
 /** triggers the timer */
@@ -80,8 +80,8 @@ typedef void (*TICK_IMP)(id, SEL, ccTime);
  
  There are 2 different types of callbacks (selectors):
 
-	- update selector: the 'update' selector will be called every frame. You can customize the priority.
-	- custom selector: A custom selector will be called every frame, or with a custom interval of time
+    - update selector: the 'update' selector will be called every frame. You can customize the priority.
+    - custom selector: A custom selector will be called every frame, or with a custom interval of time
  
  The 'custom selectors' should be avoided when possible. It is faster, and consumes less memory to use the 'update selector'.
 
@@ -92,25 +92,25 @@ struct _hashSelectorEntry;
 struct _hashUpdateEntry;
 
 @interface CCScheduler : NSObject
-{	
-	ccTime				timeScale_;
-	
-	//
-	// "updates with priority" stuff
-	//
-	struct _listEntry			*updatesNeg;	// list of priority < 0
-	struct _listEntry			*updates0;		// list priority == 0
-	struct _listEntry			*updatesPos;	// list priority > 0
-	struct _hashUpdateEntry		*hashForUpdates;	// hash used to fetch quickly the list entries for pause,delete,etc.
-		
-	// Used for "selectors with interval"
-	struct _hashSelectorEntry	*hashForSelectors;
-	struct _hashSelectorEntry	*currentTarget;
-	BOOL						currentTargetSalvaged;
-	
-	// Optimization
-	TICK_IMP			impMethod;
-	SEL					updateSelector;
+{    
+    ccTime                timeScale_;
+    
+    //
+    // "updates with priority" stuff
+    //
+    struct _listEntry            *updatesNeg;    // list of priority < 0
+    struct _listEntry            *updates0;        // list priority == 0
+    struct _listEntry            *updatesPos;    // list priority > 0
+    struct _hashUpdateEntry        *hashForUpdates;    // hash used to fetch quickly the list entries for pause,delete,etc.
+        
+    // Used for "selectors with interval"
+    struct _hashSelectorEntry    *hashForSelectors;
+    struct _hashSelectorEntry    *currentTarget;
+    BOOL                        currentTargetSalvaged;
+    
+    // Optimization
+    TICK_IMP            impMethod;
+    SEL                    updateSelector;
     
     BOOL updateHashLocked; // If true unschedule will not remove anything from a hash. Elements will only be marked for deletion.
 }
@@ -122,7 +122,7 @@ struct _hashUpdateEntry;
  @since v0.8
  @warning It will affect EVERY scheduled selector / action.
  */
-@property (nonatomic,readwrite) ccTime	timeScale;
+@property (nonatomic,readwrite) ccTime    timeScale;
 
 /** returns a shared instance of the Scheduler */
 +(CCScheduler *)sharedScheduler;

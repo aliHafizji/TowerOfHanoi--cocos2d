@@ -42,16 +42,16 @@ struct _KerningHashElement;
  BMFont definition
  */
 typedef struct _BMFontDef {
-	//! ID of the character
-	unsigned int charID;
-	//! origin and size of the font
-	CGRect rect;
-	//! The X amount the image should be offset when drawing the image (in pixels)
-	int xOffset;
-	//! The Y amount the image should be offset when drawing the image (in pixels)
-	int yOffset;
-	//! The amount to move the current position after drawing the character (in pixels)
-	int xAdvance;
+    //! ID of the character
+    unsigned int charID;
+    //! origin and size of the font
+    CGRect rect;
+    //! The X amount the image should be offset when drawing the image (in pixels)
+    int xOffset;
+    //! The Y amount the image should be offset when drawing the image (in pixels)
+    int yOffset;
+    //! The amount to move the current position after drawing the character (in pixels)
+    int xAdvance;
 } ccBMFontDef;
 
 /** @struct ccBMFontPadding
@@ -59,19 +59,19 @@ typedef struct _BMFontDef {
  @since v0.8.2
  */
 typedef struct _BMFontPadding {
-	/// padding left
-	int	left;
-	/// padding top
-	int top;
-	/// padding right
-	int right;
-	/// padding bottom
-	int bottom;
+    /// padding left
+    int    left;
+    /// padding top
+    int top;
+    /// padding right
+    int right;
+    /// padding bottom
+    int bottom;
 } ccBMFontPadding;
 
 enum {
-	// how many characters are supported
-	kCCBMFontMaxChars = 2048, //256,
+    // how many characters are supported
+    kCCBMFontMaxChars = 2048, //256,
 };
 
 /** CCBMFontConfiguration has parsed configuration of the the .fnt file
@@ -81,26 +81,26 @@ enum {
 {
 // XXX: Creating a public interface so that the bitmapFontArray[] is accesible
 @public
-	// The characters building up the font
-	ccBMFontDef	BMFontArray_[kCCBMFontMaxChars];
-	
-	// FNTConfig: Common Height
-	NSUInteger		commonHeight_;
-	
-	// Padding
-	ccBMFontPadding	padding_;
-	
-	// atlas name
-	NSString		*atlasName_;
+    // The characters building up the font
+    ccBMFontDef    BMFontArray_[kCCBMFontMaxChars];
+    
+    // FNTConfig: Common Height
+    NSUInteger        commonHeight_;
+    
+    // Padding
+    ccBMFontPadding    padding_;
+    
+    // atlas name
+    NSString        *atlasName_;
 
-	// values for kerning
-	struct _KerningHashElement	*kerningDictionary_;
+    // values for kerning
+    struct _KerningHashElement    *kerningDictionary_;
 }
 
 /** allocates a CCBMFontConfiguration with a FNT file */
-+(id) configurationWithFNTFile:(NSString*)FNTfile;
++(instancetype) configurationWithFNTFile:(NSString*)FNTfile;
 /** initializes a CCBMFontConfiguration with a FNT file */
--(id) initWithFNTfile:(NSString*)FNTfile;
+-(instancetype) initWithFNTfile:(NSString*)FNTfile NS_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -135,15 +135,15 @@ enum {
 
 @interface CCLabelBMFont : CCSpriteBatchNode <CCLabelProtocol, CCRGBAProtocol>
 {
-	// string to render
-	NSString		*string_;
-	
-	CCBMFontConfiguration	*configuration_;
+    // string to render
+    NSString        *string_;
+    
+    CCBMFontConfiguration    *configuration_;
 
-	// texture RGBA
-	GLubyte		opacity_;
-	ccColor3B	color_;
-	BOOL opacityModifyRGB_;
+    // texture RGBA
+    GLubyte        opacity_;
+    ccColor3B    color_;
+    BOOL opacityModifyRGB_;
 }
 
 /** Purges the cached data.
@@ -162,7 +162,7 @@ enum {
 +(id) labelWithString:(NSString*)string fntFile:(NSString*)fntFile;
 
 /** init a BMFont label with an initial string and the FNT file */
--(id) initWithString:(NSString*)string fntFile:(NSString*)fntFile;
+-(instancetype) initWithString:(NSString*)string fntFile:(NSString*)fntFile NS_DESIGNATED_INITIALIZER;
 
 /** updates the font chars based on the string to render */
 -(void) createFontChars;

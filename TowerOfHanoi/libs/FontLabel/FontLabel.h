@@ -26,9 +26,9 @@
 @class ZAttributedString;
 
 @interface FontLabel : UILabel {
-	void *reserved; // works around a bug in UILabel
-	ZFont *zFont;
-	ZAttributedString *zAttributedText;
+    void *reserved; // works around a bug in UILabel
+    ZFont *zFont;
+    ZAttributedString *zAttributedText;
 }
 @property (nonatomic, setter=setCGFont:) CGFontRef cgFont __AVAILABILITY_INTERNAL_DEPRECATED;
 @property (nonatomic, assign) CGFloat pointSize __AVAILABILITY_INTERNAL_DEPRECATED;
@@ -38,7 +38,7 @@
 // in addition, adjustsFontSizeToFitWidth does not work with attributed text
 @property (nonatomic, copy) ZAttributedString *zAttributedText;
 // -initWithFrame:fontName:pointSize: uses FontManager to look up the font name
-- (id)initWithFrame:(CGRect)frame fontName:(NSString *)fontName pointSize:(CGFloat)pointSize;
-- (id)initWithFrame:(CGRect)frame zFont:(ZFont *)font;
+- (instancetype)initWithFrame:(CGRect)frame fontName:(NSString *)fontName pointSize:(CGFloat)pointSize;
+- (instancetype)initWithFrame:(CGRect)frame zFont:(ZFont *)font NS_DESIGNATED_INITIALIZER;
 - (id)initWithFrame:(CGRect)frame font:(CGFontRef)font pointSize:(CGFloat)pointSize __AVAILABILITY_INTERNAL_DEPRECATED;
 @end

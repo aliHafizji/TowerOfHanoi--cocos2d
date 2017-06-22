@@ -12,6 +12,6 @@
     NSMutableArray *array;
 }
 - (void) push: (id) element;
-- (id) pop;
-- (id) peek;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id pop;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id peek;
 @end
