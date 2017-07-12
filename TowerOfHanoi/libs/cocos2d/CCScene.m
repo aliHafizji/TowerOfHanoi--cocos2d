@@ -31,15 +31,15 @@
 
 
 @implementation CCScene
--(id) init
+-(instancetype) init
 {
-	if( (self=[super init]) ) {
-		CGSize s = [[CCDirector sharedDirector] winSize];
-		self.isRelativeAnchorPoint = NO;
-		anchorPoint_ = ccp(0.5f, 0.5f);
-		[self setContentSize:s];	
-	}
-	
-	return self;
+    if( (self=[super init]) ) {
+        CGSize s = [[CCDirector sharedDirector] winSize];
+        self.isRelativeAnchorPoint = NO;
+        anchorPoint_ = ccp(0.5f, 0.5f);
+        self.contentSize = s;    
+    }
+    
+    return self;
 }
 @end

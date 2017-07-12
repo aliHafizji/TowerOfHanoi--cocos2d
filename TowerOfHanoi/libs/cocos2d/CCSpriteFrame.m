@@ -33,79 +33,79 @@
 @synthesize rotated = rotated_, offsetInPixels = offsetInPixels_, texture = texture_;
 @synthesize originalSizeInPixels=originalSizeInPixels_;
 
-+(id) frameWithTexture:(CCTexture2D*)texture rect:(CGRect)rect
++(instancetype) frameWithTexture:(CCTexture2D*)texture rect:(CGRect)rect
 {
-	return [[[self alloc] initWithTexture:texture rect:rect] autorelease];
+    return [[[self alloc] initWithTexture:texture rect:rect] autorelease];
 }
 
-+(id) frameWithTexture:(CCTexture2D*)texture rectInPixels:(CGRect)rect rotated:(BOOL)rotated offset:(CGPoint)offset originalSize:(CGSize)originalSize
++(instancetype) frameWithTexture:(CCTexture2D*)texture rectInPixels:(CGRect)rect rotated:(BOOL)rotated offset:(CGPoint)offset originalSize:(CGSize)originalSize
 {
-	return [[[self alloc] initWithTexture:texture rectInPixels:rect rotated:rotated offset:offset originalSize:originalSize] autorelease];
+    return [[[self alloc] initWithTexture:texture rectInPixels:rect rotated:rotated offset:offset originalSize:originalSize] autorelease];
 }
 
--(id) initWithTexture:(CCTexture2D*)texture rect:(CGRect)rect
+-(instancetype) initWithTexture:(CCTexture2D*)texture rect:(CGRect)rect
 {
-	CGRect rectInPixels = CC_RECT_POINTS_TO_PIXELS( rect );
-	return [self initWithTexture:texture rectInPixels:rectInPixels rotated:NO offset:CGPointZero originalSize:rectInPixels.size];
+    CGRect rectInPixels = CC_RECT_POINTS_TO_PIXELS( rect );
+    return [self initWithTexture:texture rectInPixels:rectInPixels rotated:NO offset:CGPointZero originalSize:rectInPixels.size];
 }
 
--(id) initWithTexture:(CCTexture2D*)texture rectInPixels:(CGRect)rect rotated:(BOOL)rotated offset:(CGPoint)offset originalSize:(CGSize)originalSize
+-(instancetype) initWithTexture:(CCTexture2D*)texture rectInPixels:(CGRect)rect rotated:(BOOL)rotated offset:(CGPoint)offset originalSize:(CGSize)originalSize
 {
-	if( (self=[super init]) ) {
-		self.texture = texture;
-		rectInPixels_ = rect;
-		rect_ = CC_RECT_PIXELS_TO_POINTS( rect );
-		rotated_ = rotated;
-		offsetInPixels_ = offset;
-		originalSizeInPixels_ = originalSize;
-	}
-	return self;	
+    if( (self=[super init]) ) {
+        self.texture = texture;
+        rectInPixels_ = rect;
+        rect_ = CC_RECT_PIXELS_TO_POINTS( rect );
+        rotated_ = rotated;
+        offsetInPixels_ = offset;
+        originalSizeInPixels_ = originalSize;
+    }
+    return self;    
 }
 
 - (NSString*) description
 {
-	return [NSString stringWithFormat:@"<%@ = %08X | TextureName=%d, Rect = (%.2f,%.2f,%.2f,%.2f)> rotated:%d", [self class], self,
-			texture_.name,
-			rect_.origin.x,
-			rect_.origin.y,
-			rect_.size.width,
-			rect_.size.height,
-			rotated_
-			];
+    return [NSString stringWithFormat:@"<%@ = %08X | TextureName=%d, Rect = (%.2f,%.2f,%.2f,%.2f)> rotated:%d", [self class], self,
+            texture_.name,
+            rect_.origin.x,
+            rect_.origin.y,
+            rect_.size.width,
+            rect_.size.height,
+            rotated_
+            ];
 }
 
 - (void) dealloc
 {
-	CCLOGINFO( @"cocos2d: deallocing %@",self);
-	[texture_ release];
-	[super dealloc];
+    CCLOGINFO( @"cocos2d: deallocing %@",self);
+    [texture_ release];
+    [super dealloc];
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCSpriteFrame *copy = [[[self class] allocWithZone: zone] initWithTexture:texture_ rectInPixels:rectInPixels_ rotated:rotated_ offset:offsetInPixels_ originalSize:originalSizeInPixels_];
-	return copy;
+    CCSpriteFrame *copy = [[[self class] allocWithZone: zone] initWithTexture:texture_ rectInPixels:rectInPixels_ rotated:rotated_ offset:offsetInPixels_ originalSize:originalSizeInPixels_];
+    return copy;
 }
 
 -(CGRect) rect
 {
-	return rect_;
+    return rect_;
 }
 
 -(CGRect) rectInPixels
 {
-	return rectInPixels_;
+    return rectInPixels_;
 }
 
 -(void) setRect:(CGRect)rect
 {
-	rect_ = rect;
-	rectInPixels_ = CC_RECT_POINTS_TO_PIXELS( rect_ );
+    rect_ = rect;
+    rectInPixels_ = CC_RECT_POINTS_TO_PIXELS( rect_ );
 }
 
 -(void) setRectInPixels:(CGRect)rectInPixels
 {
-	rectInPixels_ = rectInPixels;
-	rect_ = CC_RECT_PIXELS_TO_POINTS(rectInPixels);
+    rectInPixels_ = rectInPixels;
+    rect_ = CC_RECT_PIXELS_TO_POINTS(rectInPixels);
 }
 @end

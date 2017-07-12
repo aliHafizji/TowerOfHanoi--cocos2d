@@ -38,17 +38,17 @@
 
 @protocol ESRenderer <NSObject>
 
-- (id) initWithDepthFormat:(unsigned int)depthFormat withPixelFormat:(unsigned int)pixelFormat withSharegroup:(EAGLSharegroup*)sharegroup withMultiSampling:(BOOL) multiSampling withNumberOfSamples:(unsigned int) requestedSamples;
+- (instancetype) initWithDepthFormat:(unsigned int)depthFormat withPixelFormat:(unsigned int)pixelFormat withSharegroup:(EAGLSharegroup*)sharegroup withMultiSampling:(BOOL) multiSampling withNumberOfSamples:(unsigned int) requestedSamples;
 
 - (BOOL) resizeFromLayer:(CAEAGLLayer *)layer;
 
-- (EAGLContext*) context;
-- (CGSize) backingSize;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) EAGLContext *context;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGSize backingSize;
 
-- (unsigned int) colorRenderBuffer;
+@property (NS_NONATOMIC_IOSONLY, readonly) unsigned int colorRenderBuffer;
 - (unsigned int) defaultFrameBuffer;
-- (unsigned int) msaaFrameBuffer;
-- (unsigned int) msaaColorBuffer;
+@property (NS_NONATOMIC_IOSONLY, readonly) unsigned int msaaFrameBuffer;
+@property (NS_NONATOMIC_IOSONLY, readonly) unsigned int msaaColorBuffer;
 @end
 
 #endif // __IPHONE_OS_VERSION_MAX_ALLOWED

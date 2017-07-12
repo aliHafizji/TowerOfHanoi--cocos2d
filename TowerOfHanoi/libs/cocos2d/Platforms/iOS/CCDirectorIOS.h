@@ -34,78 +34,78 @@
 /** @typedef ccDeviceOrientation
  Possible device orientations
  */
-typedef enum {
-	/// Device oriented vertically, home button on the bottom
-	kCCDeviceOrientationPortrait = UIDeviceOrientationPortrait,	
-	/// Device oriented vertically, home button on the top
+typedef NS_ENUM(unsigned int, ccDeviceOrientation) {
+    /// Device oriented vertically, home button on the bottom
+    kCCDeviceOrientationPortrait = UIDeviceOrientationPortrait,    
+    /// Device oriented vertically, home button on the top
     kCCDeviceOrientationPortraitUpsideDown = UIDeviceOrientationPortraitUpsideDown,
-	/// Device oriented horizontally, home button on the right
+    /// Device oriented horizontally, home button on the right
     kCCDeviceOrientationLandscapeLeft = UIDeviceOrientationLandscapeLeft,
-	/// Device oriented horizontally, home button on the left
+    /// Device oriented horizontally, home button on the left
     kCCDeviceOrientationLandscapeRight = UIDeviceOrientationLandscapeRight,
-	
-	// Backward compatibility stuff
-	CCDeviceOrientationPortrait = kCCDeviceOrientationPortrait,
-	CCDeviceOrientationPortraitUpsideDown = kCCDeviceOrientationPortraitUpsideDown,
-	CCDeviceOrientationLandscapeLeft = kCCDeviceOrientationLandscapeLeft,
-	CCDeviceOrientationLandscapeRight = kCCDeviceOrientationLandscapeRight,
-} ccDeviceOrientation;
+    
+    // Backward compatibility stuff
+    CCDeviceOrientationPortrait = kCCDeviceOrientationPortrait,
+    CCDeviceOrientationPortraitUpsideDown = kCCDeviceOrientationPortraitUpsideDown,
+    CCDeviceOrientationLandscapeLeft = kCCDeviceOrientationLandscapeLeft,
+    CCDeviceOrientationLandscapeRight = kCCDeviceOrientationLandscapeRight,
+};
 
 /** @typedef ccDirectorType
  Possible Director Types.
  @since v0.8.2
  */
-typedef enum {
-	/** Will use a Director that triggers the main loop from an NSTimer object
-	 *
-	 * Features and Limitations:
-	 * - Integrates OK with UIKit objects
-	 * - It the slowest director
-	 * - The invertal update is customizable from 1 to 60
-	 */
-	kCCDirectorTypeNSTimer,
-	
-	/** will use a Director that triggers the main loop from a custom main loop.
-	 *
-	 * Features and Limitations:
-	 * - Faster than NSTimer Director
-	 * - It doesn't integrate well with UIKit objecgts
-	 * - The interval update can't be customizable
-	 */
-	kCCDirectorTypeMainLoop,
-	
-	/** Will use a Director that triggers the main loop from a thread, but the main loop will be executed on the main thread.
-	 *
-	 * Features and Limitations:
-	 * - Faster than NSTimer Director
-	 * - It doesn't integrate well with UIKit objecgts
-	 * - The interval update can't be customizable
-	 */
-	kCCDirectorTypeThreadMainLoop,
-	
-	/** Will use a Director that synchronizes timers with the refresh rate of the display.
-	 *
-	 * Features and Limitations:
-	 * - Faster than NSTimer Director
-	 * - Only available on 3.1+
-	 * - Scheduled timers & drawing are synchronizes with the refresh rate of the display
-	 * - Integrates OK with UIKit objects
-	 * - The interval update can be 1/60, 1/30, 1/15
-	 */	
-	kCCDirectorTypeDisplayLink,
-	
-	/** Default director is the NSTimer directory */
-	kCCDirectorTypeDefault = kCCDirectorTypeNSTimer,
-	
-	// backward compatibility stuff
-	CCDirectorTypeNSTimer = kCCDirectorTypeNSTimer,
-	CCDirectorTypeMainLoop = kCCDirectorTypeMainLoop,
-	CCDirectorTypeThreadMainLoop = kCCDirectorTypeThreadMainLoop,
-	CCDirectorTypeDisplayLink = kCCDirectorTypeDisplayLink,
-	CCDirectorTypeDefault = kCCDirectorTypeDefault,
-	
-	
-} ccDirectorType;
+typedef NS_ENUM(unsigned int, ccDirectorType) {
+    /** Will use a Director that triggers the main loop from an NSTimer object
+     *
+     * Features and Limitations:
+     * - Integrates OK with UIKit objects
+     * - It the slowest director
+     * - The invertal update is customizable from 1 to 60
+     */
+    kCCDirectorTypeNSTimer,
+    
+    /** will use a Director that triggers the main loop from a custom main loop.
+     *
+     * Features and Limitations:
+     * - Faster than NSTimer Director
+     * - It doesn't integrate well with UIKit objecgts
+     * - The interval update can't be customizable
+     */
+    kCCDirectorTypeMainLoop,
+    
+    /** Will use a Director that triggers the main loop from a thread, but the main loop will be executed on the main thread.
+     *
+     * Features and Limitations:
+     * - Faster than NSTimer Director
+     * - It doesn't integrate well with UIKit objecgts
+     * - The interval update can't be customizable
+     */
+    kCCDirectorTypeThreadMainLoop,
+    
+    /** Will use a Director that synchronizes timers with the refresh rate of the display.
+     *
+     * Features and Limitations:
+     * - Faster than NSTimer Director
+     * - Only available on 3.1+
+     * - Scheduled timers & drawing are synchronizes with the refresh rate of the display
+     * - Integrates OK with UIKit objects
+     * - The interval update can be 1/60, 1/30, 1/15
+     */    
+    kCCDirectorTypeDisplayLink,
+    
+    /** Default director is the NSTimer directory */
+    kCCDirectorTypeDefault = kCCDirectorTypeNSTimer,
+    
+    // backward compatibility stuff
+    CCDirectorTypeNSTimer = kCCDirectorTypeNSTimer,
+    CCDirectorTypeMainLoop = kCCDirectorTypeMainLoop,
+    CCDirectorTypeThreadMainLoop = kCCDirectorTypeThreadMainLoop,
+    CCDirectorTypeDisplayLink = kCCDirectorTypeDisplayLink,
+    CCDirectorTypeDefault = kCCDirectorTypeDefault,
+    
+    
+};
 
 /** CCDirector extensions for iPhone
  */
@@ -117,10 +117,9 @@ typedef enum {
 /** Sets the device orientation.
  If the orientation is going to be controlled by an UIViewController, then the orientation should be Portrait
  */
--(void) setDeviceOrientation:(ccDeviceOrientation)orientation;
 
 /** returns the device orientation */
--(ccDeviceOrientation) deviceOrientation;
+@property (NS_NONATOMIC_IOSONLY) ccDeviceOrientation deviceOrientation;
 
 /** The size in pixels of the surface. It could be different than the screen size.
  High-res devices might have a higher surface size than the screen size.
@@ -130,7 +129,6 @@ typedef enum {
 
  @since v0.99.4
  */
--(void) setContentScaleFactor:(CGFloat)scaleFactor;
 
 /** Will enable Retina Display on devices that supports it.
  It will enable Retina Display on iPhone4 and iPod Touch 4.
@@ -143,7 +141,7 @@ typedef enum {
 
 
 /** returns the content scale factor */
--(CGFloat) contentScaleFactor;
+@property (NS_NONATOMIC_IOSONLY) CGFloat contentScaleFactor;
 @end
 
 @interface CCDirector (iOSExtensionClassMethods)
@@ -174,12 +172,12 @@ typedef enum {
  */
 @interface CCDirectorIOS : CCDirector
 {
-	/* orientation */
-	ccDeviceOrientation	deviceOrientation_;
-	
-	/* contentScaleFactor could be simulated */
-	BOOL	isContentScaleSupported_;
-	
+    /* orientation */
+    ccDeviceOrientation    deviceOrientation_;
+    
+    /* contentScaleFactor could be simulated */
+    BOOL    isContentScaleSupported_;
+    
 }
 @end
 
@@ -192,9 +190,9 @@ typedef enum {
  */
 @interface CCDirectorFast : CCDirectorIOS
 {
-	BOOL isRunning;
-	
-	NSAutoreleasePool	*autoreleasePool;
+    BOOL isRunning;
+    
+    NSAutoreleasePool    *autoreleasePool;
 }
 -(void) mainLoop;
 @end
@@ -210,7 +208,7 @@ typedef enum {
  */
 @interface CCDirectorFastThreaded : CCDirectorIOS
 {
-	BOOL isRunning;	
+    BOOL isRunning;    
 }
 -(void) mainLoop;
 @end
@@ -228,7 +226,7 @@ typedef enum {
  */
 @interface CCDirectorDisplayLink : CCDirectorIOS
 {
-	id displayLink;
+    id displayLink;
 }
 -(void) mainLoop:(id)sender;
 @end
@@ -244,12 +242,12 @@ typedef enum {
  */
 @interface CCDirectorTimer : CCDirectorIOS
 {
-	NSTimer *animationTimer;
+    NSTimer *animationTimer;
 }
 -(void) mainLoop;
 @end
 
 // optimization. Should only be used to read it. Never to write it.
-extern CGFloat	__ccContentScaleFactor;
+extern CGFloat    __ccContentScaleFactor;
 
 #endif // __IPHONE_OS_VERSION_MAX_ALLOWED

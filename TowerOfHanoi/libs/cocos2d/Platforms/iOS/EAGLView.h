@@ -97,37 +97,37 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
  */
 @interface EAGLView : UIView
 {
-    id<ESRenderer>			renderer_;	
-	EAGLContext				*context_; // weak ref
+    id<ESRenderer>            renderer_;    
+    EAGLContext                *context_; // weak ref
 
-	NSString				*pixelformat_;
-	GLuint					depthFormat_;
-	BOOL					preserveBackbuffer_;
+    NSString                *pixelformat_;
+    GLuint                    depthFormat_;
+    BOOL                    preserveBackbuffer_;
 
-	CGSize					size_;
-	BOOL					discardFramebufferSupported_;
-	id<EAGLTouchDelegate>   touchDelegate_;
+    CGSize                    size_;
+    BOOL                    discardFramebufferSupported_;
+    id<EAGLTouchDelegate>   touchDelegate_;
 
-	//fsaa addition
-	BOOL					multisampling_;
-	unsigned int			requestedSamples_;
+    //fsaa addition
+    BOOL                    multisampling_;
+    unsigned int            requestedSamples_;
 }
 
 /** creates an initializes an EAGLView with a frame and 0-bit depth buffer, and a RGB565 color buffer. */
-+ (id) viewWithFrame:(CGRect)frame;
++ (instancetype) viewWithFrame:(CGRect)frame;
 /** creates an initializes an EAGLView with a frame, a color buffer format, and 0-bit depth buffer. */
-+ (id) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format;
++ (instancetype) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format;
 /** creates an initializes an EAGLView with a frame, a color buffer format, and a depth buffer. */
-+ (id) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth;
++ (instancetype) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth;
 /** creates an initializes an EAGLView with a frame, a color buffer format, a depth buffer format, a sharegroup, and multisamping */
-+ (id) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained sharegroup:(EAGLSharegroup*)sharegroup multiSampling:(BOOL)multisampling numberOfSamples:(unsigned int)samples;
++ (instancetype) viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained sharegroup:(EAGLSharegroup*)sharegroup multiSampling:(BOOL)multisampling numberOfSamples:(unsigned int)samples;
 
 /** Initializes an EAGLView with a frame and 0-bit depth buffer, and a RGB565 color buffer */
-- (id) initWithFrame:(CGRect)frame; //These also set the current context
+- (instancetype) initWithFrame:(CGRect)frame; //These also set the current context
 /** Initializes an EAGLView with a frame, a color buffer format, and 0-bit depth buffer */
-- (id) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format;
+- (instancetype) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format;
 /** Initializes an EAGLView with a frame, a color buffer format, a depth buffer format, a sharegroup and multisampling support */
-- (id) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained sharegroup:(EAGLSharegroup*)sharegroup multiSampling:(BOOL)sampling numberOfSamples:(unsigned int)nSamples;
+- (instancetype) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained sharegroup:(EAGLSharegroup*)sharegroup multiSampling:(BOOL)sampling numberOfSamples:(unsigned int)nSamples NS_DESIGNATED_INITIALIZER;
 
 /** pixel format: it could be RGBA8 (32-bit) or RGB565 (16-bit) */
 @property(nonatomic,readonly) NSString* pixelFormat;

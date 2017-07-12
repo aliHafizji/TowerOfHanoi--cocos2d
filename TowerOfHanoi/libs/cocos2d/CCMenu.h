@@ -28,17 +28,17 @@
 #import "CCMenuItem.h"
 #import "CCLayer.h"
 
-typedef enum  {
-	kCCMenuStateWaiting,
-	kCCMenuStateTrackingTouch
-} tCCMenuState;
+typedef NS_ENUM(unsigned int, tCCMenuState) {
+    kCCMenuStateWaiting,
+    kCCMenuStateTrackingTouch
+};
 
 enum {
-	//* priority used by the menu for the touches
-	kCCMenuTouchPriority = -128,
+    //* priority used by the menu for the touches
+    kCCMenuTouchPriority = -128,
 
-	//* priority used by the menu for the mouse
-	kCCMenuMousePriority = -128,
+    //* priority used by the menu for the mouse
+    kCCMenuMousePriority = -128,
 };
 
 /** A CCMenu
@@ -49,17 +49,17 @@ enum {
  */
 @interface CCMenu : CCLayer <CCRGBAProtocol>
 {
-	tCCMenuState state_;
-	CCMenuItem	*selectedItem_;
-	GLubyte		opacity_;
-	ccColor3B	color_;
+    tCCMenuState state_;
+    CCMenuItem    *selectedItem_;
+    GLubyte        opacity_;
+    ccColor3B    color_;
 }
 
 /** creates a CCMenu with it's items */
-+ (id) menuWithItems: (CCMenuItem*) item, ... NS_REQUIRES_NIL_TERMINATION;
++ (instancetype) menuWithItems: (CCMenuItem*) item, ... NS_REQUIRES_NIL_TERMINATION;
 
 /** initializes a CCMenu with it's items */
-- (id) initWithItems: (CCMenuItem*) item vaList: (va_list) args;
+- (instancetype) initWithItems: (CCMenuItem*) item vaList: (va_list) args NS_DESIGNATED_INITIALIZER;
 
 /** align items vertically */
 -(void) alignItemsVertically;

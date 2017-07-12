@@ -171,7 +171,7 @@ do	{																							\
 								numberOfSamples:0												\
 													];											\
 	[__director setOpenGLView:__glView];														\
-	[window addSubview:__glView];																\
+	[window setRootViewController:__glView];                                                    \
 	[window makeKeyAndVisible];																	\
 } while(0)
 

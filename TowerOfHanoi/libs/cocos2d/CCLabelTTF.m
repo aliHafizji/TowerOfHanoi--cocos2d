@@ -37,105 +37,105 @@
 
 @implementation CCLabelTTF
 
-- (id) init
+- (instancetype) init
 {
-	NSAssert(NO, @"CCLabelTTF: Init not supported. Use initWithString");
-	[self release];
-	return nil;
+    NSAssert(NO, @"CCLabelTTF: Init not supported. Use initWithString");
+    [self release];
+    return nil;
 }
 
 + (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size;
 {
-	return [[[self alloc] initWithString: string dimensions:dimensions alignment:alignment lineBreakMode:lineBreakMode fontName:name fontSize:size]autorelease];
+    return [[[self alloc] initWithString: string dimensions:dimensions alignment:alignment lineBreakMode:lineBreakMode fontName:name fontSize:size]autorelease];
 }
 
 + (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size
 {
-	return [[[self alloc] initWithString: string dimensions:dimensions alignment:alignment fontName:name fontSize:size]autorelease];
+    return [[[self alloc] initWithString: string dimensions:dimensions alignment:alignment fontName:name fontSize:size]autorelease];
 }
 
 + (id) labelWithString:(NSString*)string fontName:(NSString*)name fontSize:(CGFloat)size
 {
-	return [[[self alloc] initWithString: string fontName:name fontSize:size]autorelease];
+    return [[[self alloc] initWithString: string fontName:name fontSize:size]autorelease];
 }
 
 
-- (id) initWithString:(NSString*)str dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size
+- (instancetype) initWithString:(NSString*)str dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size
 {
-	if( (self=[super init]) ) {
+    if( (self=[super init]) ) {
 
-		dimensions_ = CGSizeMake( dimensions.width * CC_CONTENT_SCALE_FACTOR(), dimensions.height * CC_CONTENT_SCALE_FACTOR() );
-		alignment_ = alignment;
-		fontName_ = [name retain];
-		fontSize_ = size * CC_CONTENT_SCALE_FACTOR();
-		lineBreakMode_ = lineBreakMode;
-		
-		[self setString:str];
-	}
-	return self;
+        dimensions_ = CGSizeMake( dimensions.width * CC_CONTENT_SCALE_FACTOR(), dimensions.height * CC_CONTENT_SCALE_FACTOR() );
+        alignment_ = alignment;
+        fontName_ = [name retain];
+        fontSize_ = size * CC_CONTENT_SCALE_FACTOR();
+        lineBreakMode_ = lineBreakMode;
+        
+        [self setString:str];
+    }
+    return self;
 }
 
-- (id) initWithString:(NSString*)str dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size
+- (instancetype) initWithString:(NSString*)str dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size
 {
-	return [self initWithString:str dimensions:dimensions alignment:alignment lineBreakMode:CCLineBreakModeWordWrap fontName:name fontSize:size];
+    return [self initWithString:str dimensions:dimensions alignment:alignment lineBreakMode:CCLineBreakModeWordWrap fontName:name fontSize:size];
 }
 
-- (id) initWithString:(NSString*)str fontName:(NSString*)name fontSize:(CGFloat)size
+- (instancetype) initWithString:(NSString*)str fontName:(NSString*)name fontSize:(CGFloat)size
 {
-	if( (self=[super init]) ) {
-		
-		dimensions_ = CGSizeZero;
-		fontName_ = [name retain];
-		fontSize_ = size * CC_CONTENT_SCALE_FACTOR();
-		
-		[self setString:str];
-	}
-	return self;
+    if( (self=[super init]) ) {
+        
+        dimensions_ = CGSizeZero;
+        fontName_ = [name retain];
+        fontSize_ = size * CC_CONTENT_SCALE_FACTOR();
+        
+        [self setString:str];
+    }
+    return self;
 }
 
 - (void) setString:(NSString*)str
 {
-	[string_ release];
-	string_ = [str copy];
+    [string_ release];
+    string_ = [str copy];
 
-	CCTexture2D *tex;
-	if( CGSizeEqualToSize( dimensions_, CGSizeZero ) )
-		tex = [[CCTexture2D alloc] initWithString:str
-										 fontName:fontName_
-										 fontSize:fontSize_];
-	else
-		tex = [[CCTexture2D alloc] initWithString:str
-									   dimensions:dimensions_
-										alignment:alignment_
-									lineBreakMode:lineBreakMode_
-										 fontName:fontName_
-										 fontSize:fontSize_];
+    CCTexture2D *tex;
+    if( CGSizeEqualToSize( dimensions_, CGSizeZero ) )
+        tex = [[CCTexture2D alloc] initWithString:str
+                                         fontName:fontName_
+                                         fontSize:fontSize_];
+    else
+        tex = [[CCTexture2D alloc] initWithString:str
+                                       dimensions:dimensions_
+                                        alignment:alignment_
+                                    lineBreakMode:lineBreakMode_
+                                         fontName:fontName_
+                                         fontSize:fontSize_];
 
-	[self setTexture:tex];
-	[tex release];
+    [self setTexture:tex];
+    [tex release];
 
-	CGRect rect = CGRectZero;
-	rect.size = [texture_ contentSize];
-	[self setTextureRect: rect];
+    CGRect rect = CGRectZero;
+    rect.size = [texture_ contentSize];
+    [self setTextureRect: rect];
 }
 
 -(NSString*) string
 {
-	return string_;
+    return string_;
 }
 
 - (void) dealloc
 {
-	[string_ release];
-	[fontName_ release];
+    [string_ release];
+    [fontName_ release];
 
-	[super dealloc];
+    [super dealloc];
 }
 
 - (NSString*) description
 {
-	// XXX: string_, fontName_ can't be displayed here, since they might be already released
+    // XXX: string_, fontName_ can't be displayed here, since they might be already released
 
-	return [NSString stringWithFormat:@"<%@ = %08X | FontSize = %.1f>", [self class], self, fontSize_];
+    return [NSString stringWithFormat:@"<%@ = %08X | FontSize = %.1f>", [self class], self, fontSize_];
 }
 @end

@@ -47,56 +47,56 @@
 #endif
 
 /// Type of errors from the Post Score request
-typedef enum {
-	/// post request successful
-	kPostStatusOK = 0,
-	/// post request failed to establish a connection. wi-fi isn't enabled.
-	/// Don't retry when this option is preset
-	kPostStatusConnectionFailed = 1,
-	/// post request failed to post the score. Server might be busy.
-	/// Retry is suggested
-	kPostStatusPostFailed = 2,
-} tPostStatus;
+typedef NS_ENUM(unsigned int, tPostStatus) {
+    /// post request successful
+    kPostStatusOK = 0,
+    /// post request failed to establish a connection. wi-fi isn't enabled.
+    /// Don't retry when this option is preset
+    kPostStatusConnectionFailed = 1,
+    /// post request failed to post the score. Server might be busy.
+    /// Retry is suggested
+    kPostStatusPostFailed = 2,
+};
 
 enum {
-	//! Invalid Ranking. Valid rankins are from 1 to ...
-	kServerPostInvalidRanking = 0,
+    //! Invalid Ranking. Valid rankins are from 1 to ...
+    kServerPostInvalidRanking = 0,
 };
 
 /**
  * Handles the Score Post to the cocos live server
  */
 @interface CLScoreServerPost : NSObject {
-	/// game key. secret shared with the server.
-	/// used to sign the values to prevent spoofing.
-	NSString	*gameKey;
-	
-	/// game name, used as a login name.
-	NSString	*gameName;
+    /// game key. secret shared with the server.
+    /// used to sign the values to prevent spoofing.
+    NSString    *gameKey;
+    
+    /// game name, used as a login name.
+    NSString    *gameName;
 
-	/// delegate instance of fetch score
-	id			delegate;
-	
-	/// ranking
-	NSUInteger	ranking_;
-	
-	/// score was updated
-	BOOL		scoreDidUpdate_;
+    /// delegate instance of fetch score
+    id            delegate;
+    
+    /// ranking
+    NSUInteger    ranking_;
+    
+    /// score was updated
+    BOOL        scoreDidUpdate_;
 
-	/// data received
-	NSMutableData *receivedData;
-	
-	/// values to send in the POST
-	NSMutableArray *bodyValues;
-	
-	/// status of the request
-	tPostStatus		postStatus_;
-	
-	/// mdt context
-	CC_MD5_CTX		md5Ctx;
-	
-	/// the connection
-	NSURLConnection	*connection_;
+    /// data received
+    NSMutableData *receivedData;
+    
+    /// values to send in the POST
+    NSMutableArray *bodyValues;
+    
+    /// status of the request
+    tPostStatus        postStatus_;
+    
+    /// mdt context
+    CC_MD5_CTX        md5Ctx;
+    
+    /// the connection
+    NSURLConnection    *connection_;
 }
 
 /** status from the score post */ 
@@ -119,7 +119,7 @@ enum {
 +(id) serverWithGameName:(NSString*) name gameKey:(NSString*) key delegate:(id)delegate;
 
 /** initializes a cocos server with a game name and a game key */
--(id) initWithGameName:(NSString*) name gameKey:(NSString*) key delegate:(id)delegate;
+-(instancetype) initWithGameName:(NSString*) name gameKey:(NSString*) key delegate:(id)delegate NS_DESIGNATED_INITIALIZER;
 
 /** send the scores to the server. A new entre will be created on the server */
 -(BOOL) sendScore: (NSDictionary*) dict;

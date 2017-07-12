@@ -40,12 +40,12 @@
  A more flexible class is CCLabelBMFont. It supports variable width characters and it also has a nice editor.
  */
 @interface CCLabelAtlas : CCAtlasNode  <CCLabelProtocol>
-{		
-	// string to render
-	NSString		*string_;
-	
-	// the first char in the charmap
-	unsigned char		mapStartChar_;
+{        
+    // string to render
+    NSString        *string_;
+    
+    // the first char in the charmap
+    unsigned char        mapStartChar_;
 }
 
 
@@ -53,5 +53,5 @@
 +(id) labelWithString:(NSString*) string charMapFile: (NSString*) charmapfile itemWidth:(NSUInteger)w itemHeight:(NSUInteger)h startCharMap:(unsigned char)c;
 
 /** initializes the CCLabelAtlas with a string, a char map file(the atlas), the width and height in points of each element and the starting char of the atlas */
--(id) initWithString:(NSString*) string charMapFile: (NSString*) charmapfile itemWidth:(NSUInteger)w itemHeight:(NSUInteger)h startCharMap:(unsigned char)c;
+-(instancetype) initWithString:(NSString*) string charMapFile: (NSString*) charmapfile itemWidth:(NSUInteger)w itemHeight:(NSUInteger)h startCharMap:(unsigned char)c NS_DESIGNATED_INITIALIZER;
 @end

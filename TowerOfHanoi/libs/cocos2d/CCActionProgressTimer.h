@@ -34,13 +34,13 @@
 */
 @interface CCProgressTo : CCActionInterval <NSCopying>
 {
-	float to_;
-	float from_;
+    float to_;
+    float from_;
 }
 /** Creates and initializes with a duration and a percent */
 +(id) actionWithDuration:(ccTime)duration percent:(float)percent;
 /** Initializes with a duration and a percent */
--(id) initWithDuration:(ccTime)duration percent:(float)percent;
+-(instancetype) initWithDuration:(ccTime)duration percent:(float)percent NS_DESIGNATED_INITIALIZER;
 @end
 
 /**
@@ -49,11 +49,11 @@
  */
 @interface CCProgressFromTo : CCActionInterval <NSCopying>
 {
-	float to_;
-	float from_;
+    float to_;
+    float from_;
 }
 /** Creates and initializes the action with a duration, a "from" percentage and a "to" percentage */
 +(id) actionWithDuration:(ccTime)duration from:(float)fromPercentage to:(float) toPercentage;
 /** Initializes the action with a duration, a "from" percentage and a "to" percentage */
--(id) initWithDuration:(ccTime)duration from:(float)fromPercentage to:(float) toPercentage;
+-(instancetype) initWithDuration:(ccTime)duration from:(float)fromPercentage to:(float) toPercentage NS_DESIGNATED_INITIALIZER;
 @end

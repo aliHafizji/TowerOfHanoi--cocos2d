@@ -29,20 +29,20 @@
 /** Types of progress
  @since v0.99.1
  */
-typedef enum {
-	/// Radial Counter-Clockwise 
-	kCCProgressTimerTypeRadialCCW,
-	/// Radial ClockWise
-	kCCProgressTimerTypeRadialCW,
-	/// Horizontal Left-Right
-	kCCProgressTimerTypeHorizontalBarLR,
-	/// Horizontal Right-Left
-	kCCProgressTimerTypeHorizontalBarRL,
-	/// Vertical Bottom-top
-	kCCProgressTimerTypeVerticalBarBT,
-	/// Vertical Top-Bottom
-	kCCProgressTimerTypeVerticalBarTB,
-} CCProgressTimerType;
+typedef NS_ENUM(unsigned int, CCProgressTimerType) {
+    /// Radial Counter-Clockwise 
+    kCCProgressTimerTypeRadialCCW,
+    /// Radial ClockWise
+    kCCProgressTimerTypeRadialCW,
+    /// Horizontal Left-Right
+    kCCProgressTimerTypeHorizontalBarLR,
+    /// Horizontal Right-Left
+    kCCProgressTimerTypeHorizontalBarRL,
+    /// Vertical Bottom-top
+    kCCProgressTimerTypeVerticalBarBT,
+    /// Vertical Top-Bottom
+    kCCProgressTimerTypeVerticalBarTB,
+};
 
 /**
  CCProgresstimer is a subclass of CCNode.
@@ -52,15 +52,15 @@ typedef enum {
  */
 @interface CCProgressTimer : CCNode
 {
-	CCProgressTimerType	type_;
-	float				percentage_;
-	CCSprite			*sprite_;
-	
-	int					vertexDataCount_;
-	ccV2F_C4B_T2F		*vertexData_;
+    CCProgressTimerType    type_;
+    float                percentage_;
+    CCSprite            *sprite_;
+    
+    int                    vertexDataCount_;
+    ccV2F_C4B_T2F        *vertexData_;
 }
 
-/**	Change the percentage to change progress. */
+/**    Change the percentage to change progress. */
 @property (nonatomic, readwrite) CCProgressTimerType type;
 
 /** Percentages are from 0 to 100 */
@@ -73,11 +73,11 @@ typedef enum {
 /** Creates a progress timer with an image filename as the shape the timer goes through */
 + (id) progressWithFile:(NSString*) filename;
 /** Initializes  a progress timer with an image filename as the shape the timer goes through */
-- (id) initWithFile:(NSString*) filename;
+- (instancetype) initWithFile:(NSString*) filename;
 
 /** Creates a progress timer with the texture as the shape the timer goes through */
 + (id) progressWithTexture:(CCTexture2D*) texture;
 /** Creates a progress timer with the texture as the shape the timer goes through */
-- (id) initWithTexture:(CCTexture2D*) texture;
+- (instancetype) initWithTexture:(CCTexture2D*) texture NS_DESIGNATED_INITIALIZER;
 
 @end

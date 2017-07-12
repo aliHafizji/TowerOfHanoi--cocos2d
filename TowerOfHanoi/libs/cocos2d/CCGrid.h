@@ -37,13 +37,13 @@
  */
 @interface CCGridBase : NSObject
 {
-	BOOL		active_;
-	int			reuseGrid_;
-	ccGridSize	gridSize_;
-	CCTexture2D *texture_;
-	CGPoint		step_;
-	CCGrabber	*grabber_;
-	BOOL		isTextureFlipped_;
+    BOOL        active_;
+    int            reuseGrid_;
+    ccGridSize    gridSize_;
+    CCTexture2D *texture_;
+    CGPoint        step_;
+    CCGrabber    *grabber_;
+    BOOL        isTextureFlipped_;
 }
 
 /** wheter or not the grid is active */
@@ -64,8 +64,8 @@
 +(id) gridWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped;
 +(id) gridWithSize:(ccGridSize)gridSize;
 
--(id) initWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped;
--(id)initWithSize:(ccGridSize)gridSize;
+-(instancetype) initWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithSize:(ccGridSize)gridSize;
 -(void)beforeDraw;
 -(void)afterDraw:(CCNode*)target;
 -(void)blit;
@@ -82,10 +82,10 @@
  */
 @interface CCGrid3D : CCGridBase
 {
-	GLvoid		*texCoordinates;
-	GLvoid		*vertices;
-	GLvoid		*originalVertices;
-	GLushort	*indices;
+    GLvoid        *texCoordinates;
+    GLvoid        *vertices;
+    GLvoid        *originalVertices;
+    GLushort    *indices;
 }
 
 /** returns the vertex at a given position */
@@ -105,10 +105,10 @@
 */
 @interface CCTiledGrid3D : CCGridBase
 {
-	GLvoid		*texCoordinates;
-	GLvoid		*vertices;
-	GLvoid		*originalVertices;
-	GLushort	*indices;
+    GLvoid        *texCoordinates;
+    GLvoid        *vertices;
+    GLvoid        *originalVertices;
+    GLushort    *indices;
 }
 
 /** returns the tile at the given position */

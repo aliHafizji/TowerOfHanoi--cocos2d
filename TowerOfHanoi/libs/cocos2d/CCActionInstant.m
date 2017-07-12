@@ -38,38 +38,38 @@
 
 @implementation CCActionInstant
 
--(id) init
+-(instancetype) init
 {
-	if( (self=[super init]) )	
-		duration_ = 0;
-	
-	return self;
+    if( (self=[super init]) )    
+        duration_ = 0;
+    
+    return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCActionInstant *copy = [[[self class] allocWithZone: zone] init];
-	return copy;
+    CCActionInstant *copy = [[[self class] allocWithZone: zone] init];
+    return copy;
 }
 
 - (BOOL) isDone
 {
-	return YES;
+    return YES;
 }
 
 -(void) step: (ccTime) dt
 {
-	[self update: 1];
+    [self update: 1];
 }
 
 -(void) update: (ccTime) t
 {
-	// ignore
+    // ignore
 }
 
 -(CCFiniteTimeAction*) reverse
 {
-	return [[self copy] autorelease];
+    return [[self copy] autorelease];
 }
 @end
 
@@ -81,13 +81,13 @@
 @implementation CCShow
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	((CCNode *)target_).visible = YES;
+    [super startWithTarget:aTarget];
+    ((CCNode *)target_).visible = YES;
 }
 
 -(CCFiniteTimeAction*) reverse
 {
-	return [CCHide action];
+    return [CCHide action];
 }
 @end
 
@@ -99,13 +99,13 @@
 @implementation CCHide
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	((CCNode *)target_).visible = NO;
+    [super startWithTarget:aTarget];
+    ((CCNode *)target_).visible = NO;
 }
 
 -(CCFiniteTimeAction*) reverse
 {
-	return [CCShow action];
+    return [CCShow action];
 }
 @end
 
@@ -117,8 +117,8 @@
 @implementation CCToggleVisibility
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	((CCNode *)target_).visible = !((CCNode *)target_).visible;
+    [super startWithTarget:aTarget];
+    ((CCNode *)target_).visible = !((CCNode *)target_).visible;
 }
 @end
 
@@ -130,32 +130,32 @@
 @implementation CCFlipX
 +(id) actionWithFlipX:(BOOL)x
 {
-	return [[[self alloc] initWithFlipX:x] autorelease];
+    return [[[self alloc] initWithFlipX:x] autorelease];
 }
 
--(id) initWithFlipX:(BOOL)x
+-(instancetype) initWithFlipX:(BOOL)x
 {
-	if(( self=[super init]))
-		flipX = x;
-	
-	return self;
+    if(( self=[super init]))
+        flipX = x;
+    
+    return self;
 }
 
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[(CCSprite*)aTarget setFlipX:flipX];
+    [super startWithTarget:aTarget];
+    ((CCSprite*)aTarget).flipX = flipX;
 }
 
 -(CCFiniteTimeAction*) reverse
 {
-	return [CCFlipX actionWithFlipX:!flipX];
+    return [CCFlipX actionWithFlipX:!flipX];
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithFlipX:flipX];
-	return copy;
+    CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithFlipX:flipX];
+    return copy;
 }
 @end
 
@@ -167,32 +167,32 @@
 @implementation CCFlipY
 +(id) actionWithFlipY:(BOOL)y
 {
-	return [[[self alloc] initWithFlipY:y] autorelease];
+    return [[[self alloc] initWithFlipY:y] autorelease];
 }
 
--(id) initWithFlipY:(BOOL)y
+-(instancetype) initWithFlipY:(BOOL)y
 {
-	if(( self=[super init]))
-		flipY = y;
-	
-	return self;
+    if(( self=[super init]))
+        flipY = y;
+    
+    return self;
 }
 
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[(CCSprite*)aTarget setFlipY:flipY];
+    [super startWithTarget:aTarget];
+    ((CCSprite*)aTarget).flipY = flipY;
 }
 
 -(CCFiniteTimeAction*) reverse
 {
-	return [CCFlipY actionWithFlipY:!flipY];
+    return [CCFlipY actionWithFlipY:!flipY];
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithFlipY:flipY];
-	return copy;
+    CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithFlipY:flipY];
+    return copy;
 }
 @end
 
@@ -205,27 +205,27 @@
 @implementation CCPlace
 +(id) actionWithPosition: (CGPoint) pos
 {
-	return [[[self alloc]initWithPosition:pos]autorelease];
+    return [[[self alloc]initWithPosition:pos]autorelease];
 }
 
--(id) initWithPosition: (CGPoint) pos
+-(instancetype) initWithPosition: (CGPoint) pos
 {
-	if( (self=[super init]) )
-		position = pos;
-	
-	return self;
+    if( (self=[super init]) )
+        position = pos;
+    
+    return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithPosition: position];
-	return copy;
+    CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithPosition: position];
+    return copy;
 }
 
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	((CCNode *)target_).position = position;
+    [super startWithTarget:aTarget];
+    ((CCNode *)target_).position = position;
 }
 
 @end
@@ -241,50 +241,50 @@
 
 +(id) actionWithTarget: (id) t selector:(SEL) s
 {
-	return [[[self alloc] initWithTarget: t selector: s] autorelease];
+    return [[[self alloc] initWithTarget: t selector: s] autorelease];
 }
 
--(id) initWithTarget: (id) t selector:(SEL) s
+-(instancetype) initWithTarget: (id) t selector:(SEL) s
 {
-	if( (self=[super init]) ) {
-		self.targetCallback = t;
-		selector_ = s;
-	}
-	return self;
+    if( (self=[super init]) ) {
+        self.targetCallback = t;
+        selector_ = s;
+    }
+    return self;
 }
 
 -(NSString*) description
 {
-	return [NSString stringWithFormat:@"<%@ = %08X | Tag = %i | target = %@ | selector = %@>",
-			[self class],
-			self,
-			tag_,
-			[targetCallback_ class],
-			NSStringFromSelector(selector_)
-			];
+    return [NSString stringWithFormat:@"<%@ = %08X | Tag = %i | target = %@ | selector = %@>",
+            [self class],
+            self,
+            tag_,
+            [targetCallback_ class],
+            NSStringFromSelector(selector_)
+            ];
 }
 
 -(void) dealloc
 {
-	[targetCallback_ release];
-	[super dealloc];
+    [targetCallback_ release];
+    [super dealloc];
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithTarget:targetCallback_ selector:selector_];
-	return copy;
+    CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithTarget:targetCallback_ selector:selector_];
+    return copy;
 }
 
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[self execute];
+    [super startWithTarget:aTarget];
+    [self execute];
 }
 
 -(void) execute
 {
-	[targetCallback_ performSelector:selector_];
+    [targetCallback_ performSelector:selector_];
 }
 @end
 
@@ -297,7 +297,7 @@
 
 -(void) execute
 {
-	[targetCallback_ performSelector:selector_ withObject:target_];
+    [targetCallback_ performSelector:selector_ withObject:target_];
 }
 @end
 
@@ -312,38 +312,38 @@
 
 +(id) actionWithTarget:(id)t selector:(SEL)s data:(void*)d
 {
-	return [[[self alloc] initWithTarget:t selector:s data:d] autorelease];
+    return [[[self alloc] initWithTarget:t selector:s data:d] autorelease];
 }
 
--(id) initWithTarget:(id)t selector:(SEL)s data:(void*)d
+-(instancetype) initWithTarget:(id)t selector:(SEL)s data:(void*)d
 {
-	if( (self=[super initWithTarget:t selector:s]) ) {
-		data_ = d;
+    if( (self=[super initWithTarget:t selector:s]) ) {
+        data_ = d;
 
 #if COCOS2D_DEBUG
-		NSMethodSignature * sig = [t methodSignatureForSelector:s]; // added
-		NSAssert(sig !=0 , @"Signature not found for selector - does it have the following form? -(void)name:(id)sender data:(void*)data");
+        NSMethodSignature * sig = [t methodSignatureForSelector:s]; // added
+        NSAssert(sig !=0 , @"Signature not found for selector - does it have the following form? -(void)name:(id)sender data:(void*)data");
 #endif
-		callbackMethod_ = (CC_CALLBACK_ND) [t methodForSelector:s];
-	}
-	return self;
+        callbackMethod_ = (CC_CALLBACK_ND) [t methodForSelector:s];
+    }
+    return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithTarget:targetCallback_ selector:selector_ data:data_];
-	return copy;
+    CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithTarget:targetCallback_ selector:selector_ data:data_];
+    return copy;
 }
 
 -(void) dealloc
 {
-	// nothing to dealloc really. Everything is dealloc on super (CCCallFuncN)
-	[super dealloc];
+    // nothing to dealloc really. Everything is dealloc on super (CCCallFuncN)
+    [super dealloc];
 }
 
 -(void) execute
 {
-	callbackMethod_(targetCallback_,selector_,target_, data_);
+    callbackMethod_(targetCallback_,selector_,target_, data_);
 }
 @end
 
@@ -352,33 +352,33 @@
 
 +(id) actionWithTarget: (id) t selector:(SEL) s object:(id)object
 {
-	return [[[self alloc] initWithTarget:t selector:s object:object] autorelease];
+    return [[[self alloc] initWithTarget:t selector:s object:object] autorelease];
 }
 
--(id) initWithTarget:(id) t selector:(SEL) s object:(id)object
+-(instancetype) initWithTarget:(id) t selector:(SEL) s object:(id)object
 {
-	if( (self=[super initWithTarget:t selector:s] ) )
-		self.object = object;
-	
-	return self;
+    if( (self=[super initWithTarget:t selector:s] ) )
+        self.object = object;
+    
+    return self;
 }
 
 - (void) dealloc
 {
-	[object_ release];
-	[super dealloc];
+    [object_ release];
+    [super dealloc];
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithTarget:targetCallback_ selector:selector_ object:object_];
-	return copy;
+    CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithTarget:targetCallback_ selector:selector_ object:object_];
+    return copy;
 }
 
 
 -(void) execute
 {
-	[targetCallback_ performSelector:selector_ withObject:object_];
+    [targetCallback_ performSelector:selector_ withObject:object_];
 }
 
 @end
@@ -395,38 +395,38 @@
 
 +(id) actionWithBlock:(void(^)())block
 {
-	return [[[self alloc] initWithBlock:block] autorelease];
+    return [[[self alloc] initWithBlock:block] autorelease];
 }
 
--(id) initWithBlock:(void(^)())block
+-(instancetype) initWithBlock:(void(^)())block
 {
-	if ((self = [super init]))
-		block_ = [block copy];
-	
-	return self;
+    if ((self = [super init]))
+        block_ = [block copy];
+    
+    return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithBlock:block_];
-	return copy;
+    CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithBlock:block_];
+    return copy;
 }
 
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[self execute];
+    [super startWithTarget:aTarget];
+    [self execute];
 }
 
 -(void) execute
 {
-	block_();
+    block_();
 }
 
 -(void) dealloc
 {
-	[block_ release];
-	[super dealloc];
+    [block_ release];
+    [super dealloc];
 }
 
 @end
@@ -437,38 +437,38 @@
 
 +(id) actionWithBlock:(void(^)(CCNode *node))block
 {
-	return [[[self alloc] initWithBlock:block] autorelease];
+    return [[[self alloc] initWithBlock:block] autorelease];
 }
 
--(id) initWithBlock:(void(^)(CCNode *node))block
+-(instancetype) initWithBlock:(void(^)(CCNode *node))block
 {
-	if ((self = [super init]))
-		block_ = [block copy];
-	
-	return self;
+    if ((self = [super init]))
+        block_ = [block copy];
+    
+    return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithBlock:block_];
-	return copy;
+    CCActionInstant *copy = [[[self class] allocWithZone: zone] initWithBlock:block_];
+    return copy;
 }
 
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[self execute];
+    [super startWithTarget:aTarget];
+    [self execute];
 }
 
 -(void) execute
 {
-	block_(target_);
+    block_(target_);
 }
 
 -(void) dealloc
 {
-	[block_ release];
-	[super dealloc];
+    [block_ release];
+    [super dealloc];
 }
 
 @end

@@ -33,11 +33,10 @@
 
 extern NSString *const kJSONDeserializerErrorDomain /* = @"CJSONDeserializerErrorDomain" */;
 
-enum {
+typedef NS_ENUM(NSUInteger, EJSONDeserializationOptions) {
     kJSONDeserializationOptions_MutableContainers = kJSONScannerOptions_MutableContainers,
     kJSONDeserializationOptions_MutableLeaves = kJSONScannerOptions_MutableLeaves,
 };
-typedef NSUInteger EJSONDeserializationOptions;
 
 @class CJSONScanner;
 
@@ -53,7 +52,7 @@ typedef NSUInteger EJSONDeserializationOptions;
 @property (readwrite, nonatomic, assign) NSStringEncoding allowedEncoding;
 @property (readwrite, nonatomic, assign) EJSONDeserializationOptions options;
 
-+ (id)deserializer;
++ (instancetype)deserializer;
 
 - (id)deserialize:(NSData *)inData error:(NSError **)outError;
 

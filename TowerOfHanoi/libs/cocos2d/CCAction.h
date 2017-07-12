@@ -31,17 +31,17 @@
 #import "ccTypes.h"
 
 enum {
-	//! Default tag
-	kCCActionTagInvalid = -1,
+    //! Default tag
+    kCCActionTagInvalid = -1,
 };
 
 /** Base class for CCAction objects.
  */
 @interface CCAction : NSObject <NSCopying>
 {
-	id			originalTarget_;
-	id			target_;
-	NSInteger	tag_;
+    id            originalTarget_;
+    id            target_;
+    NSInteger    tag_;
 }
 
 /** The "target". The action will modify the target properties.
@@ -62,15 +62,15 @@ enum {
 @property (nonatomic,readwrite,assign) NSInteger tag;
 
 /** Allocates and initializes the action */
-+(id) action;
++(instancetype) action;
 
 /** Initializes the action */
--(id) init;
+-(instancetype) init;
 
 -(id) copyWithZone: (NSZone*) zone;
 
 //! return YES if the action has finished
--(BOOL) isDone;
+@property (NS_NONATOMIC_IOSONLY, getter=isDone, readonly) BOOL done;
 //! called before the action start. It will also set the target.
 -(void) startWithTarget:(id)target;
 //! called after the action has finished. It will set the 'target' to nil.
@@ -95,14 +95,14 @@ enum {
  */
 @interface CCFiniteTimeAction : CCAction <NSCopying>
 {
-	//! duration in seconds
-	ccTime duration_;
+    //! duration in seconds
+    ccTime duration_;
 }
 //! duration in seconds of the action
 @property (nonatomic,readwrite) ccTime duration;
 
 /** returns a reversed action */
-- (CCFiniteTimeAction*) reverse;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) CCFiniteTimeAction *reverse;
 @end
 
 
@@ -113,7 +113,7 @@ enum {
  */
 @interface CCRepeatForever : CCAction <NSCopying>
 {
-	CCActionInterval *innerAction_;
+    CCActionInterval *innerAction_;
 }
 /** Inner action */
 @property (nonatomic, readwrite, retain) CCActionInterval *innerAction;
@@ -121,7 +121,7 @@ enum {
 /** creates the action */
 +(id) actionWithAction: (CCActionInterval*) action;
 /** initializes the action */
--(id) initWithAction: (CCActionInterval*) action;
+-(instancetype) initWithAction: (CCActionInterval*) action NS_DESIGNATED_INITIALIZER;
 @end
 
 /** Changes the speed of an action, making it take longer (speed>1)
@@ -131,8 +131,8 @@ enum {
  */
 @interface CCSpeed : CCAction <NSCopying>
 {
-	CCActionInterval	*innerAction_;
-	float speed_;
+    CCActionInterval    *innerAction_;
+    float speed_;
 }
 /** alter the speed of the inner function in runtime */
 @property (nonatomic,readwrite) float speed;
@@ -142,38 +142,38 @@ enum {
 /** creates the action */
 +(id) actionWithAction: (CCActionInterval*) action speed:(float)rate;
 /** initializes the action */
--(id) initWithAction: (CCActionInterval*) action speed:(float)rate;
+-(instancetype) initWithAction: (CCActionInterval*) action speed:(float)rate NS_DESIGNATED_INITIALIZER;
 @end
 
 @class CCNode;
 /** CCFollow is an action that "follows" a node.
  
  Eg:
-	[layer runAction: [CCFollow actionWithTarget:hero]];
+    [layer runAction: [CCFollow actionWithTarget:hero]];
  
  Instead of using CCCamera as a "follower", use this action instead.
  @since v0.99.2
  */
 @interface CCFollow : CCAction <NSCopying>
 {
-	/* node to follow */
-	CCNode	*followedNode_;
-	
-	/* whether camera should be limited to certain area */
-	BOOL boundarySet;
-	
-	/* if screensize is bigger than the boundary - update not needed */
-	BOOL boundaryFullyCovered;
-	
-	/* fast access to the screen dimensions */
-	CGPoint halfScreenSize;
-	CGPoint fullScreenSize;
-	
-	/* world boundaries */
-	float leftBoundary;
-	float rightBoundary;
-	float topBoundary;
-	float bottomBoundary;
+    /* node to follow */
+    CCNode    *followedNode_;
+    
+    /* whether camera should be limited to certain area */
+    BOOL boundarySet;
+    
+    /* if screensize is bigger than the boundary - update not needed */
+    BOOL boundaryFullyCovered;
+    
+    /* fast access to the screen dimensions */
+    CGPoint halfScreenSize;
+    CGPoint fullScreenSize;
+    
+    /* world boundaries */
+    float leftBoundary;
+    float rightBoundary;
+    float topBoundary;
+    float bottomBoundary;
 }
 
 /** alter behavior - turn on/off boundary */
@@ -186,10 +186,10 @@ enum {
 +(id) actionWithTarget:(CCNode *)followedNode worldBoundary:(CGRect)rect;
 
 /** initializes the action */
--(id) initWithTarget:(CCNode *)followedNode;
+-(instancetype) initWithTarget:(CCNode *)followedNode NS_DESIGNATED_INITIALIZER;
 
 /** initializes the action with a set boundary */
--(id) initWithTarget:(CCNode *)followedNode worldBoundary:(CGRect)rect;
+-(instancetype) initWithTarget:(CCNode *)followedNode worldBoundary:(CGRect)rect NS_DESIGNATED_INITIALIZER;
 
 @end
 

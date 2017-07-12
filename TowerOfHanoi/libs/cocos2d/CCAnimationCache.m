@@ -38,64 +38,64 @@ static CCAnimationCache *sharedAnimationCache_=nil;
 
 + (CCAnimationCache *)sharedAnimationCache
 {
-	if (!sharedAnimationCache_)
-		sharedAnimationCache_ = [[CCAnimationCache alloc] init];
-		
-	return sharedAnimationCache_;
+    if (!sharedAnimationCache_)
+        sharedAnimationCache_ = [[CCAnimationCache alloc] init];
+        
+    return sharedAnimationCache_;
 }
 
 +(id)alloc
 {
-	NSAssert(sharedAnimationCache_ == nil, @"Attempted to allocate a second instance of a singleton.");
-	return [super alloc];
+    NSAssert(sharedAnimationCache_ == nil, @"Attempted to allocate a second instance of a singleton.");
+    return [super alloc];
 }
 
 +(void)purgeSharedAnimationCache
 {
-	[sharedAnimationCache_ release];
-	sharedAnimationCache_ = nil;
+    [sharedAnimationCache_ release];
+    sharedAnimationCache_ = nil;
 }
 
--(id) init
+-(instancetype) init
 {
-	if( (self=[super init]) ) {
-		animations_ = [[NSMutableDictionary alloc] initWithCapacity: 20];
-	}
-	
-	return self;
+    if( (self=[super init]) ) {
+        animations_ = [[NSMutableDictionary alloc] initWithCapacity: 20];
+    }
+    
+    return self;
 }
 
 - (NSString*) description
 {
-	return [NSString stringWithFormat:@"<%@ = %08X | num of animations =  %i>", [self class], self, [animations_ count]];
+    return [NSString stringWithFormat:@"<%@ = %08X | num of animations =  %i>", [self class], self, animations_.count];
 }
 
 -(void) dealloc
 {
-	CCLOGINFO(@"cocos2d: deallocing %@", self);
-	
-	[animations_ release];
-	[super dealloc];
+    CCLOGINFO(@"cocos2d: deallocing %@", self);
+    
+    [animations_ release];
+    [super dealloc];
 }
 
 #pragma mark CCAnimationCache - load/get/del
 
 -(void) addAnimation:(CCAnimation*)animation name:(NSString*)name
 {
-	[animations_ setObject:animation forKey:name];
+    animations_[name] = animation;
 }
 
 -(void) removeAnimationByName:(NSString*)name
 {
-	if( ! name )
-		return;
-	
-	[animations_ removeObjectForKey:name];
+    if( ! name )
+        return;
+    
+    [animations_ removeObjectForKey:name];
 }
 
 -(CCAnimation*) animationByName:(NSString*)name
 {
-	return [animations_ objectForKey:name];
+    return animations_[name];
 }
 
 @end

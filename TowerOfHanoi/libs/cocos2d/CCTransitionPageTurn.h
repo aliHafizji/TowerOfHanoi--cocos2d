@@ -33,13 +33,13 @@
  * This uses a 3DAction so it's strongly recommended that depth buffering
  * is turned on in CCDirector using:
  *
- * 	[[CCDirector sharedDirector] setDepthBufferFormat:kCCDepthBuffer16]; 
+ *     [[CCDirector sharedDirector] setDepthBufferFormat:kCCDepthBuffer16]; 
  *
  * @since v0.8.2
  */
 @interface CCTransitionPageTurn : CCTransitionScene
 {
-	BOOL	back_;
+    BOOL    back_;
 }
 /**
  * creates a base transition with duration and incoming scene
@@ -53,7 +53,7 @@
  * if back is TRUE then the effect is reversed to appear as if the incoming 
  * scene is being turned from left over the outgoing scene
  */
--(id) initWithDuration:(ccTime) t scene:(CCScene*)s backwards:(BOOL) back;
+-(instancetype) initWithDuration:(ccTime) t scene:(CCScene*)s backwards:(BOOL) back NS_DESIGNATED_INITIALIZER;
 
 -(CCActionInterval*) actionWithSize:(ccGridSize) vector;
 

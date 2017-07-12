@@ -63,10 +63,10 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #import <Availability.h>
 
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-#import <UIKit/UIKit.h>			// for UIImage
+#import <UIKit/UIKit.h>            // for UIImage
 #endif
 
-#import <Foundation/Foundation.h> //	for NSObject
+#import <Foundation/Foundation.h> //    for NSObject
 
 #import "Platforms/CCGL.h" // OpenGL stuff
 #import "Platforms/CCNS.h" // Next-Step stuff
@@ -76,40 +76,40 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 /** @typedef CCTexture2DPixelFormat
  Possible texture pixel formats
  */
-typedef enum {
-	kCCTexture2DPixelFormat_Automatic = 0,
-	//! 32-bit texture: RGBA8888
-	kCCTexture2DPixelFormat_RGBA8888,
-	//! 16-bit texture without Alpha channel
-	kCCTexture2DPixelFormat_RGB565,
-	//! 8-bit textures used as masks
-	kCCTexture2DPixelFormat_A8,
-	//! 8-bit intensity texture
-	kCCTexture2DPixelFormat_I8,
-	//! 16-bit textures used as masks
-	kCCTexture2DPixelFormat_AI88,
-	//! 16-bit textures: RGBA4444
-	kCCTexture2DPixelFormat_RGBA4444,
-	//! 16-bit textures: RGB5A1
-	kCCTexture2DPixelFormat_RGB5A1,	
-	//! 4-bit PVRTC-compressed texture: PVRTC4
-	kCCTexture2DPixelFormat_PVRTC4,
-	//! 2-bit PVRTC-compressed texture: PVRTC2
-	kCCTexture2DPixelFormat_PVRTC2,
+typedef NS_ENUM(unsigned int, CCTexture2DPixelFormat) {
+    kCCTexture2DPixelFormat_Automatic = 0,
+    //! 32-bit texture: RGBA8888
+    kCCTexture2DPixelFormat_RGBA8888,
+    //! 16-bit texture without Alpha channel
+    kCCTexture2DPixelFormat_RGB565,
+    //! 8-bit textures used as masks
+    kCCTexture2DPixelFormat_A8,
+    //! 8-bit intensity texture
+    kCCTexture2DPixelFormat_I8,
+    //! 16-bit textures used as masks
+    kCCTexture2DPixelFormat_AI88,
+    //! 16-bit textures: RGBA4444
+    kCCTexture2DPixelFormat_RGBA4444,
+    //! 16-bit textures: RGB5A1
+    kCCTexture2DPixelFormat_RGB5A1,    
+    //! 4-bit PVRTC-compressed texture: PVRTC4
+    kCCTexture2DPixelFormat_PVRTC4,
+    //! 2-bit PVRTC-compressed texture: PVRTC2
+    kCCTexture2DPixelFormat_PVRTC2,
 
-	//! Default texture format: RGBA8888
-	kCCTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_RGBA8888,
+    //! Default texture format: RGBA8888
+    kCCTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_RGBA8888,
 
-	// backward compatibility stuff
-	kTexture2DPixelFormat_Automatic = kCCTexture2DPixelFormat_Automatic,
-	kTexture2DPixelFormat_RGBA8888 = kCCTexture2DPixelFormat_RGBA8888,
-	kTexture2DPixelFormat_RGB565 = kCCTexture2DPixelFormat_RGB565,
-	kTexture2DPixelFormat_A8 = kCCTexture2DPixelFormat_A8,
-	kTexture2DPixelFormat_RGBA4444 = kCCTexture2DPixelFormat_RGBA4444,
-	kTexture2DPixelFormat_RGB5A1 = kCCTexture2DPixelFormat_RGB5A1,
-	kTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_Default
-	
-} CCTexture2DPixelFormat;
+    // backward compatibility stuff
+    kTexture2DPixelFormat_Automatic = kCCTexture2DPixelFormat_Automatic,
+    kTexture2DPixelFormat_RGBA8888 = kCCTexture2DPixelFormat_RGBA8888,
+    kTexture2DPixelFormat_RGB565 = kCCTexture2DPixelFormat_RGB565,
+    kTexture2DPixelFormat_A8 = kCCTexture2DPixelFormat_A8,
+    kTexture2DPixelFormat_RGBA4444 = kCCTexture2DPixelFormat_RGBA4444,
+    kTexture2DPixelFormat_RGB5A1 = kCCTexture2DPixelFormat_RGB5A1,
+    kTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_Default
+    
+};
 
 //CLASS INTERFACES:
 
@@ -121,21 +121,21 @@ typedef enum {
  */
 @interface CCTexture2D : NSObject
 {
-	GLuint						name_;
-	CGSize						size_;
-	NSUInteger					width_,
-								height_;
-	CCTexture2DPixelFormat		format_;
-	GLfloat						maxS_,
-								maxT_;
-	BOOL						hasPremultipliedAlpha_;
+    GLuint                        name_;
+    CGSize                        size_;
+    NSUInteger                    width_,
+                                height_;
+    CCTexture2DPixelFormat        format_;
+    GLfloat                        maxS_,
+                                maxT_;
+    BOOL                        hasPremultipliedAlpha_;
 }
 /** Intializes with a texture2d with data */
-- (id) initWithData:(const void*)data pixelFormat:(CCTexture2DPixelFormat)pixelFormat pixelsWide:(NSUInteger)width pixelsHigh:(NSUInteger)height contentSize:(CGSize)size;
+- (instancetype) initWithData:(const void*)data pixelFormat:(CCTexture2DPixelFormat)pixelFormat pixelsWide:(NSUInteger)width pixelsHigh:(NSUInteger)height contentSize:(CGSize)size NS_DESIGNATED_INITIALIZER;
 
 /** These functions are needed to create mutable textures */
 - (void) releaseData:(void*)data;
-- (void*) keepData:(void*)data length:(NSUInteger)length;
+- (void*) keepData:(void*)data length:(NSUInteger)length NS_RETURNS_INNER_POINTER;
 
 /** pixel format of the texture */
 @property(nonatomic,readonly) CCTexture2DPixelFormat pixelFormat;
@@ -158,7 +158,7 @@ typedef enum {
 @property(nonatomic,readonly) BOOL hasPremultipliedAlpha;
 
 /** returns the content size of the texture in points */
--(CGSize) contentSize;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGSize contentSize;
 @end
 
 /**
@@ -179,7 +179,7 @@ Note that RGBA type textures will have their alpha premultiplied - use the blend
 @interface CCTexture2D (Image)
 /** Initializes a texture from a UIImage object */
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-- (id) initWithImage:(UIImage *)uiImage;
+- (instancetype) initWithImage:(UIImage *)uiImage;
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
 - (id) initWithImage:(CGImageRef)cgImage;
 #endif
@@ -192,15 +192,15 @@ Note that the generated textures are of type A8 - use the blending mode (GL_SRC_
 @interface CCTexture2D (Text)
 /** Initializes a texture from a string with dimensions, alignment, line break mode, font name and font size
  Supported lineBreakModes:
-	- iOS: all UILineBreakMode supported modes
-	- Mac: Only NSLineBreakByWordWrapping is supported.
+    - iOS: all UILineBreakMode supported modes
+    - Mac: Only NSLineBreakByWordWrapping is supported.
  @since v1.0
  */
-- (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size;
+- (instancetype) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size;
 /** Initializes a texture from a string with dimensions, alignment, font name and font size */
-- (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size;
+- (instancetype) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size;
 /** Initializes a texture from a string with font name and font size */
-- (id) initWithString:(NSString*)string fontName:(NSString*)name fontSize:(CGFloat)size;
+- (instancetype) initWithString:(NSString*)string fontName:(NSString*)name fontSize:(CGFloat)size;
 @end
 
 
@@ -214,7 +214,7 @@ Note that the generated textures are of type A8 - use the blending mode (GL_SRC_
  * IMPORTANT: This method is only defined on iOS. It is not supported on the Mac version.
  */
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
--(id) initWithPVRTCData: (const void*)data level:(int)level bpp:(int)bpp hasAlpha:(BOOL)hasAlpha length:(int)length pixelFormat:(CCTexture2DPixelFormat)pixelFormat;
+-(instancetype) initWithPVRTCData: (const void*)data level:(int)level bpp:(int)bpp hasAlpha:(BOOL)hasAlpha length:(int)length pixelFormat:(CCTexture2DPixelFormat)pixelFormat;
 #endif // __IPHONE_OS_VERSION_MAX_ALLOWED
 /** Initializes a texture from a PVR file.
  
@@ -236,7 +236,7 @@ Note that the generated textures are of type A8 - use the blending mode (GL_SRC_
  IMPORTANT: This method is only defined on iOS. It is not supported on the Mac version.
  
  */
--(id) initWithPVRFile: (NSString*) file;
+-(instancetype) initWithPVRFile: (NSString*) file;
 
 /** treats (or not) PVR files as if they have alpha premultiplied.
  Since it is impossible to know at runtime if the PVR images have the alpha channel premultiplied, it is
@@ -253,10 +253,10 @@ Note that the generated textures are of type A8 - use the blending mode (GL_SRC_
  Extension to set the Min / Mag filter
  */
 typedef struct _ccTexParams {
-	GLuint	minFilter;
-	GLuint	magFilter;
-	GLuint	wrapS;
-	GLuint	wrapT;
+    GLuint    minFilter;
+    GLuint    magFilter;
+    GLuint    wrapS;
+    GLuint    wrapT;
 } ccTexParams;
 
 @interface CCTexture2D (GLFilter)
@@ -295,11 +295,11 @@ typedef struct _ccTexParams {
 @interface CCTexture2D (PixelFormat)
 /** sets the default pixel format for UIImages that contains alpha channel.
  If the UIImage contains alpha channel, then the options are:
-	- generate 32-bit textures: kCCTexture2DPixelFormat_RGBA8888 (default one)
-	- generate 16-bit textures: kCCTexture2DPixelFormat_RGBA4444
-	- generate 16-bit textures: kCCTexture2DPixelFormat_RGB5A1
-	- generate 16-bit textures: kCCTexture2DPixelFormat_RGB565
-	- generate 8-bit textures: kCCTexture2DPixelFormat_A8 (only use it if you use just 1 color)
+    - generate 32-bit textures: kCCTexture2DPixelFormat_RGBA8888 (default one)
+    - generate 16-bit textures: kCCTexture2DPixelFormat_RGBA4444
+    - generate 16-bit textures: kCCTexture2DPixelFormat_RGB5A1
+    - generate 16-bit textures: kCCTexture2DPixelFormat_RGB565
+    - generate 8-bit textures: kCCTexture2DPixelFormat_A8 (only use it if you use just 1 color)
 
  How does it work ?
    - If the image is an RGBA (with Alpha) then the default pixel format will be used (it can be a 8-bit, 16-bit or 32-bit texture)
@@ -319,7 +319,7 @@ typedef struct _ccTexParams {
 /** returns the bits-per-pixel of the in-memory OpenGL texture
  @since v1.0
  */
--(NSUInteger) bitsPerPixelForFormat;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSUInteger bitsPerPixelForFormat;
 @end
 
 

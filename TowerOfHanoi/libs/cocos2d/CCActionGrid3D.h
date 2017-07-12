@@ -29,9 +29,9 @@
 /** CCWaves3D action */
 @interface CCWaves3D : CCGrid3DAction
 {
-	int waves;
-	float amplitude;
-	float amplitudeRate;
+    int waves;
+    float amplitude;
+    float amplitudeRate;
 }
 
 /** amplitude of the wave */
@@ -40,7 +40,7 @@
 @property (nonatomic,readwrite) float amplitudeRate;
 
 +(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
--(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -54,7 +54,7 @@
 /** creates the action with duration */
 +(id) actionWithDuration:(ccTime)d;
 /** initizlies the action with duration */
--(id) initWithDuration:(ccTime)d;
+-(instancetype) initWithDuration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -72,11 +72,11 @@
 /** CCLens3D action */
 @interface CCLens3D : CCGrid3DAction
 {
-	CGPoint	position_;
-	CGPoint	positionInPixels_;
-	float	radius_;
-	float	lensEffect_;
-	BOOL	dirty_;
+    CGPoint    position_;
+    CGPoint    positionInPixels_;
+    float    radius_;
+    float    lensEffect_;
+    BOOL    dirty_;
 }
 
 /** lens effect. Defaults to 0.7 - 0 means no effect, 1 is very strong effect */
@@ -87,7 +87,7 @@
 /** creates the action with center position in Points, radius, a grid size and duration */
 +(id)actionWithPosition:(CGPoint)pos radius:(float)r grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with center position in Points, radius, a grid size and duration */
--(id)initWithPosition:(CGPoint)pos radius:(float)r grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithPosition:(CGPoint)pos radius:(float)r grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -96,12 +96,12 @@
 /** CCRipple3D action */
 @interface CCRipple3D : CCGrid3DAction
 {
-	CGPoint	position_;
-	CGPoint	positionInPixels_;
-	float	radius_;
-	int		waves_;
-	float	amplitude_;
-	float	amplitudeRate_;
+    CGPoint    position_;
+    CGPoint    positionInPixels_;
+    float    radius_;
+    int        waves_;
+    float    amplitude_;
+    float    amplitudeRate_;
 }
 
 /** center position in Points */
@@ -114,7 +114,7 @@
 /** creates the action with a position in points, radius, number of waves, amplitude, a grid size and duration */
 +(id)actionWithPosition:(CGPoint)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with a position in points, radius, number of waves, amplitude, a grid size and duration */
--(id)initWithPosition:(CGPoint)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithPosition:(CGPoint)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -123,14 +123,14 @@
 /** CCShaky3D action */
 @interface CCShaky3D : CCGrid3DAction
 {
-	int randrange;
-	BOOL	shakeZ;
+    int randrange;
+    BOOL    shakeZ;
 }
 
 /** creates the action with a range, shake Z vertices, a grid and duration */
 +(id)actionWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with a range, shake Z vertices, a grid and duration */
--(id)initWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -139,10 +139,10 @@
 /** CCLiquid action */
 @interface CCLiquid : CCGrid3DAction
 {
-	int waves;
-	float amplitude;
-	float amplitudeRate;
-	
+    int waves;
+    float amplitude;
+    float amplitudeRate;
+    
 }
 
 /** amplitude */
@@ -153,7 +153,7 @@
 /** creates the action with amplitude, a grid and duration */
 +(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with amplitude, a grid and duration */
--(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -162,11 +162,11 @@
 /** CCWaves action */
 @interface CCWaves : CCGrid3DAction
 {
-	int		waves;
-	float	amplitude;
-	float	amplitudeRate;
-	BOOL	vertical;
-	BOOL	horizontal;
+    int        waves;
+    float    amplitude;
+    float    amplitudeRate;
+    BOOL    vertical;
+    BOOL    horizontal;
 }
 
 /** amplitude */
@@ -177,7 +177,7 @@
 /** initializes the action with amplitude, horizontal sin, vertical sin, a grid and duration */
 +(id)actionWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** creates the action with amplitude, horizontal sin, vertical sin, a grid and duration */
--(id)initWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -186,11 +186,11 @@
 /** CCTwirl action */
 @interface CCTwirl : CCGrid3DAction
 {
-	CGPoint	position_;
-	CGPoint	positionInPixels_;
-	int		twirls_;
-	float	amplitude_;
-	float	amplitudeRate_;
+    CGPoint    position_;
+    CGPoint    positionInPixels_;
+    int        twirls_;
+    float    amplitude_;
+    float    amplitudeRate_;
 }
 
 /** twirl center */
@@ -203,6 +203,6 @@
 /** creates the action with center position, number of twirls, amplitude, a grid size and duration */
 +(id)actionWithPosition:(CGPoint)pos twirls:(int)t amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
 /** initializes the action with center position, number of twirls, amplitude, a grid size and duration */
--(id)initWithPosition:(CGPoint)pos twirls:(int)t amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
+-(instancetype)initWithPosition:(CGPoint)pos twirls:(int)t amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d NS_DESIGNATED_INITIALIZER;
 
 @end

@@ -41,31 +41,31 @@
 
 /** Orientation Type used by some transitions
  */
-typedef enum {
-	/// An horizontal orientation where the Left is nearer
-	kOrientationLeftOver = 0,
-	/// An horizontal orientation where the Right is nearer
-	kOrientationRightOver = 1,
-	/// A vertical orientation where the Up is nearer
-	kOrientationUpOver = 0,
-	/// A vertical orientation where the Bottom is nearer
-	kOrientationDownOver = 1,
-} tOrientation;
+typedef NS_ENUM(unsigned int, tOrientation) {
+    /// An horizontal orientation where the Left is nearer
+    kOrientationLeftOver = 0,
+    /// An horizontal orientation where the Right is nearer
+    kOrientationRightOver = 1,
+    /// A vertical orientation where the Up is nearer
+    kOrientationUpOver = 0,
+    /// A vertical orientation where the Bottom is nearer
+    kOrientationDownOver = 1,
+};
 
 /** Base class for CCTransition scenes
  */
 @interface CCTransitionScene : CCScene
 {
-	CCScene	*inScene_;
-	CCScene	*outScene_;
-	ccTime	duration_;
-	BOOL	inSceneOnTop_;
-	BOOL	sendCleanupToScene_;
+    CCScene    *inScene_;
+    CCScene    *outScene_;
+    ccTime    duration_;
+    BOOL    inSceneOnTop_;
+    BOOL    sendCleanupToScene_;
 }
 /** creates a base transition with duration and incoming scene */
 +(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 /** initializes a transition with duration and incoming scene */
--(id) initWithDuration:(ccTime) t scene:(CCScene*)s;
+-(instancetype) initWithDuration:(ccTime) t scene:(CCScene*)s NS_DESIGNATED_INITIALIZER;
 /** called after the transition finishes */
 -(void) finish;
 /** used by some transitions to hide the outter scene */
@@ -77,12 +77,12 @@ typedef enum {
  */
 @interface CCTransitionSceneOriented : CCTransitionScene
 {
-	tOrientation orientation;
+    tOrientation orientation;
 }
 /** creates a base transition with duration and incoming scene */
 +(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s orientation:(tOrientation)o;
 /** initializes a transition with duration and incoming scene */
--(id) initWithDuration:(ccTime) t scene:(CCScene*)s orientation:(tOrientation)o;
+-(instancetype) initWithDuration:(ccTime) t scene:(CCScene*)s orientation:(tOrientation)o NS_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -108,7 +108,7 @@ typedef enum {
 /** initializes the scenes */
 -(void) initScenes;
 /** returns the action that will be performed */
--(CCActionInterval*) action;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) CCActionInterval *action;
 @end
 
 /** CCTransitionMoveInR:
@@ -140,7 +140,7 @@ typedef enum {
 /** initializes the scenes */
 -(void) initScenes;
 /** returns the action that will be performed by the incomming and outgoing scene */
--(CCActionInterval*) action;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) CCActionInterval *action;
 @end
 
 /** CCTransitionSlideInR:
@@ -224,14 +224,14 @@ typedef enum {
  */
 @interface CCTransitionFade : CCTransitionScene
 {
-	ccColor4B	color;
+    ccColor4B    color;
 }
 /** creates the transition with a duration and with an RGB color
  * Example: [FadeTransition transitionWithDuration:2 scene:s withColor:ccc3(255,0,0)]; // red color
  */
 +(id) transitionWithDuration:(ccTime)duration scene:(CCScene*)scene withColor:(ccColor3B)color;
 /** initializes the transition with a duration and with an RGB color */
--(id) initWithDuration:(ccTime)duration scene:(CCScene*)scene withColor:(ccColor3B)color;
+-(instancetype) initWithDuration:(ccTime)duration scene:(CCScene*)scene withColor:(ccColor3B)color NS_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -256,7 +256,7 @@ typedef enum {
  */
 @interface CCTransitionSplitCols : CCTransitionScene <CCTransitionEaseScene>
 {}
--(CCActionInterval*) action;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) CCActionInterval *action;
 @end
 
 /** CCTransitionSplitRows:

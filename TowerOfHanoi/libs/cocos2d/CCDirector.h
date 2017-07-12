@@ -34,25 +34,25 @@
 /** @typedef ccDirectorProjection
  Possible OpenGL projections used by director
  */
-typedef enum {
-	/// sets a 2D projection (orthogonal projection).
-	kCCDirectorProjection2D,
-	
-	/// sets a 3D projection with a fovy=60, znear=0.5f and zfar=1500.
-	kCCDirectorProjection3D,
-	
-	/// it calls "updateProjection" on the projection delegate.
-	kCCDirectorProjectionCustom,
-	
-	/// Detault projection is 3D projection
-	kCCDirectorProjectionDefault = kCCDirectorProjection3D,
-	
-	// backward compatibility stuff
-	CCDirectorProjection2D = kCCDirectorProjection2D,
-	CCDirectorProjection3D = kCCDirectorProjection3D,
-	CCDirectorProjectionCustom = kCCDirectorProjectionCustom,
+typedef NS_ENUM(unsigned int, ccDirectorProjection) {
+    /// sets a 2D projection (orthogonal projection).
+    kCCDirectorProjection2D,
+    
+    /// sets a 3D projection with a fovy=60, znear=0.5f and zfar=1500.
+    kCCDirectorProjection3D,
+    
+    /// it calls "updateProjection" on the projection delegate.
+    kCCDirectorProjectionCustom,
+    
+    /// Detault projection is 3D projection
+    kCCDirectorProjectionDefault = kCCDirectorProjection3D,
+    
+    // backward compatibility stuff
+    CCDirectorProjection2D = kCCDirectorProjection2D,
+    CCDirectorProjection3D = kCCDirectorProjection3D,
+    CCDirectorProjectionCustom = kCCDirectorProjectionCustom,
 
-} ccDirectorProjection;
+};
 
 
 @class CCLabelAtlas;
@@ -79,68 +79,68 @@ and when to execute the Scenes.
 */
 @interface CCDirector : NSObject
 {
-	CC_GLVIEW	*openGLView_;
+    CC_GLVIEW    *openGLView_;
 
-	// internal timer
-	NSTimeInterval animationInterval_;
-	NSTimeInterval oldAnimationInterval_;	
-	
-	/* display FPS ? */
-	BOOL displayFPS_;
+    // internal timer
+    NSTimeInterval animationInterval_;
+    NSTimeInterval oldAnimationInterval_;    
+    
+    /* display FPS ? */
+    BOOL displayFPS_;
 
-	NSUInteger frames_;
-	NSUInteger totalFrames_;
+    NSUInteger frames_;
+    NSUInteger totalFrames_;
 
-	ccTime accumDt_;
-	ccTime frameRate_;
-#if	CC_DIRECTOR_FAST_FPS
-	CCLabelAtlas *FPSLabel_;
+    ccTime accumDt_;
+    ccTime frameRate_;
+#if    CC_DIRECTOR_FAST_FPS
+    CCLabelAtlas *FPSLabel_;
 #endif
-	
-	/* is the running scene paused */
-	BOOL isPaused_;
-	
-	/* The running scene */
-	CCScene *runningScene_;
-	
-	/* This object will be visited after the scene. Useful to hook a notification node */
-	id notificationNode_;
-	
-	/* will be the next 'runningScene' in the next frame
-	 nextScene is a weak reference. */
-	CCScene *nextScene_;
-	
-	/* If YES, then "old" scene will receive the cleanup message */
-	BOOL	sendCleanupToScene_;
+    
+    /* is the running scene paused */
+    BOOL isPaused_;
+    
+    /* The running scene */
+    CCScene *runningScene_;
+    
+    /* This object will be visited after the scene. Useful to hook a notification node */
+    id notificationNode_;
+    
+    /* will be the next 'runningScene' in the next frame
+     nextScene is a weak reference. */
+    CCScene *nextScene_;
+    
+    /* If YES, then "old" scene will receive the cleanup message */
+    BOOL    sendCleanupToScene_;
 
-	/* scheduled scenes */
-	NSMutableArray *scenesStack_;
-	
-	/* last time the main loop was updated */
-	struct timeval lastUpdate_;
-	/* delta time since last tick to main loop */
-	ccTime dt;
-	/* whether or not the next delta time will be zero */
-	BOOL nextDeltaTimeZero_;
-	
-	/* projection used */
-	ccDirectorProjection projection_;
-	
-	/* Projection protocol delegate */
-	id<CCProjectionProtocol>	projectionDelegate_;
+    /* scheduled scenes */
+    NSMutableArray *scenesStack_;
+    
+    /* last time the main loop was updated */
+    struct timeval lastUpdate_;
+    /* delta time since last tick to main loop */
+    ccTime dt;
+    /* whether or not the next delta time will be zero */
+    BOOL nextDeltaTimeZero_;
+    
+    /* projection used */
+    ccDirectorProjection projection_;
+    
+    /* Projection protocol delegate */
+    id<CCProjectionProtocol>    projectionDelegate_;
 
-	/* window size in points */
-	CGSize	winSizeInPoints_;
-	
-	/* window size in pixels */
-	CGSize	winSizeInPixels_;
+    /* window size in points */
+    CGSize    winSizeInPoints_;
+    
+    /* window size in pixels */
+    CGSize    winSizeInPixels_;
 
-	/* the cocos2d running thread */
-	NSThread	*runningThread_;
+    /* the cocos2d running thread */
+    NSThread    *runningThread_;
 
-	// profiler
+    // profiler
 #if CC_ENABLE_PROFILERS
-	ccTime accumDtForProfiler_;
+    ccTime accumDtForProfiler_;
 #endif
 }
 
@@ -167,7 +167,7 @@ and when to execute the Scenes.
  */
 @property (nonatomic,readwrite) ccDirectorProjection projection;
 /** How many frames were called since the director started */
-@property (nonatomic,readonly) NSUInteger	totalFrames;
+@property (nonatomic,readonly) NSUInteger    totalFrames;
 
 /** Whether or not the replaced scene will receive the cleanup message.
  If the new scene is pushed, then the old scene won't receive the "cleanup" message.
@@ -181,7 +181,7 @@ and when to execute the Scenes.
  Useful to hook a notification object, like CCNotifications (http://github.com/manucorporat/CCNotifications)
  @since v0.99.5
  */
-@property (nonatomic, readwrite, retain) id	notificationNode;
+@property (nonatomic, readwrite, retain) id    notificationNode;
 
 /** This object will be called when the OpenGL projection is udpated and only when the kCCDirectorProjectionCustom projection is used.
  @since v0.99.5
@@ -198,17 +198,17 @@ and when to execute the Scenes.
 /** returns the size of the OpenGL view in points.
  It takes into account any possible rotation (device orientation) of the window
  */
-- (CGSize) winSize;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGSize winSize;
 
 /** returns the size of the OpenGL view in pixels.
  It takes into account any possible rotation (device orientation) of the window.
  On Mac winSize and winSizeInPixels return the same value.
  */
-- (CGSize) winSizeInPixels;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGSize winSizeInPixels;
 /** returns the display size of the OpenGL view in pixels.
  It doesn't take into account any possible rotation of the window.
  */
--(CGSize) displaySizeInPixels;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGSize displaySizeInPixels;
 /** changes the projection size */
 -(void) reshapeProjection:(CGSize)newWindowSize;
 
@@ -222,7 +222,7 @@ and when to execute the Scenes.
 -(CGPoint) convertToUI:(CGPoint)p;
 
 /// XXX: missing description
--(float) getZEye;
+@property (NS_NONATOMIC_IOSONLY, getter=getZEye, readonly) float ZEye;
 
 // Scene Management
 

@@ -10,7 +10,7 @@
 
 @implementation Stack
 
-- (id) init {
+- (instancetype) init {
     self = [super init];
     if(self) {
         array = [[[NSMutableArray alloc] init] retain];
@@ -25,17 +25,17 @@
 }
 
 - (id) pop {
-    if ([array count] > 0) {
-        id object =  [array objectAtIndex:[array count] - 1];
-        [array removeObjectAtIndex:[array count] - 1];
+    if (array.count > 0) {
+        id object =  array[array.count - 1];
+        [array removeObjectAtIndex:array.count - 1];
         return object;   
     }
     return nil;
 }
 
 - (id) peek {
-    if ([array count] > 0) {
-        id object =  [array objectAtIndex:[array count] - 1];
+    if (array.count > 0) {
+        id object =  array[array.count - 1];
         return object;
     }
     return nil;

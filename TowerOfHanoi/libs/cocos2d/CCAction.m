@@ -42,61 +42,61 @@
 
 @synthesize tag = tag_, target = target_, originalTarget = originalTarget_;
 
-+(id) action
++(instancetype) action
 {
-	return [[[self alloc] init] autorelease];
+    return [[[self alloc] init] autorelease];
 }
 
--(id) init
+-(instancetype) init
 {
-	if( (self=[super init]) ) {	
-		originalTarget_ = target_ = nil;
-		tag_ = kCCActionTagInvalid;
-	}
-	return self;
+    if( (self=[super init]) ) {    
+        originalTarget_ = target_ = nil;
+        tag_ = kCCActionTagInvalid;
+    }
+    return self;
 }
 
 -(void) dealloc
 {
-	CCLOGINFO(@"cocos2d: deallocing %@", self);
-	[super dealloc];
+    CCLOGINFO(@"cocos2d: deallocing %@", self);
+    [super dealloc];
 }
 
 -(NSString*) description
 {
-	return [NSString stringWithFormat:@"<%@ = %08X | Tag = %i>", [self class], self, tag_];
+    return [NSString stringWithFormat:@"<%@ = %08X | Tag = %i>", [self class], self, tag_];
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCAction *copy = [[[self class] allocWithZone: zone] init];
-	copy.tag = tag_;
-	return copy;
+    CCAction *copy = [[[self class] allocWithZone: zone] init];
+    copy.tag = tag_;
+    return copy;
 }
 
 -(void) startWithTarget:(id)aTarget
 {
-	originalTarget_ = target_ = aTarget;
+    originalTarget_ = target_ = aTarget;
 }
 
 -(void) stop
 {
-	target_ = nil;
+    target_ = nil;
 }
 
 -(BOOL) isDone
 {
-	return YES;
+    return YES;
 }
 
 -(void) step: (ccTime) dt
 {
-	NSLog(@"[Action step]. override me");
+    NSLog(@"[Action step]. override me");
 }
 
 -(void) update: (ccTime) time
 {
-	NSLog(@"[Action update]. override me");
+    NSLog(@"[Action update]. override me");
 }
 @end
 
@@ -110,8 +110,8 @@
 
 - (CCFiniteTimeAction*) reverse
 {
-	CCLOG(@"cocos2d: FiniteTimeAction#reverse: Implement me");
-	return nil;
+    CCLOG(@"cocos2d: FiniteTimeAction#reverse: Implement me");
+    return nil;
 }
 @end
 
@@ -125,56 +125,56 @@
 @synthesize innerAction=innerAction_;
 +(id) actionWithAction: (CCActionInterval*) action
 {
-	return [[[self alloc] initWithAction: action] autorelease];
+    return [[[self alloc] initWithAction: action] autorelease];
 }
 
--(id) initWithAction: (CCActionInterval*) action
+-(instancetype) initWithAction: (CCActionInterval*) action
 {
-	if( (self=[super init]) )	
-		self.innerAction = action;
+    if( (self=[super init]) )    
+        self.innerAction = action;
 
-	return self;
+    return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCAction *copy = [[[self class] allocWithZone: zone] initWithAction:[[innerAction_ copy] autorelease] ];
+    CCAction *copy = [[[self class] allocWithZone: zone] initWithAction:[[innerAction_ copy] autorelease] ];
     return copy;
 }
 
 -(void) dealloc
 {
-	[innerAction_ release];
-	[super dealloc];
+    [innerAction_ release];
+    [super dealloc];
 }
 
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[innerAction_ startWithTarget:target_];
+    [super startWithTarget:aTarget];
+    [innerAction_ startWithTarget:target_];
 }
 
 -(void) step:(ccTime) dt
 {
-	[innerAction_ step: dt];
-	if( [innerAction_ isDone] ) {
-		ccTime diff = dt + innerAction_.duration - innerAction_.elapsed;
-		[innerAction_ startWithTarget:target_];
-		
-		// to prevent jerk. issue #390
-		[innerAction_ step: diff];
-	}
+    [innerAction_ step: dt];
+    if( [innerAction_ isDone] ) {
+        ccTime diff = dt + innerAction_.duration - innerAction_.elapsed;
+        [innerAction_ startWithTarget:target_];
+        
+        // to prevent jerk. issue #390
+        [innerAction_ step: diff];
+    }
 }
 
 
 -(BOOL) isDone
 {
-	return NO;
+    return NO;
 }
 
 - (CCActionInterval *) reverse
 {
-	return [CCRepeatForever actionWithAction:[innerAction_ reverse]];
+    return [CCRepeatForever actionWithAction:[innerAction_ reverse]];
 }
 @end
 
@@ -189,55 +189,55 @@
 
 +(id) actionWithAction: (CCActionInterval*) action speed:(float)r
 {
-	return [[[self alloc] initWithAction: action speed:r] autorelease];
+    return [[[self alloc] initWithAction: action speed:r] autorelease];
 }
 
--(id) initWithAction: (CCActionInterval*) action speed:(float)r
+-(instancetype) initWithAction: (CCActionInterval*) action speed:(float)r
 {
-	if( (self=[super init]) ) {
-		self.innerAction = action;
-		speed_ = r;
-	}
-	return self;
+    if( (self=[super init]) ) {
+        self.innerAction = action;
+        speed_ = r;
+    }
+    return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCAction *copy = [[[self class] allocWithZone: zone] initWithAction:[[innerAction_ copy] autorelease] speed:speed_];
+    CCAction *copy = [[[self class] allocWithZone: zone] initWithAction:[[innerAction_ copy] autorelease] speed:speed_];
     return copy;
 }
 
 -(void) dealloc
 {
-	[innerAction_ release];
-	[super dealloc];
+    [innerAction_ release];
+    [super dealloc];
 }
 
 -(void) startWithTarget:(id)aTarget
 {
-	[super startWithTarget:aTarget];
-	[innerAction_ startWithTarget:target_];
+    [super startWithTarget:aTarget];
+    [innerAction_ startWithTarget:target_];
 }
 
 -(void) stop
 {
-	[innerAction_ stop];
-	[super stop];
+    [innerAction_ stop];
+    [super stop];
 }
 
 -(void) step:(ccTime) dt
 {
-	[innerAction_ step: dt * speed_];
+    [innerAction_ step: dt * speed_];
 }
 
 -(BOOL) isDone
 {
-	return [innerAction_ isDone];
+    return [innerAction_ isDone];
 }
 
 - (CCActionInterval *) reverse
 {
-	return [CCSpeed actionWithAction:[innerAction_ reverse] speed:speed_];
+    return [CCSpeed actionWithAction:[innerAction_ reverse] speed:speed_];
 }
 @end
 
@@ -252,107 +252,107 @@
 
 +(id) actionWithTarget:(CCNode *) fNode
 {
-	return [[[self alloc] initWithTarget:fNode] autorelease];
+    return [[[self alloc] initWithTarget:fNode] autorelease];
 }
 
 +(id) actionWithTarget:(CCNode *) fNode worldBoundary:(CGRect)rect
 {
-	return [[[self alloc] initWithTarget:fNode worldBoundary:rect] autorelease];
+    return [[[self alloc] initWithTarget:fNode worldBoundary:rect] autorelease];
 }
 
--(id) initWithTarget:(CCNode *)fNode
+-(instancetype) initWithTarget:(CCNode *)fNode
 {
-	if( (self=[super init]) ) {
-	
-		followedNode_ = [fNode retain];
-		boundarySet = FALSE;
-		boundaryFullyCovered = FALSE;
-		
-		CGSize s = [[CCDirector sharedDirector] winSize];
-		fullScreenSize = CGPointMake(s.width, s.height);
-		halfScreenSize = ccpMult(fullScreenSize, .5f);
-	}
-	
-	return self;
+    if( (self=[super init]) ) {
+    
+        followedNode_ = [fNode retain];
+        boundarySet = FALSE;
+        boundaryFullyCovered = FALSE;
+        
+        CGSize s = [[CCDirector sharedDirector] winSize];
+        fullScreenSize = CGPointMake(s.width, s.height);
+        halfScreenSize = ccpMult(fullScreenSize, .5f);
+    }
+    
+    return self;
 }
 
--(id) initWithTarget:(CCNode *)fNode worldBoundary:(CGRect)rect
+-(instancetype) initWithTarget:(CCNode *)fNode worldBoundary:(CGRect)rect
 {
-	if( (self=[super init]) ) {
-	
-		followedNode_ = [fNode retain];
-		boundarySet = TRUE;
-		boundaryFullyCovered = FALSE;
-		
-		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		fullScreenSize = CGPointMake(winSize.width, winSize.height);
-		halfScreenSize = ccpMult(fullScreenSize, .5f);
-		
-		leftBoundary = -((rect.origin.x+rect.size.width) - fullScreenSize.x);
-		rightBoundary = -rect.origin.x ;
-		topBoundary = -rect.origin.y;
-		bottomBoundary = -((rect.origin.y+rect.size.height) - fullScreenSize.y);
-		
-		if(rightBoundary < leftBoundary)
-		{
-			// screen width is larger than world's boundary width
-			//set both in the middle of the world
-			rightBoundary = leftBoundary = (leftBoundary + rightBoundary) / 2;
-		}
-		if(topBoundary < bottomBoundary)
-		{
-			// screen width is larger than world's boundary width
-			//set both in the middle of the world
-			topBoundary = bottomBoundary = (topBoundary + bottomBoundary) / 2;
-		}
-		
-		if( (topBoundary == bottomBoundary) && (leftBoundary == rightBoundary) )
-			boundaryFullyCovered = TRUE;
-	}
-	
-	return self;
+    if( (self=[super init]) ) {
+    
+        followedNode_ = [fNode retain];
+        boundarySet = TRUE;
+        boundaryFullyCovered = FALSE;
+        
+        CGSize winSize = [[CCDirector sharedDirector] winSize];
+        fullScreenSize = CGPointMake(winSize.width, winSize.height);
+        halfScreenSize = ccpMult(fullScreenSize, .5f);
+        
+        leftBoundary = -((rect.origin.x+rect.size.width) - fullScreenSize.x);
+        rightBoundary = -rect.origin.x ;
+        topBoundary = -rect.origin.y;
+        bottomBoundary = -((rect.origin.y+rect.size.height) - fullScreenSize.y);
+        
+        if(rightBoundary < leftBoundary)
+        {
+            // screen width is larger than world's boundary width
+            //set both in the middle of the world
+            rightBoundary = leftBoundary = (leftBoundary + rightBoundary) / 2;
+        }
+        if(topBoundary < bottomBoundary)
+        {
+            // screen width is larger than world's boundary width
+            //set both in the middle of the world
+            topBoundary = bottomBoundary = (topBoundary + bottomBoundary) / 2;
+        }
+        
+        if( (topBoundary == bottomBoundary) && (leftBoundary == rightBoundary) )
+            boundaryFullyCovered = TRUE;
+    }
+    
+    return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCAction *copy = [[[self class] allocWithZone: zone] init];
-	copy.tag = tag_;
-	return copy;
+    CCAction *copy = [[[self class] allocWithZone: zone] init];
+    copy.tag = tag_;
+    return copy;
 }
 
 -(void) step:(ccTime) dt
 {
-	if(boundarySet)
-	{
-		// whole map fits inside a single screen, no need to modify the position - unless map boundaries are increased
-		if(boundaryFullyCovered)
-			return;
-		
-		CGPoint tempPos = ccpSub( halfScreenSize, followedNode_.position);
-		[target_ setPosition:ccp(clampf(tempPos.x,leftBoundary,rightBoundary), clampf(tempPos.y,bottomBoundary,topBoundary))];
-	}
-	else
-		[target_ setPosition:ccpSub( halfScreenSize, followedNode_.position )];
-	
+    if(boundarySet)
+    {
+        // whole map fits inside a single screen, no need to modify the position - unless map boundaries are increased
+        if(boundaryFullyCovered)
+            return;
+        
+        CGPoint tempPos = ccpSub( halfScreenSize, followedNode_.position);
+        [target_ setPosition:ccp(clampf(tempPos.x,leftBoundary,rightBoundary), clampf(tempPos.y,bottomBoundary,topBoundary))];
+    }
+    else
+        [target_ setPosition:ccpSub( halfScreenSize, followedNode_.position )];
+    
 #undef CLAMP
 }
 
 
 -(BOOL) isDone
 {
-	return !followedNode_.isRunning;
+    return !followedNode_.isRunning;
 }
 
 -(void) stop
 {
-	target_ = nil;
-	[super stop];
+    target_ = nil;
+    [super stop];
 }
 
 -(void) dealloc
 {
-	[followedNode_ release];
-	[super dealloc];
+    [followedNode_ release];
+    [super dealloc];
 }
 
 @end

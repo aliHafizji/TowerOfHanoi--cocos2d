@@ -40,65 +40,65 @@
 
 @synthesize ribbon = ribbon_;
 
-+(id)streakWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color
++(instancetype)streakWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color
 {
-	return [[[self alloc] initWithFade:(float)fade minSeg:seg image:path width:width length:length color:color] autorelease];
+    return [[[self alloc] initWithFade:(float)fade minSeg:seg image:path width:width length:length color:color] autorelease];
 }
 
--(id)initWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color
+-(instancetype)initWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color
 {
-	if( (self=[super init])) {
-		segThreshold_ = seg;
-		width_ = width;
-		lastLocation_ = CGPointZero;
-		ribbon_ = [CCRibbon ribbonWithWidth:width_ image:path length:length color:color fade:fade];
-		[self addChild:ribbon_];
+    if( (self=[super init])) {
+        segThreshold_ = seg;
+        width_ = width;
+        lastLocation_ = CGPointZero;
+        ribbon_ = [CCRibbon ribbonWithWidth:width_ image:path length:length color:color fade:fade];
+        [self addChild:ribbon_];
 
-		// update ribbon position. Use schedule:interval and not scheduleUpdated. issue #1075
-		[self schedule:@selector(update:) interval:0];
-	}
-	return self;
+        // update ribbon position. Use schedule:interval and not scheduleUpdated. issue #1075
+        [self schedule:@selector(update:) interval:0];
+    }
+    return self;
 }
 
 -(void)update:(ccTime)delta
 {
-	CGPoint location = [self convertToWorldSpace:CGPointZero];
-	[ribbon_ setPosition:ccp(-1*location.x, -1*location.y)];
-	float len = ccpLength(ccpSub(lastLocation_, location));
-	if (len > segThreshold_)
-	{
-		[ribbon_ addPointAt:location width:width_];
-		lastLocation_ = location;
-	}
-	[ribbon_ update:delta];
+    CGPoint location = [self convertToWorldSpace:CGPointZero];
+    [ribbon_ setPosition:ccp(-1*location.x, -1*location.y)];
+    float len = ccpLength(ccpSub(lastLocation_, location));
+    if (len > segThreshold_)
+    {
+        [ribbon_ addPointAt:location width:width_];
+        lastLocation_ = location;
+    }
+    [ribbon_ update:delta];
 }
 
 
 -(void)dealloc
 {
-	[super dealloc];
+    [super dealloc];
 }
 
 #pragma mark MotionStreak - CocosNodeTexture protocol
 
 -(void) setTexture:(CCTexture2D*) texture
 {
-	[ribbon_ setTexture: texture];
+    ribbon_.texture = texture;
 }
 
 -(CCTexture2D*) texture
 {
-	return [ribbon_ texture];
+    return ribbon_.texture;
 }
 
 -(ccBlendFunc) blendFunc
 {
-	return [ribbon_ blendFunc];
+    return ribbon_.blendFunc;
 }
 
 -(void) setBlendFunc:(ccBlendFunc)blendFunc
 {
-	[ribbon_ setBlendFunc:blendFunc];
+    ribbon_.blendFunc = blendFunc;
 }
 
 @end

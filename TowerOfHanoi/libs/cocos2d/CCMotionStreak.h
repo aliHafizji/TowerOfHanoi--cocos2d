@@ -46,20 +46,20 @@
  */
 @interface CCMotionStreak : CCNode <CCTextureProtocol>
 {
-	CCRibbon*	ribbon_;
-	float		segThreshold_;
-	float		width_;
-	CGPoint	lastLocation_;
+    CCRibbon*    ribbon_;
+    float        segThreshold_;
+    float        width_;
+    CGPoint    lastLocation_;
 }
 
 /** Ribbon used by MotionStreak (weak reference) */
 @property (nonatomic,readonly) CCRibbon *ribbon;
 
 /** creates the a MotionStreak. The image will be loaded using the TextureMgr. */
-+(id)streakWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color;
++(instancetype)streakWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color;
 
 /** initializes a MotionStreak. The file will be loaded using the TextureMgr. */
--(id)initWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color;
+-(instancetype)initWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color NS_DESIGNATED_INITIALIZER;
 
 /** polling function */
 -(void)update:(ccTime)delta;
